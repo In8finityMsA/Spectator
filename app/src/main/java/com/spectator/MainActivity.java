@@ -112,11 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 //Writing Object to json file
                 writeJSONToFile(jsonFile, jsonPath);
 
-                /*try {
-                    parseJson(new JSONObject(readJSONFromFile(jsonPath)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
+                //dELLETED OLD COMMENT
 
                 //Creating Linear Layout record for new voter
                 if (voters.size() > 0){

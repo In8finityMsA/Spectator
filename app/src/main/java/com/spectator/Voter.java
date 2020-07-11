@@ -12,6 +12,7 @@ public class Voter {
     private boolean isFlagged;
     private String text;
 
+    //class for storing info (time, number and comment) about a voter
     public Voter(long time, int count) {
         this.time = time;
         this.formattedDate = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRENCH).format(time);
