@@ -117,19 +117,6 @@ public class WorkWithJson {
         }
     }
 
-    /*An attempt to make writing to the end of JSON
-    public void writeJSONToFile(JSONObject jsonObject, String path, boolean isAppend) {
-        try {
-            File file = new File(this.getFilesDir(), path);
-            FileWriter fileWriter = new FileWriter(file, isAppend);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(jsonObject.toString(1));
-            bufferedWriter.close();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     //Parsing voters from JSON Object and adding them to list
     public ArrayList<Voter> parseJson(JSONObject response) {
         ArrayList<Voter> voters = new ArrayList<Voter>();
