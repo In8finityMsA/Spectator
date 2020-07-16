@@ -1,34 +1,44 @@
 package com.spectator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.Locale;
 
 public class Voter {
 
-    private long time;
+    private long timestamp;
     private String formattedDate;
     private String formattedTime;
     private int count;
-    private boolean isFlagged;
+    private boolean isFlagged = false;
     private String text;
 
-    //class for storing info (time, number and comment) about a voter
-    public Voter(long time, int count) {
-        this.time = time;
-        this.formattedDate = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRENCH).format(time);
-        this.formattedTime = DateFormat.getTimeInstance().format(time);
+    //class for storing info (timestamp, number and comment) about a voter
+    public Voter(long timestamp, int count) {
+        this.timestamp = timestamp;
+        this.formattedDate = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRENCH).format(timestamp);
+        this.formattedTime = DateFormat.getTimeInstance().format(timestamp);
         this.count = count;
-        this.isFlagged = false;
     }
 
-    public Voter(long time, int count, String text) {
-        this(time, count);
+    public Voter(JSONObject jsonObject) throws JSONException {
+        this(jsonObject.getLong("timestamp"), jsonObject.getInt("count"));
+        if (jsonObject.has("text")) {
+            this.text = jsonObject.getString("text");
+            this.isFlagged = true;
+        }
+    }
+
+    public Voter(long timestamp, int count, String text) {
+        this(timestamp, count);
         this.isFlagged = true;
         this.text = text;
     }
 
-    public long getTime() {
-        return time;
+    public long getTimestamp() {
+        return timestamp;
     }
 
     public String getFormattedDate() {
@@ -49,5 +59,20 @@ public class Voter {
 
     public String getText() {
         return text;
+    }
+
+    //Creating a Json Object from Voter
+    public JSONObject toJSONObject() {
+        JSONObject JSONObjectVoter = new JSONObject();
+        try {
+            JSONObjectVoter.put("timestamp", this.getTimestamp());
+            JSONObjectVoter.put("count", this.getCount());
+            JSONObjectVoter.put("formattedDate", this.getFormattedDate());
+            JSONObjectVoter.put("formattedTime", this.getFormattedTime());
+            JSONObjectVoter.put("text", this.getText());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return JSONObjectVoter;
     }
 }
