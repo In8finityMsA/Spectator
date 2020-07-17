@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Spectator</string>
+    <string name="general_comments">Write anything</string>
 </resources>
