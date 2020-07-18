@@ -11,15 +11,20 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MainCounterScreen"/>
 
+        <activity android:name=".MainActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name=".menu.Menu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:excludeFromRecents="true" android:theme="@style/Theme.AppCompat.Dialog" android:name=".menu.Dialog" />
-
+        <activity android:name=".Details"/>
+        <activity
+            android:name=".menu.Dialog"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog" />
     </application>
 
 </manifest>
