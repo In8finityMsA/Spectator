@@ -3,6 +3,7 @@ package com.spectator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,6 +31,7 @@ public class MainCounterScreen extends AppCompatActivity {
     private TextView voteButton;
     private LinearLayout deleteLastButton;
     private LinearLayout markLastButton;
+    private LinearLayout detailedInfo;
     private int totally;
     private int daily = 0;
     private int hourly = 0;
@@ -40,7 +42,7 @@ public class MainCounterScreen extends AppCompatActivity {
     private String date;
     private JsonIO votesJsonIO;
     private JsonIO daysJsonIO;
-    private ArrayList<Voter> voters = new ArrayList<>();
+    private ArrayList<Voter> voters;
     private ArrayList<LinearLayout> rowsList;
     private ScrollView scrollView;
     private LinearLayout scrollList;
@@ -49,6 +51,7 @@ public class MainCounterScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_counter);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -66,13 +69,15 @@ public class MainCounterScreen extends AppCompatActivity {
             daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
         }
 
-        setContentView(R.layout.main_counter);
         voteButton = (TextView) findViewById(R.id.counter);
         deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
         markLastButton = (LinearLayout) findViewById(R.id.mark_button);
+
         total = (TextView) findViewById(R.id.total_amount);
         thisDay = (TextView) findViewById(R.id.daily_amount);
         lastHour = (TextView) findViewById(R.id.hourly_amount);
+
+        detailedInfo = (LinearLayout) findViewById(R.id.short_statistics);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -145,6 +150,19 @@ public class MainCounterScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        //Call detailed info if clicked on votes numbers
+        detailedInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                Bundle bundle = new Bundle();
+                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+                bundle.putInt("total", totally);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

@@ -1,4 +1,4 @@
-package com.spectator.menu;
+package com.spectator;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import com.spectator.JsonIO;
 import com.spectator.ObjectWrapperForBinder;
 import com.spectator.R;
 import com.spectator.Voter;
+import com.spectator.menu.Day;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +29,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DetailedInfo extends AppCompatActivity {
+public class OldCode extends AppCompatActivity {
 
     private Button voteButton;
     private int totally;

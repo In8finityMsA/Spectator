@@ -14,8 +14,8 @@ public class HourAnalysisFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hour_analysis_fragment, container, false);
-        TextView textView = (TextView) view;
-        textView.setText("graphs");
+        TextView textView = (TextView) view.findViewById(R.id.textView);
+        textView.setText("Graphs");
         return view;
     }
 
