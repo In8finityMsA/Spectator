@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.spectator.MainActivity;
+import com.spectator.MainCounterScreen;
 import com.spectator.ObjectWrapperForBinder;
 import com.spectator.R;
 import com.spectator.JsonIO;
@@ -23,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -31,9 +30,10 @@ import java.util.Locale;
 public class Menu extends AppCompatActivity {
 
     private TextView addNew;
-    private static final String DAYS_PATH = "days.json";
-    private static final String arrayKey = "days";
-    private JsonIO jsonIO;
+    private int totally;
+    //private static final String DAYS_PATH = "days.json";
+    //private static final String ARRAY_KEY = "days";
+    private JsonIO daysJsonIO;
     private ArrayList<Day> days;
     private LinearLayout scrollList;
     private LayoutInflater inflater;
@@ -44,11 +44,10 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.menu);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        jsonIO = new JsonIO(getFilesDir(), DAYS_PATH, arrayKey);
+        daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY);
         scrollList = findViewById(R.id.scroll_layout);
         addNew = findViewById(R.id.addNew);
 
-        //daysLayouts = new ArrayList<LinearLayout>();
         days = new ArrayList<Day>();
 
         addNew.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +55,8 @@ public class Menu extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Dialog.class);
                 final Bundle bundle = new Bundle();
-                bundle.putBinder("jsonIO", new ObjectWrapperForBinder(jsonIO));
+                bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
+                bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -68,7 +68,8 @@ public class Menu extends AppCompatActivity {
         super.onStart();
 
         //TODO: maybe rework this, too dumb
-        parseJson(jsonIO.read(), true);
+        //Parsing json file and building interface (also counting total amount of votes in parsing, not really good)
+        parseJson(daysJsonIO.read(), true);
         if (scrollList.getChildCount() > 1)
             scrollList.removeViews(0, scrollList.getChildCount() - 1);
 
@@ -99,11 +100,12 @@ public class Menu extends AppCompatActivity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
                 TextView textView = (TextView) view.findViewById(R.id.date);
                 final Bundle bundle = new Bundle();
-                bundle.putBinder("jsonIO", new ObjectWrapperForBinder(jsonIO));
+                bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                 bundle.putString("date", textView.getText().toString());
+                bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -116,14 +118,16 @@ public class Menu extends AppCompatActivity {
         if (isRewrite) {
             days = new ArrayList<Day>();
         }
+        totally = 0;
         try {
-            JSONArray jsonArray = response.getJSONArray(arrayKey);
+            JSONArray jsonArray = response.getJSONArray(Day.ARRAY_KEY);
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String date = jsonObject.getString(Day.dateKey);
                 int count = jsonObject.getInt(Day.countKey);
+                totally += count;
 
                 days.add(new Day(date, count));
             }
@@ -131,43 +135,6 @@ public class Menu extends AppCompatActivity {
         } catch (JSONException e) {
             e.getMessage();
             e.printStackTrace();
-        }
-    }
-
-    public static class Day implements Serializable {
-        private String formattedDate;
-        private int count;
-
-        public static final String countKey = "count";
-        public static final String dateKey = "FormattedDate";
-
-        public Day(String formattedDate, int count) {
-            this.formattedDate = formattedDate;
-            this.count = count;
-        }
-
-        Day(long timestamp, int count) {
-            this(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(timestamp), count);
-            //this.timestamp = timestamp;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public String getFormattedDate() {
-            return formattedDate;
-        }
-
-        public JSONObject toJSONObject() {
-            JSONObject object = new JSONObject();
-            try {
-                object.put(countKey, count);
-                object.put(dateKey, formattedDate);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return object;
         }
     }
 

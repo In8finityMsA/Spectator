@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.spectator.MainActivity;
+import com.spectator.MainCounterScreen;
 import com.spectator.ObjectWrapperForBinder;
 import com.spectator.R;
 import com.spectator.JsonIO;
@@ -18,7 +18,8 @@ public class Dialog extends AppCompatActivity {
 
     private TextView noButton;
     private TextView yesButton;
-    private JsonIO jsonIO;
+    private JsonIO daysJsonIO;
+    private int totally;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,25 +32,28 @@ public class Dialog extends AppCompatActivity {
         }
         else {
             Log.e("extras", "not null");
-            jsonIO =  (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("jsonIO")).getData();
+            daysJsonIO =  (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
+            totally = extras.getInt("total");
         }
 
+        //daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY);
         yesButton = findViewById(R.id.yes);
         noButton = findViewById(R.id.no);
 
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
 
                 //Creating new Day record and writing it to the file
-                Menu.Day newDay = new Menu.Day(System.currentTimeMillis(), 0);
-                jsonIO.writeToEndOfFile(newDay.toJSONObject());
+                Day newDay = new Day(System.currentTimeMillis(), 0);
+                daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
 
-                //Passing date and jsonIO to Voting Activity
+                //Passing date, total votes and daysJsonIO to Voting Activity
                 final Bundle bundle = new Bundle();
-                bundle.putBinder("jsonIO", new ObjectWrapperForBinder(jsonIO));
+                bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                 bundle.putString("date", newDay.getFormattedDate());
+                bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();

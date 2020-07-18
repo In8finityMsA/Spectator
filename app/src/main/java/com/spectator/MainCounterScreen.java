@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.spectator.menu.Menu;
+import com.spectator.menu.Day;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,13 +25,17 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainCounterScreen extends AppCompatActivity {
 
-    private Button voteButton;
-    private int counter = 0;
+    private TextView voteButton;
+    private LinearLayout deleteLastButton;
+    private LinearLayout markLastButton;
+    private int totally;
+    private int daily = 0;
     private int hourly = 0;
     private TextView total;
     private TextView lastHour;
+    private TextView thisDay;
     private String jsonPath;
     private String date;
     private JsonIO votesJsonIO;
@@ -50,24 +54,25 @@ public class MainActivity extends AppCompatActivity {
         if (extras == null) {
             Log.e("extras", "null");
             date = "01.01.1970";
+            totally = 0;
             jsonPath = "log.json";
+            //Add daysJson init
         }
         else {
             Log.e("extras", "not null");
             date = extras.getString("date");
+            totally = extras.getInt("total");
             jsonPath = date + ".json";
-            daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("jsonIO")).getData();
+            daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
         }
 
-        setContentView(R.layout.activity_main);
-        voteButton = (Button) findViewById(R.id.button);
-        total = (TextView) findViewById(R.id.total);
-        lastHour = (TextView) findViewById(R.id.hourly);
-
-        scrollView = (ScrollView) findViewById(R.id.votes);
-        scrollList = (LinearLayout) findViewById(R.id.scroll_list);
-        rowsList = new ArrayList<LinearLayout>();
-        voters = new ArrayList<Voter>();
+        setContentView(R.layout.main_counter);
+        voteButton = (TextView) findViewById(R.id.counter);
+        deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
+        markLastButton = (LinearLayout) findViewById(R.id.mark_button);
+        total = (TextView) findViewById(R.id.total_amount);
+        thisDay = (TextView) findViewById(R.id.daily_amount);
+        lastHour = (TextView) findViewById(R.id.hourly_amount);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -77,25 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         //And initializing interface from voters array
         for (int j = 0 ; j < voters.size(); j++) {
-            LinearLayout newRow = makeNewRow(voters.get(j));
-            rowsList.add(newRow);
-            scrollList.addView(newRow);
-            counter++;
+            daily++;
         }
-        total.setText(String.format(Locale.GERMAN, "%d", counter));
-
-        //Listener for scrolling down scrollview when a vote is added
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
-            }
-        });
+        thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
+        total.setText(String.format(Locale.GERMAN, "%d", totally));
 
         //Timer for checking votes those are one hour old
         /*ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
@@ -114,27 +104,49 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Creating new voter
-                Voter newVoter = new Voter(System.currentTimeMillis(), ++counter);
+                Voter newVoter = new Voter(System.currentTimeMillis(), ++daily);
                 //Adding it to the list
                 voters.add(newVoter);
                 //Writing new voter to the end of json file
                 votesJsonIO.writeToEndOfFile(newVoter.toJSONObject());
 
-                //Creating Linear Layout record for new voter
-                if (voters.size() > 0) {
-                    LinearLayout newRow = makeNewRow(newVoter);
-                    rowsList.add(newRow);
-                    scrollList.addView(newRow);
-                }
-
-                //Changing numbers of votes
-                total.setText(String.format(Locale.GERMAN, "%d", counter));
+                //Changing number of votes in TextViews
+                thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
                 lastHour.setText(String.format(Locale.GERMAN, "%d", ++hourly));
-                daysJsonIO.replaceObject(new Menu.Day(date, counter).toJSONObject(), Menu.Day.dateKey, date);
+                total.setText(String.format(Locale.GERMAN, "%d", ++totally));
 
-        }
-    });
+                daysJsonIO.replaceObject(new Day(date, daily).toJSONObject(), Day.dateKey, date);
 
+            }
+        });
+
+        //Delete last button function
+        deleteLastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (voters.size() > 0) {
+                    votesJsonIO.deleteLast();
+                    voters.remove(voters.size() - 1);
+
+                    //Update number of votes in TextViews
+                    if (hourly > 0) {
+                        lastHour.setText(String.format(Locale.GERMAN, "%d", --hourly));
+                    }
+                    thisDay.setText(String.format(Locale.GERMAN, "%d", --daily));
+                    total.setText(String.format(Locale.GERMAN, "%d", --totally));
+
+                    daysJsonIO.replaceObject(new Day(date, daily).toJSONObject(), Day.dateKey, date);
+                }
+            }
+        });
+
+        //Mark last button function
+        markLastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 
@@ -146,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
         if (!date.equals(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(System.currentTimeMillis()))) {
             voteButton.setClickable(false);
             voteButton.setText("Voting ended");
+            deleteLastButton.setClickable(false);
+            markLastButton.setClickable(false);
             hourly = 0;
             lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
         }
@@ -154,23 +168,6 @@ public class MainActivity extends AppCompatActivity {
             checkVotesHourly();
             lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
         }
-    }
-
-    //Making new Linear layout for new vote
-    private LinearLayout makeNewRow(Voter printVoter) {
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.rows, null);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.BOTTOM;
-        linearLayout.setLayoutParams(layoutParams);
-
-        TextView newTimeView = linearLayout.findViewById(R.id.time);
-        newTimeView.setText(printVoter.getFormattedTime());
-
-        TextView newCountView = linearLayout.findViewById(R.id.count);
-        newCountView.setText(String.format(Locale.GERMAN,"%d", printVoter.getCount()));
-
-        return linearLayout;
     }
 
     private void checkVotesHourly() {
