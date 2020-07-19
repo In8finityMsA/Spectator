@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.spectator.JsonIO;
 import com.spectator.MainCounterScreen;
 import com.spectator.ObjectWrapperForBinder;
 import com.spectator.R;
-import com.spectator.JsonIO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,7 +88,7 @@ public class Menu extends AppCompatActivity {
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM;
-        layoutParams.setMargins(convertDpToPixel(this,20), convertDpToPixel(this, 15), convertDpToPixel(this, 20), 0);
+        layoutParams.setMargins(convertDpToPixel(this,10), convertDpToPixel(this, 10), convertDpToPixel(this, 10), 0);
         linearLayout.setLayoutParams(layoutParams);
 
         TextView newDateView = linearLayout.findViewById(R.id.date);

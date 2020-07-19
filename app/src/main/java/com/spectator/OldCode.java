@@ -15,10 +15,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.spectator.JsonIO;
-import com.spectator.ObjectWrapperForBinder;
-import com.spectator.R;
-import com.spectator.Voter;
 import com.spectator.menu.Day;
 
 import org.json.JSONArray;
@@ -48,9 +44,12 @@ public class OldCode extends AppCompatActivity {
     private LinearLayout scrollList;
     private LayoutInflater inflater;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -77,6 +76,7 @@ public class OldCode extends AppCompatActivity {
         scrollList = (LinearLayout) findViewById(R.id.scroll_list);
         rowsList = new ArrayList<LinearLayout>();
         voters = new ArrayList<Voter>();
+
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -108,6 +108,8 @@ public class OldCode extends AppCompatActivity {
                 });
             }
         });
+
+
 
         //Timer for checking votes those are one hour old
         /*ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
@@ -151,6 +153,7 @@ public class OldCode extends AppCompatActivity {
 
 
     }
+
 
     @Override
     protected void onResume() {

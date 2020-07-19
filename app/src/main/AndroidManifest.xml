@@ -9,15 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainCounterScreen" />
-        <activity android:name=".Details" />
-        <activity android:name=".TestActivity" />
-        <activity android:name=".menu.Menu">
+        <activity android:name=".Start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainCounterScreen" />
+        <activity android:name=".Details" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".menu.Menu">
+
         </activity>
 
         <activity
