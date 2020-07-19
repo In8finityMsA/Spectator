@@ -31,8 +31,6 @@ public class Menu extends AppCompatActivity {
 
     private TextView addNew;
     private int totally;
-    //private static final String DAYS_PATH = "days.json";
-    //private static final String ARRAY_KEY = "days";
     private JsonIO daysJsonIO;
     private ArrayList<Day> days;
     private LinearLayout scrollList;

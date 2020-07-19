@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -151,7 +153,7 @@ public class JsonIO {
         }
     }
 
-    /*public void parseJsonArray(boolean isRereadJsonFile, ArrayList targetList, boolean isRewriteTargetList, Class className, ArrayList<Class> construstorArguments, String[] fieldNames) {
+    public void parseJsonArray(boolean isRereadJsonFile, ArrayList targetList, boolean isRewriteTargetList, Class<?> className, ArrayList<Class<?>> construstorArguments, String[] fieldNames) {
         JSONObject jsonObject;
         if (isRereadJsonFile) {
             jsonObject = read();
@@ -164,7 +166,16 @@ public class JsonIO {
         }
         try {
             JSONArray jsonArray = jsonObject.getJSONArray("voters");
-            className.getConstructor( construstorArguments);
+            Constructor<?> constructor = className.getConstructor();
+            try {
+                constructor.newInstance();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonStage = jsonArray.getJSONObject(i);
@@ -175,10 +186,10 @@ public class JsonIO {
                 targetList.add(new Voter(timestamp, count));
             }
 
-        } catch (JSONException e) {
+        } catch (JSONException | NoSuchMethodException e) {
             e.getMessage();
             e.printStackTrace();
         }
-    }*/
+    }
 
 }
