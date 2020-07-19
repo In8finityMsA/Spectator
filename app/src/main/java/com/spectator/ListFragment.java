@@ -26,11 +26,7 @@ public class ListFragment extends Fragment {
     private TextView total;
     private TextView lastHour;
     private TextView thisDay;
-    private String jsonPath;
-    private String date;
-    private JsonIO votesJsonIO;
     private ArrayList<Voter> voters;
-    //private ArrayList<LinearLayout> rowsList;
     private ScrollView scrollView;
     private LinearLayout scrollList;
     private boolean isPrevWhite = false;
@@ -52,6 +48,7 @@ public class ListFragment extends Fragment {
         if (extras == null) {
             Log.e("extras", "null");
             totally = 0;
+
         }
         else {
             Log.e("extras", "not null");
@@ -133,4 +130,5 @@ public class ListFragment extends Fragment {
             }
         }
     }
+
 }

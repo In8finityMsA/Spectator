@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 public class Details extends AppCompatActivity {
 
-    private ArrayList<Voter> voters;
-    private int totally;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_activity);

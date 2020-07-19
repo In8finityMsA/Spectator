@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.spectator.menu.Day;
@@ -43,10 +41,10 @@ public class MainCounterScreen extends AppCompatActivity {
     private JsonIO votesJsonIO;
     private JsonIO daysJsonIO;
     private ArrayList<Voter> voters;
-    private ArrayList<LinearLayout> rowsList;
-    private ScrollView scrollView;
-    private LinearLayout scrollList;
-    private LayoutInflater inflater;
+    private Handler hourlyCheckHandler;
+    private boolean isHourlyCheckRunning;
+    private float mProgress = 0f;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class MainCounterScreen extends AppCompatActivity {
             date = "01.01.1970";
             totally = 0;
             jsonPath = "log.json";
-            //Add daysJson init
+            daysJsonIO = new JsonIO(this.getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY);
         }
         else {
             Log.e("extras", "not null");
@@ -79,28 +77,32 @@ public class MainCounterScreen extends AppCompatActivity {
 
         detailedInfo = (LinearLayout) findViewById(R.id.short_statistics);
 
-        inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        progressBar = (ProgressBar) inflater.inflate(R.layout.progress_bar, null);
 
         //Reading from file on startup
+        new Thread(myThread).start();
         votesJsonIO = new JsonIO(this.getFilesDir(), jsonPath, "voters");
         parseJson(votesJsonIO.read(), true);
 
-        //And initializing interface from voters array
-        for (int j = 0 ; j < voters.size(); j++) {
-            daily++;
-        }
         thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
         total.setText(String.format(Locale.GERMAN, "%d", totally));
 
         //Timer for checking votes those are one hour old
-        /*ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
-        exec.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                checkVotesHourly();
-                Log.e("Repeat", "rep 60 sec");
+        hourlyCheckHandler = new Handler() {
 
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                if(isHourlyCheckRunning) {
+                    checkVotesHourly();
+                    lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
+
+                    hourlyCheckHandler.sendEmptyMessageDelayed(0, 60000);
+                }
             }
-        }, 60, 60, TimeUnit.SECONDS);*/
+        };
 
         //Vote button function
         voteButton.setOnClickListener(new View.OnClickListener() {
@@ -179,13 +181,23 @@ public class MainCounterScreen extends AppCompatActivity {
             deleteLastButton.setClickable(false);
             markLastButton.setClickable(false);
             hourly = 0;
+            isHourlyCheckRunning = false;
+            hourlyCheckHandler.removeMessages(0);
             lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
         }
         //Else checks hourly votes
         else {
-            checkVotesHourly();
-            lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
+            isHourlyCheckRunning = true;
+            hourlyCheckHandler.sendEmptyMessage(0);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        isHourlyCheckRunning = false;
+        hourlyCheckHandler.removeMessages(0);
     }
 
     private void checkVotesHourly() {
@@ -206,15 +218,46 @@ public class MainCounterScreen extends AppCompatActivity {
         }
     }
 
+    private Runnable myThread = new Runnable() {
+        @Override
+        public void run() {
+            while ( (int)Math.ceil(mProgress) < 100) {
+                Log.e("progress", Float.toString(mProgress));
+                try {
+                    myHandler.sendMessage(myHandler.obtainMessage());
+                    Thread.sleep(100);
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+            progressBar.setVisibility(View.GONE);
+        }
+
+        Handler myHandler = new android.os.Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                progressBar.setProgress((int) mProgress);
+            }
+        };
+    };
+
     public void parseJson(JSONObject response, boolean isRewrite) {
         if (isRewrite) {
             voters = new ArrayList<Voter>();
         }
         try {
             JSONArray stageArray = response.getJSONArray("voters");
+            float addition = 0;
+            if (stageArray.length() > 0)
+                addition = (float) 100 / stageArray.length();
+            else {
+                mProgress = 100;
+            }
 
             for (int i = 0; i < stageArray.length(); i++) {
                 JSONObject jsonStage = stageArray.getJSONObject(i);
+                mProgress += addition;
+                daily++;
 
                 long timestamp = jsonStage.getLong("timestamp");
                 int count = jsonStage.getInt("count");
