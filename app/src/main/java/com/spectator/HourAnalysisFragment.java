@@ -1,5 +1,6 @@
 package com.spectator;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class HourAnalysisFragment extends Fragment {
 
@@ -75,6 +74,9 @@ public class HourAnalysisFragment extends Fragment {
         xAxis.setGranularity(1); // only intervals of 1 day
         xAxis.setLabelCount(24);
         xAxis.setCenterAxisLabels(true);
+        xAxis.setDrawGridLines(true);
+        xAxis.setTextSize(15);
+        xAxis.setTextColor(Color.WHITE);
         //xAxis.center
         //xAxis.setAvoidFirstLastClipping(true);
         xAxis.setValueFormatter(xAxisFormatter);
@@ -96,7 +98,7 @@ public class HourAnalysisFragment extends Fragment {
         NoOfEmp.add(new BarEntry(13, 9));
 
         BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
-        barChart.animateY(1500);
+        barChart.animateY(2000);
         BarData data = new BarData(bardataset);
         bardataset.setColors(ColorTemplate.rgb("#0037EF"));
         barChart.setData(data);

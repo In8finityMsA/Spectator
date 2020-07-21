@@ -1,7 +1,6 @@
 package com.spectator;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -54,8 +54,11 @@ public class MainCounterScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_counter);
+        setContentView(R.layout.main_counter2);
 
+        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new DailyFragment(), new DetailsFragment()}, new String[] {"Daily", "Other"}, null);
+        ViewPager viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(universalPagerAdapter);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -92,8 +95,8 @@ public class MainCounterScreen extends AppCompatActivity {
         votesJsonIO = new JsonIO(this.getFilesDir(), jsonPath, "voters");
         parseJson(votesJsonIO.read(), true);
 
-        thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
-        total.setText(String.format(Locale.GERMAN, "%d", totally));
+        //thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
+        //total.setText(String.format(Locale.GERMAN, "%d", totally));
 
         //Timer for checking votes those are one hour old
         hourlyCheckHandler = new Handler() {
@@ -103,7 +106,7 @@ public class MainCounterScreen extends AppCompatActivity {
 
                 if(isHourlyCheckRunning) {
                     checkVotesHourly();
-                    lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
+                    //lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
 
                     hourlyCheckHandler.sendEmptyMessageDelayed(0, 60000);
                 }
@@ -124,9 +127,9 @@ public class MainCounterScreen extends AppCompatActivity {
                 votesJsonIO.writeToEndOfFile(newVoter.toJSONObject());
 
                 //Changing number of votes in TextViews
-                thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
-                lastHour.setText(String.format(Locale.GERMAN, "%d", ++hourly));
-                total.setText(String.format(Locale.GERMAN, "%d", ++totally));
+                //thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
+               // lastHour.setText(String.format(Locale.GERMAN, "%d", ++hourly));
+                //total.setText(String.format(Locale.GERMAN, "%d", ++totally));
 
                 daysJsonIO.replaceObject(new Day(date, daily).toJSONObject(), Day.dateKey, date);
 
@@ -162,7 +165,7 @@ public class MainCounterScreen extends AppCompatActivity {
         });
 
         //Call detailed info if clicked on votes numbers
-        detailedInfo.setOnClickListener(new View.OnClickListener() {
+        /*detailedInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Details.class);
@@ -172,7 +175,7 @@ public class MainCounterScreen extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
@@ -189,7 +192,7 @@ public class MainCounterScreen extends AppCompatActivity {
             hourly = 0;
             isHourlyCheckRunning = false;
             hourlyCheckHandler.removeMessages(0);
-            lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
+            //lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
         }
         //Else checks hourly votes
         else {
