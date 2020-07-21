@@ -10,6 +10,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class HourAnalysisFragment extends Fragment {
 
@@ -29,24 +42,15 @@ public class HourAnalysisFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         barChart = (BarChart) view.findViewById(R.id.chart);
+        barChart.setMaxVisibleValueCount(24);
+        barChart.setContentDescription("");
+        Description desc = new Description();
+        desc.setText(" ");
+        barChart.setDescription(desc);
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
 
-        /*ArrayList NoOfEmp = new ArrayList();
-
-        NoOfEmp.add(new BarEntry(945f, 0));
-        NoOfEmp.add(new BarEntry(1040f, 1));
-        NoOfEmp.add(new BarEntry(1133f, 2));
-        NoOfEmp.add(new BarEntry(1240f, 3));
-        NoOfEmp.add(new BarEntry(1369f, 4));
-        NoOfEmp.add(new BarEntry(1487f, 5));
-        NoOfEmp.add(new BarEntry(1501f, 6));
-        NoOfEmp.add(new BarEntry(1645f, 7));
-        NoOfEmp.add(new BarEntry(1578f, 8));
-        NoOfEmp.add(new BarEntry(1695f, 9));
-        NoOfEmp.add(new BarEntry(1695f, 10));
-        NoOfEmp.add(new BarEntry(1695f, 11));
-        NoOfEmp.add(new BarEntry(1695f, 12));
-
-        ArrayList year = new ArrayList();
+        ArrayList<String> year = new ArrayList<>();
 
         year.add("8");
         year.add("9");
@@ -61,12 +65,41 @@ public class HourAnalysisFragment extends Fragment {
         year.add("18");
         year.add("19");
         year.add("20");
+        year.add("21");
+
+        ValueFormatter xAxisFormatter = new IndexAxisValueFormatter(year);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        //xAxis.setTypeface(tfLight);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1); // only intervals of 1 day
+        xAxis.setLabelCount(24);
+        xAxis.setCenterAxisLabels(true);
+        //xAxis.center
+        //xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setValueFormatter(xAxisFormatter);
+
+        ArrayList NoOfEmp = new ArrayList();
+
+        NoOfEmp.add(new BarEntry(1, 3));
+        NoOfEmp.add(new BarEntry(2, 4));
+        NoOfEmp.add(new BarEntry(3, 4));
+        NoOfEmp.add(new BarEntry(4, 3));
+        NoOfEmp.add(new BarEntry(5, 6));
+        NoOfEmp.add(new BarEntry(6, 8));
+        NoOfEmp.add(new BarEntry(7, 12));
+        NoOfEmp.add(new BarEntry(8, 15));
+        NoOfEmp.add(new BarEntry(9, 17));
+        NoOfEmp.add(new BarEntry(10, 16));
+        NoOfEmp.add(new BarEntry(11, 18));
+        NoOfEmp.add(new BarEntry(12, 13));
+        NoOfEmp.add(new BarEntry(13, 9));
 
         BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
-        barChart.animateY(5000);
-        BarData data = new BarData((IBarDataSet) year, bardataset);
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChart.setData(data);*/
+        barChart.animateY(1500);
+        BarData data = new BarData(bardataset);
+        bardataset.setColors(ColorTemplate.rgb("#0037EF"));
+        barChart.setData(data);
 
     }
 }
