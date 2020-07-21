@@ -79,7 +79,7 @@ public class HourAnalysisFragment extends Fragment {
         //xAxis.setAvoidFirstLastClipping(true);
         xAxis.setValueFormatter(xAxisFormatter);
 
-        ArrayList NoOfEmp = new ArrayList();
+        ArrayList<BarEntry> NoOfEmp = new ArrayList<>();
 
         NoOfEmp.add(new BarEntry(1, 3));
         NoOfEmp.add(new BarEntry(2, 4));
