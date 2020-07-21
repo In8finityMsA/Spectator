@@ -1,7 +1,5 @@
 package com.spectator;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +11,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.spectator.menu.Day;
 
@@ -45,11 +47,15 @@ public class MainCounterScreen extends AppCompatActivity {
     private boolean isHourlyCheckRunning;
     private float mProgress = 0f;
     private ProgressBar progressBar;
+    private static final int NUM_PAGES = 2;
+    private ViewPager mPager;
+    private PagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_counter);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
