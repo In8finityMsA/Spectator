@@ -20,11 +20,16 @@
     <string name="done">Готово</string>
     <string name="yik_number">Номер УИК</string>
     <string name="status_2">Основной день выборов</string>
-    <string name="info">Информация</string>
+    <string name="info">Инфо</string>
     <string name="no">Нет</string>
     <string name="yes">да</string>
     <string name="graphs">График</string>
     <string name="list">Список</string>
     <string name="export_all_data">Экспорт всех данных</string>
     <string name="export_this_graph">Экспорт этого графика</string>
+    <string name="voted_today">Голосов за сегодня</string>
+    <string name="down_arrow_right">down_arrow_right</string>
+    <string name="down_arrow_right_1">down_arrow_right_1</string>
+    <string name="down_arrow_left">down_arrow_left</string>
+    <string name="down_arrow_left_1">down_arrow_left_1</string>
 </resources>

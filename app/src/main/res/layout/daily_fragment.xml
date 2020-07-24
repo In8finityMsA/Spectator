@@ -15,7 +15,8 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:id="@+id/left_arrows"
@@ -30,12 +31,14 @@
                 android:id="@+id/down_arrow_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/down_arrow_left"
                 app:srcCompat="@drawable/down_arrow" />
 
             <ImageView
                 android:id="@+id/down_arrow_left_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/down_arrow_left_1"
                 app:srcCompat="@drawable/down_arrow" />
         </LinearLayout>
 
@@ -52,7 +55,7 @@
                 android:id="@+id/daily_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="356"
+                android:text="@string/num"
                 android:textColor="#FFFFFF"
                 android:textSize="45sp"
                 android:textStyle="bold" />
@@ -62,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Voted today"
+                android:text="@string/voted_today"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -80,12 +83,14 @@
                 android:id="@+id/down_arrow_right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/down_arrow_right"
                 app:srcCompat="@drawable/down_arrow" />
 
             <ImageView
                 android:id="@+id/down_arrow_right_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/down_arrow_right_1"
                 app:srcCompat="@drawable/down_arrow" />
         </LinearLayout>
 

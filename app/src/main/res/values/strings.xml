@@ -35,4 +35,10 @@
     <string name="list">List</string>
     <string name="export_all_data">Export All data</string>
     <string name="export_this_graph">Export this graph</string>
+    <string name="voted_today">Voted Today</string>
+    <string name="num">356</string>
+    <string name="down_arrow_right">down_arrow_right</string>
+    <string name="down_arrow_right_1">down_arrow_right_1</string>
+    <string name="down_arrow_left">down_arrow_left</string>
+    <string name="down_arrow_left_1">down_arrow_left_1</string>
 </resources>
