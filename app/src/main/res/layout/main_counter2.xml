@@ -25,28 +25,32 @@
             android:id="@+id/info_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <ImageView
                 android:id="@+id/info_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="start"
                 android:background="@drawable/help_icon"
                 android:clickable="true"
-                android:gravity="center" />
+                android:contentDescription="@string/info_icon"
+                android:gravity="center"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/info_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="start|top"
                 android:paddingStart="7dp"
                 android:paddingTop="3dp"
-                android:text="Info"
+                android:paddingEnd="7dp"
+                android:text="@string/info"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -65,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:text="YIK number"
+                android:text="@string/yik_number"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -75,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:text="Primary election day"
+                android:text="@string/status_2"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -84,18 +88,21 @@
             android:id="@+id/finish_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
+            android:layout_gravity="start"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical">
 
-            <TextView
+            <ImageView
                 android:id="@+id/finish_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center|end"
                 android:background="@drawable/done_icon"
                 android:clickable="true"
+                android:contentDescription="@string/done_icon"
+                android:focusable="true"
                 android:gravity="center" />
 
             <TextView
@@ -103,131 +110,157 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="top|end"
+                android:paddingStart="4dp"
                 android:paddingTop="3dp"
                 android:paddingEnd="4dp"
-                android:text="Done"
+                android:text="@string/done"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <ImageView
+        android:id="@+id/header_divider"
+        android:layout_width="0dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:srcCompat="@drawable/line" />
+
+    <com.spectator.VerticalViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
         android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header">
+        app:layout_constraintTop_toBottomOf="@id/header_divider">
 
 
-    </androidx.viewpager.widget.ViewPager>
+    </com.spectator.VerticalViewPager>
 
     <LinearLayout
         android:id="@+id/main_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="64dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pager">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/counter"
             android:layout_width="match_parent"
-            android:layout_height="153dp"
-            android:background="@drawable/button_background3"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="Count"
-            android:textColor="#FFFFFF"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background3"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingTop="48dp"
+                android:paddingBottom="48dp"
+                android:text="@string/count"
+                android:textColor="#FFFFFF"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:focusable="true" />
 
-    <LinearLayout
-        android:id="@+id/delete_button"
-        android:layout_width="180dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_background3"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons">
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/delete_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/cancel_icon"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/delete_label"
+        <LinearLayout
+            android:id="@+id/edit_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Delete Last"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/mark_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_background3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/mark_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/mark_icon"
+                    android:contentDescription="@string/mark_icon"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/mark_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/mark_last"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/spacer"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:contentDescription="@string/separator"
+                app:srcCompat="@drawable/back" />
+
+            <LinearLayout
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_background3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/delete_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/cancel_icon"
+                    android:contentDescription="@string/delete_icon"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/delete_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/delete_last"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/mark_button"
-        android:layout_width="180dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/button_background3"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons">
-
-        <TextView
-            android:id="@+id/mark_icon"
-            android:layout_width="50dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/mark_icon"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/mark_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Mark last"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/general_comments"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_background2"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingStart="10dp"
-        android:text="@string/general_comments"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons"
-        app:layout_constraintVertical_bias="0.902" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

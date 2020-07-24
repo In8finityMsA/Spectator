@@ -221,7 +221,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_buttons"
+        android:id="@+id/count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -233,7 +233,7 @@
         app:layout_constraintTop_toBottomOf="@+id/short_statistics">
 
         <TextView
-            android:id="@+id/counter"
+            android:id="@+id/count"
             android:layout_width="match_parent"
             android:layout_height="153dp"
             android:background="@drawable/button_background3"
@@ -256,7 +256,7 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons">
+        app:layout_constraintTop_toBottomOf="@+id/count">
 
         <TextView
             android:id="@+id/delete_icon"
@@ -286,7 +286,7 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons">
+        app:layout_constraintTop_toBottomOf="@+id/count">
 
         <TextView
             android:id="@+id/mark_icon"
@@ -323,7 +323,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttons"
+        app:layout_constraintTop_toBottomOf="@+id/count"
         app:layout_constraintVertical_bias="0.902" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

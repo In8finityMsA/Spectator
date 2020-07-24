@@ -19,15 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="top"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="List" />
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <LinearLayout
             android:id="@+id/legend"

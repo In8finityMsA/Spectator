@@ -26,7 +26,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_counter);
 
-        counter = (TextView) findViewById(R.id.counter);
+        counter = (TextView) findViewById(R.id.count);
         total = (TextView) findViewById(R.id.total_amount);
         hourly = (TextView) findViewById(R.id.hourly_amount);
         voters = new ArrayList<Voter>();

@@ -1,6 +1,7 @@
 package com.spectator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +32,7 @@ public class MainCounterScreen extends AppCompatActivity {
     private TextView voteButton;
     private LinearLayout deleteLastButton;
     private LinearLayout markLastButton;
-    private LinearLayout detailedInfo;
+    //private LinearLayout detailedInfo;
     private int totally;
     private int daily = 0;
     private int hourly = 0;
@@ -49,6 +50,7 @@ public class MainCounterScreen extends AppCompatActivity {
     private ProgressBar progressBar;
     private static final int NUM_PAGES = 2;
     private ViewPager mPager;
+    private VerticalViewPager viewPager;
     private PagerAdapter pagerAdapter;
 
     @Override
@@ -56,8 +58,8 @@ public class MainCounterScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_counter2);
 
+        viewPager = findViewById(R.id.pager);
         UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new DailyFragment(), new DetailsFragment()}, new String[] {"Daily", "Other"}, null);
-        ViewPager viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(universalPagerAdapter);
 
         Bundle extras = getIntent().getExtras();
@@ -76,7 +78,7 @@ public class MainCounterScreen extends AppCompatActivity {
             daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
         }
 
-        voteButton = (TextView) findViewById(R.id.counter);
+        voteButton = (TextView) findViewById(R.id.count);
         deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
         markLastButton = (LinearLayout) findViewById(R.id.mark_button);
 
@@ -84,7 +86,6 @@ public class MainCounterScreen extends AppCompatActivity {
         thisDay = (TextView) findViewById(R.id.daily_amount);
         lastHour = (TextView) findViewById(R.id.hourly_amount);
 
-        detailedInfo = (LinearLayout) findViewById(R.id.short_statistics);
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -165,7 +166,7 @@ public class MainCounterScreen extends AppCompatActivity {
         });
 
         //Call detailed info if clicked on votes numbers
-        /*detailedInfo.setOnClickListener(new View.OnClickListener() {
+        viewPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Details.class);
@@ -175,7 +176,7 @@ public class MainCounterScreen extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });*/
+        });
 
     }
 
@@ -278,6 +279,10 @@ public class MainCounterScreen extends AppCompatActivity {
             e.getMessage();
             e.printStackTrace();
         }
+    }
+
+    public ViewPager getPager(){
+        return this.viewPager;
     }
 
 }

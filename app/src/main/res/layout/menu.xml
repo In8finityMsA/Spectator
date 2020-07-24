@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Today is August 4"
+            android:text="@string/date"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="First day of preterm election"
+            android:text="@string/status"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -39,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/separator"
             app:srcCompat="@drawable/line" />
     </LinearLayout>
 
@@ -69,9 +70,10 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:minHeight="50dp"
-                android:text="+ Add new day"
+                android:text="@string/add_new_day"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:focusable="true" />
         </LinearLayout>
     </ScrollView>
 

@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:background="#0037EF"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/details"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -39,7 +39,7 @@
             android:id="@+id/graphs_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Graphs"
+            android:text="@string/graphs"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:id="@+id/list_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List" />
+            android:text="@string/list" />
 
     </com.google.android.material.tabs.TabLayout>
 
