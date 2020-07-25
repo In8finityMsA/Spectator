@@ -133,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/header"
         app:srcCompat="@drawable/line" />
 
-    <com.spectator.VerticalViewPager
+    <com.spectator.counter.VerticalViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
         android:layout_height="100dp"
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toBottomOf="@id/header_divider">
 
 
-    </com.spectator.VerticalViewPager>
+    </com.spectator.counter.VerticalViewPager>
 
     <LinearLayout
         android:id="@+id/main_buttons"

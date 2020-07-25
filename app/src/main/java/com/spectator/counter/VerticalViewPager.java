@@ -1,4 +1,4 @@
-package com.spectator;
+package com.spectator.counter;
 
 import android.content.Context;
 import android.util.AttributeSet;

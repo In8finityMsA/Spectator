@@ -1,4 +1,4 @@
-package com.spectator;
+package com.spectator.utils;
 
 import android.os.Binder;
 

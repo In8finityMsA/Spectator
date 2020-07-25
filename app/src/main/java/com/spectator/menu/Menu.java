@@ -14,22 +14,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.spectator.JsonIO;
-import com.spectator.MainCounterScreen;
-import com.spectator.ObjectWrapperForBinder;
+import com.spectator.data.Day;
+import com.spectator.utils.DateFormatter;
+import com.spectator.utils.JsonIO;
+import com.spectator.counter.MainCounterScreen;
+import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Menu extends AppCompatActivity {
 
     private TextView addNew;
+    private TextView todayDate;
+    private TextView electionsDay;
     private int totally;
     private JsonIO daysJsonIO;
     private ArrayList<Day> days;
@@ -42,11 +40,11 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.menu);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY);
+        daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
         scrollList = findViewById(R.id.scroll_layout);
         addNew = findViewById(R.id.addNew);
-
-        days = new ArrayList<Day>();
+        todayDate = findViewById(R.id.today_date);
+        electionsDay = findViewById(R.id.elections_day);
 
         addNew.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,20 +63,36 @@ public class Menu extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //TODO: maybe rework this, too dumb
-        //Parsing json file and building interface (also counting total amount of votes in parsing, not really good)
-        parseJson(daysJsonIO.read(), true);
+        //TODO: maybe rework this, too dumb deleting everything
+        //Parsing json file and building interface
+        days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs, Day.jsonKeys);
+        //Counting total amount of votes
+        totally = 0;
+        for (Day day: days) {
+            totally += day.getCount();
+        }
         if (scrollList.getChildCount() > 1)
             scrollList.removeViews(0, scrollList.getChildCount() - 1);
 
+        //Hiding button addNew if current date is already exists
         addNew.setVisibility(TextView.VISIBLE);
         for (int i = 0; i < days.size(); i++) {
-            Log.e("days", Integer.toString(days.size()));
             scrollList.addView(makeNewRow(days.get(i)), i);
-            if (days.get(i).getFormattedDate().equals(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(System.currentTimeMillis()))) {
+            Log.i("daysDate", days.get(i).getFormattedDate());
+            Log.i("currentDate", DateFormatter.formatDate(System.currentTimeMillis()));
+            if (days.get(i).getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
                 addNew.setVisibility(TextView.GONE);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //TODO: make it on date change action
+        String str = "Сегодня:  " + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
+        todayDate.setText(str);
+        electionsDay.setText(getElectionStage());
     }
 
     private LinearLayout makeNewRow(Day printDay) {
@@ -93,7 +107,7 @@ public class Menu extends AppCompatActivity {
         newDateView.setText(printDay.getFormattedDate());
 
         TextView newCountView = linearLayout.findViewById(R.id.day_votes);
-        newCountView.setText(String.format(Locale.GERMAN,"%d", printDay.getCount()));
+        newCountView.setText(String.valueOf(printDay.getCount()));
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,32 +126,30 @@ public class Menu extends AppCompatActivity {
         return linearLayout;
     }
 
-    public void parseJson(JSONObject response, boolean isRewrite) {
-        if (isRewrite) {
-            days = new ArrayList<Day>();
-        }
-        totally = 0;
-        try {
-            JSONArray jsonArray = response.getJSONArray(Day.ARRAY_KEY);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                String date = jsonObject.getString(Day.dateKey);
-                int count = jsonObject.getInt(Day.countKey);
-                totally += count;
-
-                days.add(new Day(date, count));
-            }
-
-        } catch (JSONException e) {
-            e.getMessage();
-            e.printStackTrace();
-        }
+    private static int convertDpToPixel(Context context, float dp) {
+        return (int) (dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    static int convertDpToPixel(Context context, float dp){
-        return (int) (dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    private static String getElectionStage() {
+        String currentDate = DateFormatter.formatDate(System.currentTimeMillis());
+        Log.i("currentDate", currentDate);
+
+        switch (currentDate) {
+            case "04.08.2020":
+                return "Первый день досрочного голосования";
+            case "05.08.2020" :
+                return "Второй день досрочного голосования";
+            case "06.08.2020" :
+                return "Третий день досрочного голосования";
+            case "07.08.2020" :
+                return "Четвертый день досрочного голосования";
+            case "08.08.2020" :
+                return "Пятый день досрочного голосования";
+            case "09.08.2020" :
+                return "Основной день голосования";
+            default:
+                return "Голосование проходит с 4 по 9 августа";
+        }
     }
 
 }

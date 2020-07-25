@@ -1,31 +1,31 @@
-package com.spectator.menu;
+package com.spectator.data;
 
-import android.content.Context;
-import android.util.DisplayMetrics;
+import com.spectator.utils.DateFormatter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Locale;
 
-public class Day implements Serializable {
+public class Day  implements JsonObjectConvertable {
     private String formattedDate;
     private int count;
 
     public static final String DAYS_PATH = "days.json";
     public static final String ARRAY_KEY = "days";
     public static final String countKey = "count";
-    public static final String dateKey = "FormattedDate";
+    public static final String dateKey = "formattedDate";
+    public static final String[] jsonKeys = new String[] {dateKey, countKey};
+    public static final Class[] constructorArgs = new Class[] {String.class, int.class};
 
     public Day(String formattedDate, int count) {
         this.formattedDate = formattedDate;
         this.count = count;
     }
 
-    Day(long timestamp, int count) {
-        this(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN).format(timestamp), count);
+    public Day(long timestamp, int count) {
+        this(DateFormatter.formatDate(timestamp), count);
     }
 
     public int getCount() {
@@ -36,6 +36,11 @@ public class Day implements Serializable {
         return formattedDate;
     }
 
+    public void setFormattedDate(String str) {
+        this.formattedDate = str;
+    }
+
+    @Override
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {

@@ -1,4 +1,4 @@
-package com.spectator;
+package com.spectator.detailedinfo;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.spectator.R;
+import com.spectator.utils.ObjectWrapperForBinder;
+import com.spectator.data.Voter;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -51,7 +55,7 @@ public class ListFragment extends Fragment {
 
         }
         else {
-            Log.e("extras", "not null");
+            Log.i("extras", "not null");
             totally = extras.getInt("total");
             voters = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData();
         }
@@ -72,8 +76,8 @@ public class ListFragment extends Fragment {
             scrollList.addView(newRow);
             daily++;
         }
-        thisDay.setText(String.format(Locale.GERMAN, "%d", daily));
-        total.setText(String.format(Locale.GERMAN, "%d", totally));
+        thisDay.setText(String.valueOf(daily));
+        total.setText(String.valueOf(daily));
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
@@ -83,7 +87,7 @@ public class ListFragment extends Fragment {
         //Turns off vote button if current date doesn't equals session date
         //TODO: make it date change indifferent
         checkVotesHourly();
-        lastHour.setText(String.format(Locale.GERMAN, "%d", hourly));
+        lastHour.setText(String.valueOf(hourly));
     }
 
     //Making new Linear layout for new vote
@@ -108,7 +112,7 @@ public class ListFragment extends Fragment {
         newTimeView.setText(printVoter.getFormattedTime());
 
         TextView newCountView = linearLayout.findViewById(R.id.count);
-        newCountView.setText(String.format(Locale.GERMAN,"%d", printVoter.getCount()));
+        newCountView.setText(String.valueOf(printVoter.getCount()));
 
         return linearLayout;
     }
@@ -116,12 +120,10 @@ public class ListFragment extends Fragment {
     private void checkVotesHourly() {
         final long HOUR = 1000 * 60 * 60;
         hourly = 0;
-        Log.e("check", String.format(Locale.GERMAN, "%d", voters.size()));
+        Log.e("check", String.valueOf(voters.size()));
         for (int i = voters.size() - 1; i >= 0; i--) {
-            Log.e("index", String.format(Locale.GERMAN, "%d", i));
             long currentTime = System.currentTimeMillis();
             long difference =  currentTime - voters.get(i).getTimestamp();
-            Log.e("diff", String.format(Locale.GERMAN, "%1$d - %2$d = %3$d", currentTime, voters.get(i).getTimestamp(), difference));
             if (difference < HOUR) {
                 hourly++;
             }

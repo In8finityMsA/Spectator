@@ -9,10 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.spectator.MainCounterScreen;
-import com.spectator.ObjectWrapperForBinder;
+import com.spectator.counter.MainCounterScreen;
+import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
-import com.spectator.JsonIO;
+import com.spectator.data.Day;
+import com.spectator.utils.JsonIO;
 
 public class Dialog extends AppCompatActivity {
 
@@ -31,12 +32,11 @@ public class Dialog extends AppCompatActivity {
             Log.e("extras", "null");
         }
         else {
-            Log.e("extras", "not null");
+            Log.i("extras", "not null");
             daysJsonIO =  (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
             totally = extras.getInt("total");
         }
 
-        //daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY);
         yesButton = findViewById(R.id.yes);
         noButton = findViewById(R.id.no);
 

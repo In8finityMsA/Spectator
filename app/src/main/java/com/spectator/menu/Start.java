@@ -1,4 +1,4 @@
-package com.spectator;
+package com.spectator.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.spectator.R;
 import com.spectator.menu.Menu;
 
     public class Start extends AppCompatActivity {
