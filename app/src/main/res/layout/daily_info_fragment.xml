@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/num"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/voted_today"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 

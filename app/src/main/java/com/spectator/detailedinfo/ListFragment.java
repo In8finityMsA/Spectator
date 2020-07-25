@@ -16,11 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
-import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.data.Voter;
+import com.spectator.utils.ObjectWrapperForBinder;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ListFragment extends Fragment {
 
@@ -100,11 +99,11 @@ public class ListFragment extends Fragment {
 
         //Making color contrast for neighbouring layouts
         if (isPrevWhite) {
-            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
             isPrevWhite = false;
         }
         else {
-            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorBackgroundDark));
             isPrevWhite = true;
         }
 

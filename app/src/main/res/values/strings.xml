@@ -30,13 +30,13 @@
     <string name="yes">yes</string>
     <string name="number_of_votes" translatable="false">TextView</string>
     <string name="date2" translatable="false">TextView</string>
-    <string name="details" translatable="false">TextView</string>
+    <string name="details" translatable="false">Details</string>
     <string name="graphs">Graphs</string>
     <string name="list">List</string>
     <string name="export_all_data">Export All data</string>
     <string name="export_this_graph">Export this graph</string>
     <string name="voted_today">Voted Today</string>
-    <string name="num">356</string>
+    <string name="num" translatable="false">0</string>
     <string name="down_arrow_right">down_arrow_right</string>
     <string name="down_arrow_right_1">down_arrow_right_1</string>
     <string name="down_arrow_left">down_arrow_left</string>

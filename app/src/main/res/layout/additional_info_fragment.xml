@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/hourly_amount"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:text="@string/last_hour"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -64,7 +64,7 @@
                 android:layout_gravity="top"
                 android:gravity="center"
                 android:text="@string/total_amount"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="45sp"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:text="@string/grand_total"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
         </LinearLayout>

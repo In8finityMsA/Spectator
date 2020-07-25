@@ -9,23 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".menu.Start">
+        <activity android:name=".menu.Start" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".counter.MainCounterScreen" />
-        <activity android:name=".detailedinfo.Details" />
-        <activity android:name=".menu.Menu">
+        <activity android:name=".menu.Settings" android:screenOrientation="portrait" />
+        <activity android:name=".menu.AboutUs" android:screenOrientation="portrait" />
+        <activity android:name=".counter.MainCounterScreen" android:screenOrientation="portrait" />
+        <activity android:name=".detailedinfo.Details" android:screenOrientation="portrait" />
+        <activity android:name=".menu.Menu" android:screenOrientation="portrait" >
 
         </activity>
 
         <activity
             android:name=".menu.Dialog"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,15 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.spectator.data.Hour;
-import com.spectator.detailedinfo.Details;
-import com.spectator.utils.DateFormatter;
-import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
-import com.spectator.utils.UniversalPagerAdapter;
-import com.spectator.utils.JsonIO;
 import com.spectator.data.Day;
+import com.spectator.data.Hour;
 import com.spectator.data.Voter;
+import com.spectator.detailedinfo.Details;
+import com.spectator.menu.Start;
+import com.spectator.utils.DateFormatter;
+import com.spectator.utils.JsonIO;
+import com.spectator.utils.ObjectWrapperForBinder;
+import com.spectator.utils.UniversalPagerAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,11 @@ public class MainCounterScreen extends AppCompatActivity {
     private LinearLayout deleteLastButton;
     private LinearLayout markLastButton;
     private LinearLayout detailedInfo;
+    private LinearLayout done;
+    private ImageView doneIcon;
+    private TextView doneLabel;
+    private ImageView infoIcon;
+    private TextView infoLabel;
     private int totally;
     private int daily = 0;
     private int hourly = 0;
@@ -77,6 +84,11 @@ public class MainCounterScreen extends AppCompatActivity {
         deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
         markLastButton = (LinearLayout) findViewById(R.id.mark_button);
         detailedInfo = (LinearLayout) findViewById(R.id.info_button);
+        done = (LinearLayout) findViewById(R.id.finish_button);
+        doneIcon = (ImageView) findViewById(R.id.finish_icon);
+        doneLabel = (TextView) findViewById(R.id.finish_label);
+        infoIcon = (ImageView) findViewById(R.id.info_icon);
+        infoLabel = (TextView) findViewById(R.id.info_label);
 
         TextView electionStatus = (TextView) findViewById(R.id.election_status);
         electionStatus.setText(date);
@@ -221,6 +233,59 @@ public class MainCounterScreen extends AppCompatActivity {
                 bundle.putString("hourlyJsonPath", hourlyJsonPath);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        infoIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                Bundle bundle = new Bundle();
+                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+                bundle.putInt("total", totally);
+                bundle.putString("hourlyJsonPath", hourlyJsonPath);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        infoLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                Bundle bundle = new Bundle();
+                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+                bundle.putInt("total", totally);
+                bundle.putString("hourlyJsonPath", hourlyJsonPath);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        doneIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Start.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        doneLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Start.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Start.class);
+                startActivity(intent);
+                finish();
             }
         });
 

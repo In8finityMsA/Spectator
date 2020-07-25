@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#333333">
+    android:background="@color/colorBackgroundDark">
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart"
@@ -24,7 +24,7 @@
         android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="@string/export_all_data"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="@string/export_this_graph"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/export_data"

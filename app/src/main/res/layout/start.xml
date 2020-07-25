@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="@string/spectator"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/start_counting"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:focusable="true" />
 
@@ -55,7 +55,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/settings"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:focusable="true" />
 
@@ -70,7 +70,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/about_us"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:focusable="true" />
     </LinearLayout>
