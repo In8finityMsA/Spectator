@@ -1,10 +1,12 @@
 package com.spectator.counter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,10 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.spectator.counter.AdditionalInfoFragment;
-import com.spectator.counter.DailyInfoFragment;
-import com.spectator.counter.VerticalViewPager;
-import com.spectator.data.Comment;
 import com.spectator.R;
 import com.spectator.data.Day;
 import com.spectator.data.Hour;
@@ -142,6 +140,11 @@ public class MainCounterScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+
+
+                Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibe.vibrate(10);
+
 
                 //Creating new voter
                 Voter newVoter = new Voter(System.currentTimeMillis(), ++daily);
