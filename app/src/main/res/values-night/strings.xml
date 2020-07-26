@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Spectator</string>
+    <string name="general_comments">Write anything</string>
+    <string name="title_activity_graphs">Graphs</string>
+    <string name="title_activity_details">Details</string>
+    <string name="spectator">Spectator</string>
+    <string name="start_counting">Start Counting</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="hourly_amount" translatable="false">0</string>
+    <string name="last_hour">Last hour</string>
+    <string name="total_amount" translatable="false">0</string>
+    <string name="grand_total">Grand total</string>
+    <string name="date">Today is August 4</string>
+    <string name="status">First day of preterm election</string>
+    <string name="add_new_day">+ Add new day</string>
+    <string name="separator">separator</string>
+    <string name="mark_last">Mark last</string>
+    <string name="count">Count</string>
+    <string name="delete_last">Delete Last</string>
+    <string name="done">Done</string>
+    <string name="yik_number">YIK number</string>
+    <string name="status_2">Primary election day</string>
+    <string name="mark_icon" translatable="false">mark_icon</string>
+    <string name="comment_hint">Enter your comment</string>
+    <string name="info_icon" translatable="false">info_icon</string>
+    <string name="delete_icon" translatable="false">delete_icon</string>
+    <string name="info">Info</string>
+    <string name="done_icon" translatable="false">done_icon</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="number_of_votes" translatable="false">TextView</string>
+    <string name="date2" translatable="false">TextView</string>
+    <string name="details" translatable="false">Details</string>
+    <string name="graphs">Graphs</string>
+    <string name="list">List</string>
+    <string name="export_all_data">Export All data</string>
+    <string name="export_this_graph">Export this graph</string>
+    <string name="voted_today">Voted Today</string>
+    <string name="num" translatable="false">0</string>
+    <string name="down_arrow_right">down_arrow_right</string>
+    <string name="down_arrow_right_1">down_arrow_right_1</string>
+    <string name="down_arrow_left">down_arrow_left</string>
+    <string name="down_arrow_left_1">down_arrow_left_1</string>
+</resources>
