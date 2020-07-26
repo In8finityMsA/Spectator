@@ -1,7 +1,7 @@
 package com.spectator.detailedinfo;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,8 +9,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.spectator.R;
-import com.spectator.detailedinfo.HourAnalysisFragment;
-import com.spectator.detailedinfo.ListFragment;
 import com.spectator.utils.UniversalPagerAdapter;
 
 public class Details extends AppCompatActivity {
@@ -18,10 +16,11 @@ public class Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_activity);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Bundle extras = getIntent().getExtras();
 
-        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new HourAnalysisFragment(), new ListFragment()}, new String[] {"Graph", "List"}, extras);
+        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new GraphsFragment(), new ListFragment()}, new String[] {"Graph", "List"}, extras);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(universalPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);

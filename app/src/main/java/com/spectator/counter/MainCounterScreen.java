@@ -1,6 +1,7 @@
 package com.spectator.counter;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spectator.counter.AdditionalInfoFragment;
+import com.spectator.counter.DailyInfoFragment;
+import com.spectator.counter.VerticalViewPager;
+import com.spectator.data.Comment;
 import com.spectator.R;
 import com.spectator.data.Day;
 import com.spectator.data.Hour;
@@ -62,17 +67,18 @@ public class MainCounterScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_counter2);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.e("extras", "null");
+            Log.e("MainExtras", "null");
             date = "01.01.1970";
             totally = 0;
             votersJsonPath = "log.json";
             daysJsonIO = new JsonIO(this.getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
         }
         else {
-            Log.i("extras", "not null");
+            Log.i("MainExtras", "not null");
             date = extras.getString("date");
             totally = extras.getInt("total");
             votersJsonPath = date + ".json";
@@ -218,7 +224,8 @@ public class MainCounterScreen extends AppCompatActivity {
         markLastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), EditTextDialog.class);
+                startActivity(intent);
             }
         });
 
@@ -226,69 +233,61 @@ public class MainCounterScreen extends AppCompatActivity {
         detailedInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Details.class);
-                Bundle bundle = new Bundle();
-                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
-                bundle.putInt("total", totally);
-                bundle.putString("hourlyJsonPath", hourlyJsonPath);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                onInfoClick();
             }
         });
 
         infoIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Details.class);
-                Bundle bundle = new Bundle();
-                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
-                bundle.putInt("total", totally);
-                bundle.putString("hourlyJsonPath", hourlyJsonPath);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                onInfoClick();
             }
         });
 
         infoLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Details.class);
-                Bundle bundle = new Bundle();
-                bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
-                bundle.putInt("total", totally);
-                bundle.putString("hourlyJsonPath", hourlyJsonPath);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                onInfoClick();
             }
         });
 
         doneIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Start.class);
-                startActivity(intent);
-                finish();
+                onDoneClick();
             }
         });
 
         doneLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Start.class);
-                startActivity(intent);
-                finish();
+                onDoneClick();
             }
         });
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Start.class);
-                startActivity(intent);
-                finish();
+                onDoneClick();
             }
         });
 
+    }
+
+    private void onDoneClick() {
+        Intent intent = new Intent(getApplicationContext(), Start.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void onInfoClick() {
+        Intent intent = new Intent(getApplicationContext(), Details.class);
+        Bundle bundle = new Bundle();
+        bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+        bundle.putInt("total", totally);
+        bundle.putString("hourlyJsonPath", hourlyJsonPath);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

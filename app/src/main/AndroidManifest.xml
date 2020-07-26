@@ -20,10 +20,13 @@
         <activity android:name=".menu.AboutUs" android:screenOrientation="portrait" />
         <activity android:name=".counter.MainCounterScreen" android:screenOrientation="portrait" />
         <activity android:name=".detailedinfo.Details" android:screenOrientation="portrait" />
-        <activity android:name=".menu.Menu" android:screenOrientation="portrait" >
+        <activity android:name=".menu.Menu" android:screenOrientation="portrait" />
 
-        </activity>
-
+        <activity
+            android:name=".counter.EditTextDialog"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".menu.Dialog"
             android:excludeFromRecents="true"

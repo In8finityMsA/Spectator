@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
 
+import java.util.Objects;
+
 public class AdditionalInfoFragment extends Fragment {
 
     private TextView grandTotal;
@@ -25,7 +27,7 @@ public class AdditionalInfoFragment extends Fragment {
 
         grandTotal = view.findViewById(R.id.total_amount);
         lastHour = view.findViewById(R.id.hourly_amount);
-        viewPager = (VerticalViewPager) ((MainCounterScreen)this.getActivity()).getPager();
+        viewPager = (VerticalViewPager) ((MainCounterScreen) this.getActivity()).getPager();
 
         Bundle extras = getArguments();
         if (extras == null) {

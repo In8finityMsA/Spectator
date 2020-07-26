@@ -24,13 +24,23 @@ public class JsonIO {
     private File file;
     private JSONObject jsonFile;
     private String mainArrayKey;
+    private MODE mode;
 
     public JsonIO(File dir, String path, String mainArrayKey, boolean isInitNow) {
         this.file = new File(dir, path);
         this.mainArrayKey = mainArrayKey;
         if (isInitNow) {
-            read();
+            init();
         }
+    }
+
+    public JsonIO(File dir, String path, String mainArrayKey, MODE mode, boolean isInitNow) {
+        this.file = new File(dir, path);
+        this.mainArrayKey = mainArrayKey;
+        if (isInitNow) {
+            init();
+        }
+        this.mode = mode;
     }
 
     //temp method
@@ -124,7 +134,10 @@ public class JsonIO {
     public void writeToEndOfFile(JSONObject object) {
         //Adding an input Object to the Object which represents the whole JSON file. For other methods working purposes
         if (object != null) {
-            addObjectToJSON(object, mainArrayKey);
+            //TODO: make mode check in every method!
+            if (mode != MODE.WRITE_ONLY_EOF) {
+                addObjectToJSON(object, mainArrayKey);
+            }
 
             StringBuilder stringBuilder = new StringBuilder();
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");) {
@@ -295,5 +308,12 @@ public class JsonIO {
     }
 
     public static class ObjectNotFoundException extends Throwable {
+    }
+
+    public static enum MODE {
+        READ_WRITE,
+        WRITE_ONLY_EOF,
+        WRITE,
+        READ
     }
 }

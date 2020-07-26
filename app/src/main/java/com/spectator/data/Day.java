@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Locale;
 
-public class Day  implements JsonObjectConvertable {
+public class Day implements JsonObjectConvertable {
     private String formattedDate;
     private int count;
 
@@ -34,10 +34,6 @@ public class Day  implements JsonObjectConvertable {
 
     public String getFormattedDate() {
         return formattedDate;
-    }
-
-    public void setFormattedDate(String str) {
-        this.formattedDate = str;
     }
 
     @Override

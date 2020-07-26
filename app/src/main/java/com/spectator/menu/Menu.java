@@ -1,7 +1,9 @@
 package com.spectator.menu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -38,11 +40,14 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
+
         scrollList = findViewById(R.id.scroll_layout);
         addNew = findViewById(R.id.addNew);
+
         todayDate = findViewById(R.id.today_date);
         electionsDay = findViewById(R.id.elections_day);
 
@@ -62,6 +67,18 @@ public class Menu extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.e("Menu", "onStart");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("Menu", "onResume");
+        //TODO: make it on date change action
+        String str = "Сегодня:  " + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
+        todayDate.setText(str);
+        electionsDay.setText(getElectionStage());
 
         //TODO: maybe rework this, too dumb deleting everything
         //Parsing json file and building interface
@@ -74,12 +91,13 @@ public class Menu extends AppCompatActivity {
         if (scrollList.getChildCount() > 1)
             scrollList.removeViews(0, scrollList.getChildCount() - 1);
 
-        //Hiding button addNew if current date is already exists
         addNew.setVisibility(TextView.VISIBLE);
         for (int i = 0; i < days.size(); i++) {
+            Log.i("daysCount", String.valueOf(days.get(i).getCount()));
             scrollList.addView(makeNewRow(days.get(i)), i);
             Log.i("daysDate", days.get(i).getFormattedDate());
-            Log.i("currentDate", DateFormatter.formatDate(System.currentTimeMillis()));
+            //Log.i("currentDate", DateFormatter.formatDate(System.currentTimeMillis()));
+            //Hiding button addNew if current date is already exists
             if (days.get(i).getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
                 addNew.setVisibility(TextView.GONE);
             }
@@ -87,15 +105,12 @@ public class Menu extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        //TODO: make it on date change action
-        String str = "Сегодня:  " + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
-        todayDate.setText(str);
-        electionsDay.setText(getElectionStage());
+    protected void onStop() {
+        super.onStop();
+        Log.e("Menu", "onStop");
     }
 
-    private LinearLayout makeNewRow(Day printDay) {
+    private LinearLayout makeNewRow(final Day printDay) {
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.day_layout, null);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -113,10 +128,9 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
-                TextView textView = (TextView) view.findViewById(R.id.date);
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                bundle.putString("date", textView.getText().toString());
+                bundle.putString("date", printDay.getFormattedDate());
                 bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -132,7 +146,7 @@ public class Menu extends AppCompatActivity {
 
     private static String getElectionStage() {
         String currentDate = DateFormatter.formatDate(System.currentTimeMillis());
-        Log.i("currentDate", currentDate);
+        //Log.i("currentDate", currentDate);
 
         switch (currentDate) {
             case "04.08.2020":

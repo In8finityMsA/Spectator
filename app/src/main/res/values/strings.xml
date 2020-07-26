@@ -22,6 +22,7 @@
     <string name="yik_number">YIK number</string>
     <string name="status_2">Primary election day</string>
     <string name="mark_icon" translatable="false">mark_icon</string>
+    <string name="comment_hint">Enter your comment</string>
     <string name="info_icon" translatable="false">info_icon</string>
     <string name="delete_icon" translatable="false">delete_icon</string>
     <string name="info">Info</string>

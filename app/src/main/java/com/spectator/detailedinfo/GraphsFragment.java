@@ -32,14 +32,7 @@ import com.spectator.utils.ObjectWrapperForBinder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class HourAnalysisFragment extends Fragment {
-
-    private BarChart barChart;
-    private String hourlyJsonPath;
-    private JsonIO hourlyJsonIO;
-    ArrayList<Hour> hours;
-    ArrayList<BarEntry> voters;
-
+public class GraphsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,104 +45,84 @@ public class HourAnalysisFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String hourlyJsonPath;
 
         Bundle extras = getArguments();
         if (extras == null) {
-            Log.e("extras", "null");
+            Log.e("GraphsExtras", "null");
+            hourlyJsonPath = "";
         }
         else {
-            Log.i("extras", "not null");
+            Log.i("GraphsExtras", "not null");
             hourlyJsonPath = extras.getString("hourlyJsonPath");
         }
 
-        hours = new ArrayList<>();
-        voters = new ArrayList<>();
+        ArrayList<Hour> hours = new ArrayList<>();
+        ArrayList<BarEntry> voters = new ArrayList<>();
 
-        hourlyJsonIO = new JsonIO(getContext().getFilesDir(), hourlyJsonPath, Hour.ARRAY_KEY, false);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), hourlyJsonPath, Hour.ARRAY_KEY, false);
         hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys);
 
-        settingValues();
+        settingValues(hours, voters);
 
-        barChart = (BarChart) view.findViewById(R.id.chart);
-        //barChart.setFitBars(true);
-        barChart.setMaxVisibleValueCount(24);
-        barChart.setDrawValueAboveBar(true);
+        BarChart barChart = (BarChart) view.findViewById(R.id.chart);
+
+        //Disabling interaction with the graph
+        barChart.setTouchEnabled(false);
+        barChart.setDragEnabled(false);
+        barChart.setScaleEnabled(false);
+
+        //To avoid clipping xAxis labels
         barChart.setExtraOffsets(0, 0, 0, 10);
-        Description desc = new Description();
-        desc.setText(" ");
-        barChart.setDescription(desc);
-        Legend legend = barChart.getLegend();
-        legend.setEnabled(false);
 
-        ValueFormatter xAxisFormatter = new DefaultAxisValueFormatter(2);
+        //Turning off description and legend
+        barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+
+        //Setting xAxis. Text size 13; label color white; min step between labels is 1; draw labels at center of grid lines; turn off grid lines drawing.
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(24);
-        xAxis.setDrawGridLines(true);
-        xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setDrawGridLines(true);
         xAxis.setTextSize(14);
         xAxis.setTextColor(Color.WHITE);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawGridLines(false);
+        xAxis.setLabelCount(24);
         xAxis.setAvoidFirstLastClipping(true);
-        xAxis.setValueFormatter(xAxisFormatter);
 
+        //Setting yAxis. Start at 0; min step between labels is 1; label color white.
         YAxis yAxisLeft = barChart.getAxisLeft();
         yAxisLeft.setTextColor(Color.WHITE);
         yAxisLeft.setAxisMinimum(0f);
+        yAxisLeft.setGranularity(1f);
+        yAxisLeft.setTextSize(12);
         YAxis yAxisRight = barChart.getAxisRight();
         yAxisRight.setTextColor(Color.WHITE);
         yAxisRight.setAxisMinimum(0f);
+        yAxisRight.setGranularity(1f);
+        yAxisRight.setEnabled(false);
 
         BarDataSet bardataset = new BarDataSet(voters, null);
+        //Animation (bars rising on start) duration
         barChart.animateY(2000);
         BarData data = new BarData(bardataset);
+        //Turning on values above bars and setting value formatter
+        data.setDrawValues(true);
+        data.setValueTextColor(Color.WHITE);
+        data.setValueTextSize(10);
+        data.setValueFormatter(new CustomValueFormatter());
+        //Setting color of bars
         bardataset.setColors(ColorTemplate.rgb("#0037EF"));
         barChart.setData(data);
 
     }
 
-    private void settingValues2() {
+    private void settingValues(ArrayList<Hour> hours, ArrayList<BarEntry> voters) {
+        //Offset for xAxis to make bars between hour x and x+1, and not between x-1 and x
+        int xOffset = 1;
+        float minValue = 0.15f;
+
         //Finding min and max value of Hour String [0;23]
-        //Offset for xAxis to make bars between hour x and x+1, and not between x-1 and x
-        int xOffset = 1;
-
-
-        //Sorting hours list by string Hour unicode value
-        for (int i = 0; i < hours.size(); i++) {
-            for (int j = i + 1; j < hours.size(); j++) {
-                if(hours.get(i).getHour().compareTo(hours.get(j).getHour()) > 0) {
-                    Hour temp = hours.get(i);
-                    hours.set(i, hours.get(j));
-                    hours.set(j, temp);
-                }
-            }
-        }
-
-        int prevValue = Integer.MIN_VALUE;
-        for (int i = 0; i < hours.size(); i++) {
-            Hour hour = hours.get(i);
-            //Filling gaps between hours
-            int curValue = Integer.parseInt(hour.getHour());
-            int difference = curValue - prevValue;
-            if (difference > 1 && difference <= 23 && prevValue != Integer.MIN_VALUE) {
-                while (difference > 1) {
-                    difference--;
-                    voters.add(new BarEntry(curValue - difference + xOffset, 0.15f));
-                    //Log.i("GraphValue", i + " (difference : " + difference + "): " + (curValue - difference) + " prevValue: " + prevValue + " curValue: " + curValue);
-                }
-            }
-
-            //Log.i("GraphValue", i + ": " + Integer.parseInt(hour.getHour()) + ", "  + hour.getCount());
-            voters.add(new BarEntry(curValue + xOffset, hour.getCount()));
-            prevValue = curValue;
-        }
-    }
-
-    private void settingValues() {
-        //Offset for xAxis to make bars between hour x and x+1, and not between x-1 and x
-        int xOffset = 1;
-
         int min = 25; int max = -1; int curValue;
         for (int i = 0; i < hours.size(); i++) {
             curValue = Integer.parseInt(hours.get(i).getHour());
@@ -160,11 +133,25 @@ public class HourAnalysisFragment extends Fragment {
                 min = curValue;
             }
         }
-        for (int i = min + 1; i < max; i++) {
-            voters.add(new BarEntry(i + xOffset, 0.15f));
+        //Filling gaps between min and max
+        if (min != 25 && max != -1) {
+            for (int i = min + 1; i < max; i++) {
+                voters.add(new BarEntry(i + xOffset, minValue));
+            }
         }
+        //Setting data from hours array
         for (int i = 0; i < hours.size(); i++) {
             voters.add(new BarEntry(Integer.parseInt(hours.get(i).getHour()) + xOffset, hours.get(i).getCount()));
+        }
+    }
+
+    private static class CustomValueFormatter extends ValueFormatter {
+        @Override
+        public String getBarLabel(BarEntry barEntry) {
+            if (barEntry.getY() >= 1)
+                return String.valueOf((int)barEntry.getY());
+            else
+                return "";
         }
     }
 }

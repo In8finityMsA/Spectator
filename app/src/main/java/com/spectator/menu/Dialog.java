@@ -29,10 +29,10 @@ public class Dialog extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.e("extras", "null");
+            Log.e("DialogExtras", "null");
         }
         else {
-            Log.i("extras", "not null");
+            Log.i("DialogExtras", "not null");
             daysJsonIO =  (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
             totally = extras.getInt("total");
         }
