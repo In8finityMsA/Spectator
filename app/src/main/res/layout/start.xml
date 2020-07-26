@@ -36,13 +36,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background3"
             android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/start_counting"
             android:textColor="@color/white"
-            android:textSize="36sp"
-            android:focusable="true" />
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/settings"
@@ -51,13 +52,14 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/button_background3"
             android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/settings"
             android:textColor="@color/white"
-            android:textSize="36sp"
-            android:focusable="true" />
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/about_us"
@@ -66,13 +68,14 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/button_background3"
             android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/about_us"
             android:textColor="@color/white"
-            android:textSize="36sp"
-            android:focusable="true" />
+            android:textSize="36sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

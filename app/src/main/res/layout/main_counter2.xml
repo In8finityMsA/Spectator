@@ -175,14 +175,15 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background3"
                 android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingTop="48dp"
                 android:paddingBottom="48dp"
                 android:text="@string/count"
                 android:textColor="@color/white"
                 android:textSize="36sp"
-                android:textStyle="bold"
-                android:focusable="true" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -199,6 +200,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_background3"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="8dp"
@@ -237,6 +239,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button_background3"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="8dp"

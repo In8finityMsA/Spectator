@@ -9,6 +9,7 @@
     android:background="@drawable/button_background3"
     android:clickable="false"
     android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal">
 
     <TextView
