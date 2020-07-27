@@ -27,6 +27,7 @@ import com.spectator.menu.Start;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
+import com.spectator.utils.PreferencesIO;
 import com.spectator.utils.UniversalPagerAdapter;
 
 import org.json.JSONException;
@@ -38,6 +39,7 @@ import java.util.Locale;
 public class MainCounterScreen extends BaseActivity {
 
     private TextView voteButton;
+    private PreferencesIO preferencesIO;
     private LinearLayout deleteLastButton;
     private LinearLayout markLastButton;
     private LinearLayout detailedInfo;
@@ -137,14 +139,35 @@ public class MainCounterScreen extends BaseActivity {
         };
 
         //Vote button function
+        preferencesIO = new PreferencesIO(this);
         voteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
+                int vibeId = preferencesIO.getInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, 2);
 
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibe.vibrate(500);
+                switch (vibeId) {
+                    case 0:
+                        vibe.vibrate(500);
+                        break;
+                    case 1:
+                        vibe.vibrate(250);
+                        break;
+                    case 2:
+                        vibe.vibrate(100);
+                        break;
+                    case 3:
+                        vibe.vibrate(50);
+                        break;
+                    case 4:
+                        vibe.vibrate(0);
+                        break;
+                    default:
+                        vibe.vibrate(100);
+                        break;
+                }
 
 
                 //Creating new voter
