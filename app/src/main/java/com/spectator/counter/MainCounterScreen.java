@@ -148,25 +148,27 @@ public class MainCounterScreen extends BaseActivity {
                 int vibeId = preferencesIO.getInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, 2);
 
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                switch (vibeId) {
-                    case 0:
-                        vibe.vibrate(500);
-                        break;
-                    case 1:
-                        vibe.vibrate(250);
-                        break;
-                    case 2:
-                        vibe.vibrate(100);
-                        break;
-                    case 3:
-                        vibe.vibrate(50);
-                        break;
-                    case 4:
-                        vibe.vibrate(0);
-                        break;
-                    default:
-                        vibe.vibrate(100);
-                        break;
+                if (vibe != null) {
+                    switch (vibeId) {
+                        case 0:
+                            vibe.vibrate(500);
+                            break;
+                        case 1:
+                            vibe.vibrate(250);
+                            break;
+                        case 2:
+                            vibe.vibrate(100);
+                            break;
+                        case 3:
+                            vibe.vibrate(50);
+                            break;
+                        case 4:
+                            vibe.vibrate(0);
+                            break;
+                        default:
+                            vibe.vibrate(100);
+                            break;
+                    }
                 }
 
 
