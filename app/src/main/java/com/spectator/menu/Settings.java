@@ -65,25 +65,27 @@ public class Settings extends BaseActivity {
                 preferencesIO.putInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, checkedIndex2);
 
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                switch (checkedId2) {
-                    case R.id.vibe_max:
-                        vibe.vibrate(500);
-                        break;
-                    case R.id.vibe_high:
-                        vibe.vibrate(250);
-                        break;
-                    case R.id.vibe_normal:
-                        vibe.vibrate(100);
-                        break;
-                    case R.id.vibe_low:
-                        vibe.vibrate(50);
-                        break;
-                    case R.id.vibe_none:
-                        vibe.vibrate(0);
-                        break;
-                    default:
-                        vibe.vibrate(100);
-                        break;
+                if (vibe != null) {
+                    switch (checkedId2) {
+                        case R.id.vibe_max:
+                            vibe.vibrate(500);
+                            break;
+                        case R.id.vibe_high:
+                            vibe.vibrate(250);
+                            break;
+                        case R.id.vibe_normal:
+                            vibe.vibrate(100);
+                            break;
+                        case R.id.vibe_low:
+                            vibe.vibrate(50);
+                            break;
+                        case R.id.vibe_none:
+                            vibe.vibrate(0);
+                            break;
+                        default:
+                            vibe.vibrate(100);
+                            break;
+                    }
                 }
             }
         });
