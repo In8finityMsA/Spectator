@@ -9,6 +9,10 @@
         <item name="colorButtonNormal">@color/colorButtonDark</item>
     </style>
 
+    <style name="BackTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="background">@drawable/main_background</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

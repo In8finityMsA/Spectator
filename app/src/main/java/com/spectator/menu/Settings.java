@@ -1,7 +1,8 @@
 package com.spectator.menu;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,6 +21,7 @@ public class Settings extends AppCompatActivity {
     private ViewPager viewPager;
     private RadioGroup textRadioGroup;
     private PreferencesIO preferencesIO;
+    private RadioGroup vibeSelection;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +29,7 @@ public class Settings extends AppCompatActivity {
 
         preferencesIO = new PreferencesIO(this);
 
-        langRadioGroup = findViewById(R.id.lang_selection);
-        langRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId);
-                int checkedIndex = langRadioGroup.indexOfChild(checkedRadioButton);
-
-                preferencesIO.putInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, checkedIndex);
-            }
-        });
         themeSwitch = (Switch) findViewById(R.id.theme_switch);
         themeSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
@@ -45,6 +37,53 @@ public class Settings extends AppCompatActivity {
                 preferencesIO.putBoolean(PreferencesIO.IS_NIGHT_MODE, b);
             }
         });
+
+
+        langRadioGroup = findViewById(R.id.lang_selection);
+        langRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId);
+                int checkedIndex = langRadioGroup.indexOfChild(checkedRadioButton);
+
+                preferencesIO.putInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, checkedIndex);
+            }
+        });
+
+
+        vibeSelection = findViewById(R.id.vibe_selection);
+        vibeSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId2) {
+                RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId2);
+                int checkedIndex2 = langRadioGroup.indexOfChild(checkedRadioButton);
+
+                preferencesIO.putInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, checkedIndex2);
+
+
+                switch (checkedId2) {
+                    case R.id.vibe_max:
+                        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe.vibrate(500);
+                    case R.id.vibe_high:
+                        Vibrator vibe2 = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe2.vibrate(250);
+                    case R.id.vibe_normal:
+                        Vibrator vibe3 = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe3.vibrate(100);
+                    case R.id.vibe_low:
+                        Vibrator vibe4 = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe4.vibrate(50);
+                    case R.id.vibe_none:
+                        Vibrator vibe5 = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe5.vibrate(0);
+                    default:
+                        Vibrator vibe0 = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        vibe0.vibrate(100);
+                }
+            }
+        });
+
 
         /*viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

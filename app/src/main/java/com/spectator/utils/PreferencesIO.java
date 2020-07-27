@@ -10,6 +10,7 @@ public class PreferencesIO {
     public static final String MY_SETTINGS = "Settings";
     public static final String IS_FIRST_TIME = "Is first time";
     public static final String LANG_RADIOBUTTON_INDEX = "Saved language button index";
+    public static final String VIBE_RADIOBUTTON_INDEX = "Saved vibration button index";
     public static final String IS_NIGHT_MODE = "Night mode";
     public static final String WALLPAPERS_INDEX = "Wallpaper";
     public final static String TEXT_RADIOBUTTON_INDEX = "Text size button index";

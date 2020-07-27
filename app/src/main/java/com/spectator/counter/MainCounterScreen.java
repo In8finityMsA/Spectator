@@ -143,7 +143,7 @@ public class MainCounterScreen extends AppCompatActivity {
 
 
                 Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibe.vibrate(10);
+                vibe.vibrate(500);
 
 
                 //Creating new voter

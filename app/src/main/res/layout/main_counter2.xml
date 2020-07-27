@@ -138,7 +138,7 @@
     <com.spectator.counter.VerticalViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:clickable="true"
@@ -156,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="72dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

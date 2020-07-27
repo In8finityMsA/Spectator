@@ -4,13 +4,11 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.spectator.utils.PreferencesIO;
 
 import static com.spectator.utils.PreferencesIO.IS_NIGHT_MODE;
-import static com.spectator.utils.PreferencesIO.MY_SETTINGS;
 
 public class Spectator extends Application {
 
@@ -19,6 +17,7 @@ public class Spectator extends Application {
 
     @Override
     public void onCreate() {
+
         super.onCreate();
 
         preferencesIO = new PreferencesIO(this);
@@ -48,6 +47,5 @@ public class Spectator extends Application {
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
     }
 }
