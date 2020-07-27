@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.spectator.BaseActivity;
 import com.spectator.data.Day;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
@@ -25,7 +26,7 @@ import com.spectator.R;
 
 import java.util.ArrayList;
 
-public class Menu extends AppCompatActivity {
+public class Menu extends BaseActivity {
 
     private TextView addNew;
     private TextView todayDate;

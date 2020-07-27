@@ -8,35 +8,33 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.spectator.utils.PreferencesIO;
 
-import static com.spectator.utils.PreferencesIO.IS_NIGHT_MODE;
-
 public class Spectator extends Application {
 
     private PreferencesIO preferencesIO;
-    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private SharedPreferences.OnSharedPreferenceChangeListener nightListener;
 
     @Override
     public void onCreate() {
-
         super.onCreate();
 
         preferencesIO = new PreferencesIO(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode());
 
-        boolean isNightMode = preferencesIO.getBoolean(IS_NIGHT_MODE, false);
+        boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, true);
         setNightTheme(isNightMode);
 
-        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        nightListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                Log.e("OnSharedChange", s);
-                if (s.equals(IS_NIGHT_MODE)) {
-                    boolean isNightMode = sharedPreferences.getBoolean(s, false);
+                Log.e("OnSharedChangeSpectator", s);
+                if (s.equals(PreferencesIO.IS_NIGHT_MODE)) {
+                    boolean isNightMode = sharedPreferences.getBoolean(s, true);
                     setNightTheme(isNightMode);
                 }
             }
         };
-        preferencesIO.setOnChangeListener(listener);
+        preferencesIO.setOnChangeListener(nightListener);
+
     }
 
     private void setNightTheme(boolean isNightMode) {

@@ -3,6 +3,7 @@ package com.spectator.menu;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,14 +12,14 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spectator.BaseActivity;
 import com.spectator.R;
 import com.spectator.utils.PreferencesIO;
 
-public class Settings extends AppCompatActivity {
+public class Settings extends BaseActivity {
 
     private RadioGroup langRadioGroup;
     private Switch themeSwitch;
-    private ViewPager viewPager;
     private RadioGroup textRadioGroup;
     private PreferencesIO preferencesIO;
     private RadioGroup vibeSelection;
@@ -28,9 +29,12 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         preferencesIO = new PreferencesIO(this);
-
-
         themeSwitch = (Switch) findViewById(R.id.theme_switch);
+        langRadioGroup = findViewById(R.id.lang_selection);
+        vibeSelection = findViewById(R.id.vibe_selection);
+
+        LoadPreferences();
+
         themeSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -38,25 +42,25 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-
-        langRadioGroup = findViewById(R.id.lang_selection);
         langRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                Log.e("CheckedChange", "changed");
                 RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId);
                 int checkedIndex = langRadioGroup.indexOfChild(checkedRadioButton);
 
                 preferencesIO.putInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, checkedIndex);
+                preferencesIO.putBoolean(PreferencesIO.IS_RECREATE_START, true);
+                recreate();
             }
         });
 
-
-        vibeSelection = findViewById(R.id.vibe_selection);
         vibeSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId2) {
-                RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId2);
-                int checkedIndex2 = langRadioGroup.indexOfChild(checkedRadioButton);
+                RadioButton checkedRadioButton = (RadioButton) vibeSelection.findViewById(checkedId2);
+                int checkedIndex2 = vibeSelection.indexOfChild(checkedRadioButton);
 
                 preferencesIO.putInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, checkedIndex2);
 
@@ -85,23 +89,6 @@ public class Settings extends AppCompatActivity {
         });
 
 
-        /*viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                SavePreferences(WALLPAPERS_INDEX, position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
         /*textRadioGroup = findViewById(R.id.text_selection);
         textRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -114,8 +101,6 @@ public class Settings extends AppCompatActivity {
             }
         });*/
 
-        LoadPreferences();
-
     }
 
     private void LoadPreferences() {
@@ -123,10 +108,12 @@ public class Settings extends AppCompatActivity {
         RadioButton langCheckedRadioButton = (RadioButton) langRadioGroup.getChildAt(savedLangIndex);
         langCheckedRadioButton.setChecked(true);
 
-        boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, false);
+        boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, true);
         themeSwitch.setChecked(isNightMode);
-        /*int wallpapersIndex = sp.getInt(WALLPAPERS_INDEX, 0);
-        viewPager.setCurrentItem(wallpapersIndex);*/
+
+        int savedVibeIndex = preferencesIO.getInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, 2);
+        RadioButton vibeCheckedRadioButton = (RadioButton) vibeSelection.getChildAt(savedVibeIndex);
+        vibeCheckedRadioButton.setChecked(true);
         /*int savedTextIndex = sp.getInt(LANG_RADIOBUTTON_INDEX, 0);
         RadioButton textCheckedRadioButton = (RadioButton) textRadioGroup.getChildAt(savedTextIndex);
         textCheckedRadioButton.setChecked(true);*/

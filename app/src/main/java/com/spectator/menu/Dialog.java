@@ -9,13 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.spectator.BaseActivity;
 import com.spectator.counter.MainCounterScreen;
 import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
 import com.spectator.data.Day;
 import com.spectator.utils.JsonIO;
 
-public class Dialog extends AppCompatActivity {
+public class Dialog extends BaseActivity {
 
     private TextView noButton;
     private TextView yesButton;

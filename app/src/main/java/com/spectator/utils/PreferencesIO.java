@@ -12,6 +12,7 @@ public class PreferencesIO {
     public static final String LANG_RADIOBUTTON_INDEX = "Saved language button index";
     public static final String VIBE_RADIOBUTTON_INDEX = "Saved vibration button index";
     public static final String IS_NIGHT_MODE = "Night mode";
+    public static final String IS_RECREATE_START = "Recreate start activity";
     public static final String WALLPAPERS_INDEX = "Wallpaper";
     public final static String TEXT_RADIOBUTTON_INDEX = "Text size button index";
 
@@ -46,6 +47,11 @@ public class PreferencesIO {
         //Needed because listener can be garbage collected
         this.listener = listener;
         sp.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void deleteOnChangeListener() {
+        sp.unregisterOnSharedPreferenceChangeListener(listener);
+        this.listener = null;
     }
 
 }

@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.spectator.BaseActivity;
 import com.spectator.R;
 import com.spectator.utils.UniversalPagerAdapter;
 
-public class Details extends AppCompatActivity {
+public class Details extends BaseActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

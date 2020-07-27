@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spectator.BaseActivity;
 import com.spectator.R;
 import com.spectator.data.Day;
 import com.spectator.data.Hour;
@@ -34,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainCounterScreen extends AppCompatActivity {
+public class MainCounterScreen extends BaseActivity {
 
     private TextView voteButton;
     private LinearLayout deleteLastButton;
@@ -278,8 +279,6 @@ public class MainCounterScreen extends AppCompatActivity {
     }
 
     private void onDoneClick() {
-        Intent intent = new Intent(getApplicationContext(), Start.class);
-        startActivity(intent);
         finish();
     }
 

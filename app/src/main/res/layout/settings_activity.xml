@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background">
@@ -58,7 +59,8 @@
                 android:text="Use Dark Mode"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:checked="true" />
 
             <ImageView
                 android:id="@+id/separator2"
@@ -100,7 +102,7 @@
                         android:checked="true"
                         android:layoutDirection="rtl"
                         android:text="English"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
@@ -112,7 +114,7 @@
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
                         android:text="Russian"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -121,11 +123,11 @@
                         android:id="@+id/lang_by"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
                         android:buttonTint="@color/white"
+                        android:gravity="start"
                         android:layoutDirection="rtl"
                         android:text="Belarusian"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
                 </RadioGroup>
@@ -171,7 +173,7 @@
                         android:checked="false"
                         android:layoutDirection="rtl"
                         android:text="Maximum"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
@@ -183,7 +185,7 @@
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
                         android:text="High"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -197,7 +199,7 @@
                         android:checked="true"
                         android:layoutDirection="rtl"
                         android:text="Normal"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
@@ -209,7 +211,7 @@
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
                         android:text="Low"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 
@@ -221,7 +223,7 @@
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
                         android:text="None"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
                 </RadioGroup>
