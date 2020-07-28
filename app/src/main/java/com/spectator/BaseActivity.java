@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.spectator.utils.PreferencesIO;
 
@@ -15,33 +16,37 @@ import java.util.Locale;
 public class BaseActivity extends AppCompatActivity {
 
     private PreferencesIO preferencesIO;
-    private SharedPreferences.OnSharedPreferenceChangeListener langListener;
+    private SharedPreferences.OnSharedPreferenceChangeListener nightListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         preferencesIO = new PreferencesIO(this);
+
+        boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, true);
+        setNightTheme(isNightMode);
+
         int localeIndex = preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 0);
         setLocale(localeIndex);
 
-        /*langListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        nightListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                Log.e("OnSharedChangeBase", s);
+                Log.e("OnSharedChangeBaseNight", s);
+                Log.e(getLocalClassName(), "class");
                 if (s.equals(PreferencesIO.IS_NIGHT_MODE)) {
-                    int langIndex = sharedPreferences.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 0);
-                    setLocale(langIndex);
+                    boolean isNightMode = sharedPreferences.getBoolean(s, true);
+                    setNightTheme(isNightMode);
                 }
             }
         };
-        preferencesIO.setOnChangeListener(langListener);*/
-        //preferencesIO.deleteOnChangeListener();
+        preferencesIO.setOnChangeListener(nightListener);
+
     }
 
-    private void setLocale(int localeIndex){
+    private void setLocale(int localeIndex) {
         Locale locale;
-        Log.e("setLocale", String.valueOf(localeIndex));
+        //Log.e("setLocale", String.valueOf(localeIndex));
         switch (localeIndex) {
             case 0:
                 locale = new Locale("en");
@@ -56,9 +61,24 @@ public class BaseActivity extends AppCompatActivity {
                 locale = new Locale("en");
         }
         Locale.setDefault(locale);
-        Configuration config = getBaseContext().getResources().getConfiguration();
+        Configuration config = this.getResources().getConfiguration();
         config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+        this.getResources().updateConfiguration(config,
+                this.getResources().getDisplayMetrics());
+        Log.e("setLocale", getLocale().toString());
+    }
+
+    private Locale getLocale() {
+        return this.getResources().getConfiguration().locale;
+    }
+
+    private void setNightTheme(boolean isNightMode) {
+        Log.e("Night", String.valueOf(isNightMode));
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

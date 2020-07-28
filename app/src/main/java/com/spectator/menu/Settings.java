@@ -46,7 +46,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                Log.e("CheckedChange", "changed");
+                Log.e("SettingsCheckedChange", "language changed");
                 RadioButton checkedRadioButton = (RadioButton) langRadioGroup.findViewById(checkedId);
                 int checkedIndex = langRadioGroup.indexOfChild(checkedRadioButton);
 
