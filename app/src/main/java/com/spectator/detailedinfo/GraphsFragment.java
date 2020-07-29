@@ -1,42 +1,42 @@
 package com.spectator.detailedinfo;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.spectator.R;
 import com.spectator.data.Hour;
 import com.spectator.utils.JsonIO;
-import com.spectator.utils.ObjectWrapperForBinder;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GraphsFragment extends Fragment {
 
+    String date;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.hour_analysis_fragment, container, false);
+        View view = inflater.inflate(R.layout.graphs_fragment, container, false);
 
         return view;
 
@@ -54,13 +54,22 @@ public class GraphsFragment extends Fragment {
         }
         else {
             Log.i("GraphsExtras", "not null");
-            hourlyJsonPath = extras.getString("hourlyJsonPath");
+            date = extras.getString("date");
         }
+
+        TextView exportData = (TextView) view.findViewById(R.id.export_data);
+
+        exportData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exportData();
+            }
+        });
 
         ArrayList<Hour> hours = new ArrayList<>();
         ArrayList<BarEntry> voters = new ArrayList<>();
 
-        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), hourlyJsonPath, Hour.ARRAY_KEY, false);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), date + ".hourly.json", Hour.ARRAY_KEY, false);
         hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys);
 
         settingValues(hours, voters);
@@ -115,6 +124,18 @@ public class GraphsFragment extends Fragment {
         bardataset.setColors(ColorTemplate.rgb("#0037EF"));
         barChart.setData(data);
 
+    }
+
+    private void exportData() {
+        File file = new File(getContext().getFilesDir(), date + ".json");
+        Uri uri = FileProvider.getUriForFile(getContext(), "com.spectator.fileProvider", file);
+
+        Intent exportingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        exportingIntent.setType("application/json");
+        exportingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, date + " day voters list");
+        exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(exportingIntent, "Export via"));
     }
 
     private void settingValues(ArrayList<Hour> hours, ArrayList<BarEntry> voters) {

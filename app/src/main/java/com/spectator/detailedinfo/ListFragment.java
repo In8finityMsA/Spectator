@@ -49,12 +49,12 @@ public class ListFragment extends Fragment {
 
         Bundle extras = getArguments();
         if (extras == null) {
-            Log.e("extras", "null");
+            Log.e("ListExtras", "null");
             totally = 0;
 
         }
         else {
-            Log.i("extras", "not null");
+            Log.i("ListExtras", "not null");
             totally = extras.getInt("total");
             voters = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData();
         }
@@ -76,7 +76,7 @@ public class ListFragment extends Fragment {
             daily++;
         }
         thisDay.setText(String.valueOf(daily));
-        total.setText(String.valueOf(daily));
+        total.setText(String.valueOf(totally));
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
@@ -127,6 +127,7 @@ public class ListFragment extends Fragment {
                 hourly++;
             }
             else {
+                Log.e("hourly", String.valueOf(hourly));
                 break;
             }
         }

@@ -1,6 +1,7 @@
 package com.spectator;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,26 +22,11 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         preferencesIO = new PreferencesIO(this);
-
-        boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, true);
-        setNightTheme(isNightMode);
-
         int localeIndex = preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 0);
         setLocale(localeIndex);
-
-        nightListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                Log.e("OnSharedChangeBaseNight", s);
-                Log.e(getLocalClassName(), "class");
-                if (s.equals(PreferencesIO.IS_NIGHT_MODE)) {
-                    boolean isNightMode = sharedPreferences.getBoolean(s, true);
-                    setNightTheme(isNightMode);
-                }
-            }
-        };
-        preferencesIO.setOnChangeListener(nightListener);
 
     }
 
@@ -70,15 +56,5 @@ public class BaseActivity extends AppCompatActivity {
 
     private Locale getLocale() {
         return this.getResources().getConfiguration().locale;
-    }
-
-    private void setNightTheme(boolean isNightMode) {
-        Log.e("Night", String.valueOf(isNightMode));
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 }

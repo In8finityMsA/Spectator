@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:text="@string/yik_number"
+                android:text="@string/yik_placeholder"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
