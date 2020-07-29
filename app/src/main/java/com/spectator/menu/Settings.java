@@ -80,7 +80,6 @@ public class Settings extends BaseActivity {
                             vibe.vibrate(50);
                             break;
                         case R.id.vibe_none:
-                            vibe.vibrate(0);
                             break;
                         default:
                             vibe.vibrate(100);
@@ -106,7 +105,7 @@ public class Settings extends BaseActivity {
     }
 
     private void LoadPreferences() {
-        int savedLangIndex = preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 0);
+        int savedLangIndex = preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1);
         RadioButton langCheckedRadioButton = (RadioButton) langRadioGroup.getChildAt(savedLangIndex);
         langCheckedRadioButton.setChecked(true);
 
@@ -116,7 +115,7 @@ public class Settings extends BaseActivity {
         int savedVibeIndex = preferencesIO.getInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, 2);
         RadioButton vibeCheckedRadioButton = (RadioButton) vibeSelection.getChildAt(savedVibeIndex);
         vibeCheckedRadioButton.setChecked(true);
-        /*int savedTextIndex = sp.getInt(LANG_RADIOBUTTON_INDEX, 0);
+        /*int savedTextIndex = sp.getInt(TEXT_RADIOBUTTON_INDEX, 0);
         RadioButton textCheckedRadioButton = (RadioButton) textRadioGroup.getChildAt(savedTextIndex);
         textCheckedRadioButton.setChecked(true);*/
     }

@@ -13,7 +13,7 @@ public class PreferencesIO {
     public static final String VIBE_RADIOBUTTON_INDEX = "Saved vibration button index";
     public static final String IS_NIGHT_MODE = "Night mode";
     public static final String IS_RECREATE_START = "Recreate start activity";
-    public static final String WALLPAPERS_INDEX = "Wallpaper";
+    public static final String YIK_NUMBER = "Number of yik";
     public final static String TEXT_RADIOBUTTON_INDEX = "Text size button index";
 
     private SharedPreferences sp;
@@ -23,12 +23,16 @@ public class PreferencesIO {
         sp = context.getSharedPreferences(MY_SETTINGS, MODE_PRIVATE);
     }
 
-    public int getInt(String key, int value) {
-        return sp.getInt(key, value);
+    public int getInt(String key, int defaultValue) {
+        return sp.getInt(key, defaultValue);
     }
 
-    public boolean getBoolean(String key, boolean value) {
-        return sp.getBoolean(key, value);
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return sp.getBoolean(key, defaultValue);
+    }
+
+    public String getString(String key, String defaultValue) {
+        return sp.getString(key, defaultValue);
     }
 
     public void putInt(String key, int value) {
@@ -43,6 +47,13 @@ public class PreferencesIO {
         editor.apply();
     }
 
+    public void putString(String key, String value) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    /**be careful, now it supports only one listener!**/
     public void setOnChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         //Needed because listener can be garbage collected
         this.listener = listener;

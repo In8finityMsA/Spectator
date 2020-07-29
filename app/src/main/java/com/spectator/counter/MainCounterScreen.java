@@ -2,28 +2,29 @@ package com.spectator.counter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.spectator.BaseActivity;
 import com.spectator.R;
+import com.spectator.data.Comment;
 import com.spectator.data.Day;
 import com.spectator.data.Hour;
 import com.spectator.data.Voter;
 import com.spectator.detailedinfo.Details;
-import com.spectator.menu.Start;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
@@ -42,12 +43,6 @@ public class MainCounterScreen extends BaseActivity {
     private PreferencesIO preferencesIO;
     private LinearLayout deleteLastButton;
     private LinearLayout markLastButton;
-    private LinearLayout detailedInfo;
-    private LinearLayout done;
-    private ImageView doneIcon;
-    private TextView doneLabel;
-    private ImageView infoIcon;
-    private TextView infoLabel;
     private int totally;
     private int daily = 0;
     private int hourly = 0;
@@ -87,16 +82,24 @@ public class MainCounterScreen extends BaseActivity {
             daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
         }
 
+        preferencesIO = new PreferencesIO(this);
+
         voteButton = (TextView) findViewById(R.id.count);
         deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
         markLastButton = (LinearLayout) findViewById(R.id.mark_button);
-        detailedInfo = (LinearLayout) findViewById(R.id.info_button);
-        done = (LinearLayout) findViewById(R.id.finish_button);
-        doneIcon = (ImageView) findViewById(R.id.finish_icon);
-        doneLabel = (TextView) findViewById(R.id.finish_label);
-        infoIcon = (ImageView) findViewById(R.id.info_icon);
-        infoLabel = (TextView) findViewById(R.id.info_label);
+        LinearLayout detailedInfo = (LinearLayout) findViewById(R.id.info_button);
+        LinearLayout done = (LinearLayout) findViewById(R.id.finish_button);
+        ImageView doneIcon = (ImageView) findViewById(R.id.finish_icon);
+        TextView doneLabel = (TextView) findViewById(R.id.finish_label);
+        ImageView infoIcon = (ImageView) findViewById(R.id.info_icon);
+        TextView infoLabel = (TextView) findViewById(R.id.info_label);
 
+        final TextView yikNumber = (TextView) findViewById(R.id.precinct_id);
+        String yikText = preferencesIO.getString(PreferencesIO.YIK_NUMBER, getString(R.string.yik_placeholder));
+        if (!yikText.equals(getString(R.string.yik_placeholder))) {
+            yikText = getString(R.string.yik_prefix) + yikText;
+        }
+        yikNumber.setText(yikText);
         TextView electionStatus = (TextView) findViewById(R.id.election_status);
         electionStatus.setText(date);
 
@@ -139,7 +142,6 @@ public class MainCounterScreen extends BaseActivity {
         };
 
         //Vote button function
-        preferencesIO = new PreferencesIO(this);
         voteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -163,7 +165,6 @@ public class MainCounterScreen extends BaseActivity {
                             vibe.vibrate(50);
                             break;
                         case 4:
-                            vibe.vibrate(0);
                             break;
                         default:
                             vibe.vibrate(100);
@@ -254,6 +255,39 @@ public class MainCounterScreen extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditTextDialog.class);
+                final Bundle bundle = new Bundle();
+                bundle.putBinder(EditTextDialog.jsonIOExtras, new ObjectWrapperForBinder(new JsonIO(getFilesDir(), Comment.COMMENTS_PATH, Comment.ARRAY_KEY, JsonIO.MODE.WRITE_ONLY_EOF, false)));
+                bundle.putString(EditTextDialog.textHintExtras, getString(R.string.comment_hint));
+                bundle.putInt(EditTextDialog.textInputTypeExtras, InputType.TYPE_CLASS_TEXT);
+                bundle.putInt(EditTextDialog.textMaxLengthExtras, 500);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        yikNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), EditTextDialog.class);
+                final Bundle bundle = new Bundle();
+                bundle.putBinder(EditTextDialog.preferencesIOExtras, new ObjectWrapperForBinder(preferencesIO));
+                bundle.putString(EditTextDialog.preferencesKeyExtras, PreferencesIO.YIK_NUMBER);
+                bundle.putString(EditTextDialog.textHintExtras, getString(R.string.yik_hint));
+                bundle.putInt(EditTextDialog.textInputTypeExtras, InputType.TYPE_CLASS_NUMBER);
+                bundle.putInt(EditTextDialog.textMaxLengthExtras, 4);
+                intent.putExtras(bundle);
+                preferencesIO.setOnChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    @Override
+                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                        if (s.equals(PreferencesIO.YIK_NUMBER)) {
+                            String yikText = preferencesIO.getString(PreferencesIO.YIK_NUMBER, getString(R.string.yik_placeholder));
+                            if (!yikText.equals(getString(R.string.yik_placeholder))) {
+                                yikText = getString(R.string.yik_prefix) + yikText;
+                            }
+                            yikNumber.setText(yikText);
+                        }
+                    }
+                });
                 startActivity(intent);
             }
         });
@@ -312,7 +346,7 @@ public class MainCounterScreen extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
         bundle.putInt("total", totally);
-        bundle.putString("hourlyJsonPath", hourlyJsonPath);
+        bundle.putString("date", date);
         intent.putExtras(bundle);
         startActivity(intent);
     }

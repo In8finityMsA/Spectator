@@ -55,9 +55,16 @@ public class Menu extends BaseActivity {
         addNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Dialog.class);
+                Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
+
+                //Creating new Day record and writing it to the file
+                Day newDay = new Day(System.currentTimeMillis(), 0);
+                daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
+
+                //Passing date, total votes and daysJsonIO to Voting Activity
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
+                bundle.putString("date", newDay.getFormattedDate());
                 bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);

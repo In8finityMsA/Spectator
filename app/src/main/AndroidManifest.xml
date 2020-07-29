@@ -12,6 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.spectator.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <activity android:name=".menu.Start" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,11 +41,6 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".menu.Dialog"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="portrait" />
-    </application>
 
+    </application>
 </manifest>

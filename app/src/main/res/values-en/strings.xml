@@ -17,7 +17,9 @@
     <string name="count">Count</string>
     <string name="delete_last">Delete Last</string>
     <string name="done">Done</string>
-    <string name="yik_number">YIK number</string>
+    <string name="yik_placeholder">PEC number</string>
+    <string name="yik_hint">Enter your PEC number</string>
+    <string name="yik_prefix">PEC №</string>
     <string name="status_2">Primary election day</string>
     <string name="comment_hint">Enter your comment</string>
     <string name="info">Info</string>

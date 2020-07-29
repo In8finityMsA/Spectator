@@ -1,5 +1,7 @@
 package com.spectator.utils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.spectator.data.JsonObjectConvertable;
@@ -25,10 +27,12 @@ public class JsonIO {
     private JSONObject jsonFile;
     private String mainArrayKey;
     private MODE mode;
+    private boolean isInit = false;
 
     public JsonIO(File dir, String path, String mainArrayKey, boolean isInitNow) {
         this.file = new File(dir, path);
         this.mainArrayKey = mainArrayKey;
+        this.mode = MODE.READ_WRITE;
         if (isInitNow) {
             init();
         }
@@ -37,10 +41,10 @@ public class JsonIO {
     public JsonIO(File dir, String path, String mainArrayKey, MODE mode, boolean isInitNow) {
         this.file = new File(dir, path);
         this.mainArrayKey = mainArrayKey;
+        this.mode = mode;
         if (isInitNow) {
             init();
         }
-        this.mode = mode;
     }
 
     //temp method
@@ -49,27 +53,36 @@ public class JsonIO {
         for (int i = 0; i < newList.size(); i++) {
             addObjectToJSON(newList.get(i).toJSONObject(), mainArrayKey);
         }
-        writeToFile();
+        writeToFile(jsonFile);
 
     }
 
     public void init() {
-        read();
+        if (mode == MODE.WRITE_ONLY_EOF) {
+            checkFileExistence();
+        }
+        else {
+            read();
+        }
+        isInit = true;
+    }
+
+    private void checkFileExistence() {
+        if (!file.exists()) {
+            writeToFile(createJSONObject(mainArrayKey));
+        }
     }
 
     private JSONObject read() {
-        if (!file.exists()) {
-            jsonFile = createJSONObject(mainArrayKey);
-            writeToFile();
-        }
+        checkFileExistence();
         try {
             jsonFile = new JSONObject(readJSONFromFile());
             return jsonFile;
         } catch (JSONException e) {
             //Potential data loss
             e.printStackTrace();
-            jsonFile = createJSONObject(mainArrayKey);
-            writeToFile();
+            Log.e("JsonIO error", "Json file read error, recreating json.");
+            writeToFile(createJSONObject(mainArrayKey));
             return read();
         }
     }
@@ -119,11 +132,10 @@ public class JsonIO {
     }
 
     //Writing a whole JSON Object to a file
-    private void writeToFile() {
-        if (jsonFile != null) {
-            try (FileWriter fileWriter = new FileWriter(file);
-                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-                bufferedWriter.write(jsonFile.toString(1));
+    private void writeToFile(JSONObject jsonObject) {
+        if (jsonObject != null) {
+            try (FileWriter fileWriter = new FileWriter(file); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                bufferedWriter.write(jsonObject.toString(1));
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -135,23 +147,62 @@ public class JsonIO {
         //Adding an input Object to the Object which represents the whole JSON file. For other methods working purposes
         if (object != null) {
             //TODO: make mode check in every method!
+            if (!isInit) {
+                init();
+            }
             if (mode != MODE.WRITE_ONLY_EOF) {
                 addObjectToJSON(object, mainArrayKey);
             }
 
             StringBuilder stringBuilder = new StringBuilder();
-            try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");) {
+            try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw")) {
 
-                randomAccessFile.seek(randomAccessFile.length() - 4);
-                if ((char) randomAccessFile.read() != '[')
-                    stringBuilder.append(",");
-                randomAccessFile.seek(randomAccessFile.length() - 3);
+                long position = randomAccessFile.length() - 1;
+                long writePosition = -1;
+                if (position < 0)
+                    writePosition = 0;
+                boolean wasFileCloseBracket = false;
+                boolean wasArrayCloseBracket = false;
+                char readChar;
+                while (position >= 0) {
+                    randomAccessFile.seek(position);
+                    readChar = (char) randomAccessFile.read();
+                    Log.i("Write to the end", "position: " + position + ", char: " + readChar);
+                    if (readChar == '}' && wasFileCloseBracket) {
+                        writePosition = position + 1;
+                        stringBuilder.append(",");
+                        break;
+                    }
+                    else if (readChar == '}' && !wasFileCloseBracket) {
+                        wasFileCloseBracket = true;
+                        position--;
+                    }
+                    else if (readChar == ']' && !wasArrayCloseBracket) {
+                        wasArrayCloseBracket = true;
+                        position--;
+                    }
+                    else if(readChar == '[' && wasArrayCloseBracket) {
+                        writePosition = position + 1;
+                        break;
+                    }
+                    else if (readChar == ' ' || readChar == '\n') {
+                        position--;
+                    }
+                }
 
-                stringBuilder.append("\n");
-                stringBuilder.append(object.toString(1));
-                stringBuilder.append("\n]\n}");
+                Log.i("Write to the end", "length: " + randomAccessFile.length() + ", writePosition: " + writePosition);
+                if (writePosition >= 0) {
+                    stringBuilder.append("\n");
+                    stringBuilder.append(object.toString(1));
+                    stringBuilder.append("\n]\n}");
 
-                randomAccessFile.write(stringBuilder.toString().getBytes());
+                    randomAccessFile.seek(writePosition);
+                    randomAccessFile.write(stringBuilder.toString().getBytes());
+                }
+                else {
+                    Log.e("JsonIO", "Write to the end of file error");
+                }
+
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -168,7 +219,7 @@ public class JsonIO {
             jsonArray = jsonFile.getJSONArray(arrayKey);
             if (index >= 0 && index < jsonArray.length()) {
                 jsonArray.put(index, newObject);
-                writeToFile();
+                writeToFile(jsonFile);
             }
             else {
                 throw new IllegalArgumentException();
@@ -188,7 +239,7 @@ public class JsonIO {
             JSONArray jsonArray = jsonFile.getJSONArray(arrayKey);
             int i = getIndexOfObject(oldObjectSearchKey, oldObjectSearchValue, arrayKey);
             jsonArray.put(i, newObject);
-            writeToFile();
+            writeToFile(jsonFile);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -265,7 +316,7 @@ public class JsonIO {
             if (jsonArray.length() > 0) {
                 jsonArray.remove(jsonArray.length() - 1);
             }
-            writeToFile();
+            writeToFile(jsonFile);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -305,6 +356,10 @@ public class JsonIO {
             e.printStackTrace();
         }
         return targetList;
+    }
+
+    public boolean isInit() {
+        return isInit;
     }
 
     public static class ObjectNotFoundException extends Throwable {
