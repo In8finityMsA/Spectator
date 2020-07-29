@@ -38,14 +38,14 @@
             android:background="@color/colorAccentDark"
             android:text="@string/cancel"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:contentDescription="@string/spacer"
             app:srcCompat="@drawable/line" />
 
@@ -58,7 +58,7 @@
             android:background="@color/colorAccentDark"
             android:text="@string/confirm"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

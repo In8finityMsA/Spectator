@@ -5,4 +5,5 @@
     <color name="colorAccentDark">#0071E3</color>
     <color name="colorBackgroundDark">#333333</color>
     <color name="colorButtonDark">#CC616161</color>
+    <color name="list">#595959</color>
 </resources>

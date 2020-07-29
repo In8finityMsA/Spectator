@@ -1,7 +1,6 @@
 package com.spectator.detailedinfo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.spectator.R;
 import com.spectator.data.Hour;
 import com.spectator.utils.JsonIO;
@@ -93,7 +91,7 @@ public class GraphsFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setCenterAxisLabels(true);
         xAxis.setTextSize(14);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(getResources().getColor(R.color.white));
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
         xAxis.setLabelCount(24);
@@ -101,12 +99,12 @@ public class GraphsFragment extends Fragment {
 
         //Setting yAxis. Start at 0; min step between labels is 1; label color white.
         YAxis yAxisLeft = barChart.getAxisLeft();
-        yAxisLeft.setTextColor(Color.WHITE);
+        yAxisLeft.setTextColor(getResources().getColor(R.color.white));
         yAxisLeft.setAxisMinimum(0f);
         yAxisLeft.setGranularity(1f);
         yAxisLeft.setTextSize(12);
         YAxis yAxisRight = barChart.getAxisRight();
-        yAxisRight.setTextColor(Color.WHITE);
+        yAxisRight.setTextColor(getResources().getColor(R.color.white));
         yAxisRight.setAxisMinimum(0f);
         yAxisRight.setGranularity(1f);
         yAxisRight.setEnabled(false);
@@ -117,11 +115,11 @@ public class GraphsFragment extends Fragment {
         BarData data = new BarData(bardataset);
         //Turning on values above bars and setting value formatter
         data.setDrawValues(true);
-        data.setValueTextColor(Color.WHITE);
-        data.setValueTextSize(10);
+        data.setValueTextColor(getResources().getColor(R.color.white));
+        data.setValueTextSize(18);
         data.setValueFormatter(new CustomValueFormatter());
         //Setting color of bars
-        bardataset.setColors(ColorTemplate.rgb("#0037EF"));
+        bardataset.setColors(getResources().getColor(R.color.colorAccentDark));
         barChart.setData(data);
 
     }

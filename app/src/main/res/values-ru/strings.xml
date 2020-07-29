@@ -33,7 +33,7 @@
     <string name="count">Добавить</string>
     <string name="cancel">Отменить</string>
     <string name="confirm">Подтвердить</string>
-    <string name="this_day">Сегодня</string>
+    <string name="this_day">Голосов за сегодня</string>
     <string name="time">Время</string>
     <string name="position">Номер</string>
     <string name="use_dark_mode">Использовать темную тему</string>

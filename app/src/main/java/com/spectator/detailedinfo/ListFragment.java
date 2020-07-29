@@ -99,7 +99,7 @@ public class ListFragment extends Fragment {
 
         //Making color contrast for neighbouring layouts
         if (isPrevWhite) {
-            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            linearLayout.setBackgroundColor(context.getResources().getColor(R.color.list));
             isPrevWhite = false;
         }
         else {
