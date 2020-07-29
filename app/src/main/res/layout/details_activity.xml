@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/details_headline"
         app:tabBackground="@color/colorPrimaryDark"
         app:tabIndicatorColor="@color/colorAccentDark"
-        app:tabIndicatorGravity="stretch"
+        app:tabIndicatorGravity="bottom"
         app:tabTextAppearance="@style/TextAppearance.AppCompat.Headline"
         app:tabTextColor="#FFFFFF"
         app:tabUnboundedRipple="false">

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Надзіральнік</string>
+    <string name="spectator">Надзіральнік</string>
+    <string name="title_activity_graphs">Графікі</string>
+    <string name="title_activity_details">Аналіз</string>
+    <string name="start_counting">Пачаць назіранне</string>
+    <string name="settings">Налады</string>
+    <string name="about_us">Пра нас</string>
+    <string name="last_hour">За апошнюю гадзіну</string>
+    <string name="grand_total">Усяго на УВК</string>
+    <string name="date">Сягодня 4 жніўня</string>
+    <string name="general_comments" translatable="false">" Ваш каментарый"</string>
+    <string name="status">Першы дзень датэрміновых выбараў</string>
+    <string name="add_new_day">+ Дадаць новы дзень</string>
+    <string name="mark_last">напісаць каментарый</string>
+    <string name="count">Дадаць</string>
+    <string name="delete_last">Выдаліць апошні</string>
+    <string name="done">Гатова</string>
+    <string name="yik_number">Нумар УВК</string>
+    <string name="status_2">Асноўны дзень выбараў</string>
+    <string name="comment_hint">Пакіньце ваш каментарый</string>
+    <string name="info">Інфа</string>
+    <string name="no">Так</string>
+    <string name="yes">Не</string>
+    <string name="details">Дэталі</string>
+    <string name="graphs">Графікі</string>
+    <string name="list">Спіс</string>
+    <string name="export_all_data">Экспарт усех даных</string>
+    <string name="export_this_graph">Экспарт гэтага графіка</string>
+    <string name="voted_today">Галасоў за сягодня</string>
+    <string name="down_arrow_right">down_arrow_right</string>
+    <string name="down_arrow_right_1">down_arrow_right_1</string>
+    <string name="down_arrow_left">down_arrow_left</string>
+    <string name="down_arrow_left_1">down_arrow_left_1</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="confirm">Пацвердзіць</string>
+    <string name="this_day">Сягодня</string>
+    <string name="time">Час</string>
+    <string name="position">Нумар</string>
+    <string name="use_dark_mode">Выкарыстоўваць Цемную тэму</string>
+    <string name="normal">Стандартная</string>
+    <string name="high">Высокая</string>
+    <string name="vibration">Вібрацыя</string>
+    <string name="language">Мова</string>
+    <string name="maximum">Максімальная</string>
+    <string name="none">Няма</string>
+    <string name="low">Нізкая</string>
+    <string name="english">Ангельская</string>
+    <string name="russian">Руская</string>
+    <string name="belarusian">Беларуская</string>
+</resources>

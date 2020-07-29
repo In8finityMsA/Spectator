@@ -14,10 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:ems="10"
+        android:gravity="start"
         android:hint="@string/comment_hint"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textIsSelectable="false"
         android:textSize="18sp" />
 
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorAccentDark"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -45,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:contentDescription="@string/spacer"
             app:srcCompat="@drawable/line" />
 
         <Button
@@ -54,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorAccentDark"
-            android:text="Confirm"
+            android:text="@string/confirm"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />

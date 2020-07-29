@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Use Dark Mode"
+                android:text="@string/use_dark_mode"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -66,6 +66,7 @@
                 android:id="@+id/separator2"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
+                android:contentDescription="@string/spacer"
                 app:srcCompat="@drawable/line" />
 
             <LinearLayout
@@ -80,7 +81,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:text="Language"
+                    android:text="@string/language"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -101,7 +102,7 @@
                         android:buttonTint="@color/white"
                         android:checked="true"
                         android:layoutDirection="rtl"
-                        android:text="English"
+                        android:text="@string/english"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -113,7 +114,7 @@
                         android:layout_gravity="start"
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
-                        android:text="Russian"
+                        android:text="@string/russian"
                         android:textAlignment="viewStart"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
@@ -126,7 +127,7 @@
                         android:buttonTint="@color/white"
                         android:gravity="start"
                         android:layoutDirection="rtl"
-                        android:text="Belarusian"
+                        android:text="@string/belarusian"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -137,6 +138,7 @@
                 android:id="@+id/separator3"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
+                android:contentDescription="@string/spacer"
                 app:srcCompat="@drawable/line" />
 
             <LinearLayout
@@ -151,7 +153,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:text="Vibration"
+                    android:text="@string/vibration"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -172,7 +174,7 @@
                         android:buttonTint="@color/white"
                         android:checked="false"
                         android:layoutDirection="rtl"
-                        android:text="Maximum"
+                        android:text="@string/maximum"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -184,7 +186,7 @@
                         android:layout_gravity="start"
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
-                        android:text="High"
+                        android:text="@string/high"
                         android:textAlignment="viewStart"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
@@ -198,7 +200,7 @@
                         android:buttonTint="@color/white"
                         android:checked="true"
                         android:layoutDirection="rtl"
-                        android:text="Normal"
+                        android:text="@string/normal"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -210,7 +212,7 @@
                         android:layout_gravity="start"
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
-                        android:text="Low"
+                        android:text="@string/low"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -222,7 +224,7 @@
                         android:layout_gravity="start"
                         android:buttonTint="@color/white"
                         android:layoutDirection="rtl"
-                        android:text="None"
+                        android:text="@string/none"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
@@ -233,6 +235,7 @@
                 android:id="@+id/separator4"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
+                android:contentDescription="@string/spacer"
                 app:srcCompat="@drawable/line" />
 
         </LinearLayout>

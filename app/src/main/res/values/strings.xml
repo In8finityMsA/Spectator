@@ -14,7 +14,7 @@
     <string name="date">Today is August 4</string>
     <string name="status">First day of preterm election</string>
     <string name="add_new_day">+ Add new day</string>
-    <string name="separator">separator</string>
+    <string name="separator" translatable="false">separator</string>
     <string name="mark_last">Mark last</string>
     <string name="count">Count</string>
     <string name="delete_last">Delete Last</string>
@@ -31,7 +31,7 @@
     <string name="yes">yes</string>
     <string name="number_of_votes" translatable="false">TextView</string>
     <string name="date2" translatable="false">TextView</string>
-    <string name="details" translatable="false">Details</string>
+    <string name="details">Details</string>
     <string name="graphs">Graphs</string>
     <string name="list">List</string>
     <string name="export_all_data">Export All data</string>
@@ -42,4 +42,22 @@
     <string name="down_arrow_right_1">down_arrow_right_1</string>
     <string name="down_arrow_left">down_arrow_left</string>
     <string name="down_arrow_left_1">down_arrow_left_1</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="spacer" translatable="false">spacer</string>
+    <string name="this_day">This day</string>
+    <string name="number" translatable="false">TextView</string>
+    <string name="time">Time</string>
+    <string name="position">Position</string>
+    <string name="use_dark_mode">Use Dark Mode</string>
+    <string name="normal">Normal</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="none">None</string>
+    <string name="maximum">Maximum</string>
+    <string name="language">Language</string>
+    <string name="vibration">Vibration</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="belarusian">Belarusian</string>
 </resources>

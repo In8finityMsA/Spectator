@@ -9,6 +9,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +28,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="Time"
+                android:text="@string/time"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -39,7 +40,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Position"
+                android:text="@string/position"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
@@ -68,9 +69,10 @@
 
     <LinearLayout
         android:id="@+id/interactive"
-        android:layout_width="413dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
         android:background="@color/colorAccentDark"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,6 +82,7 @@
             android:id="@+id/vote_stat"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -94,9 +97,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Last Hour"
+                    android:text="@string/last_hour"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -105,9 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/num"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -126,9 +127,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Grand Total"
+                    android:text="@string/grand_total"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
@@ -138,9 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/num"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -159,9 +158,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="This day"
+                    android:text="@string/this_day"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -170,9 +168,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/num"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />

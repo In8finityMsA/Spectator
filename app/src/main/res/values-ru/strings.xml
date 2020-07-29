@@ -4,7 +4,7 @@
     <string name="general_comments">Ваш комментарий</string>
     <string name="title_activity_details">Анализ</string>
     <string name="title_activity_graphs">График</string>
-    <string name="spectator">Наблюдать</string>
+    <string name="spectator">Наблюдатель</string>
     <string name="start_counting">Начать наблюдение</string>
     <string name="settings">Настройки</string>
     <string name="about_us">О нас</string>
@@ -13,17 +13,15 @@
     <string name="date">Сегодня 4 Августа</string>
     <string name="status">Первый день досрочных выборов</string>
     <string name="add_new_day">+ Добавить новый день</string>
-    <string name="separator">разделитель</string>
-    <string name="mark_last">Комментарий</string>
+    <string name="mark_last">Оставить Комментарий</string>
     <string name="comment_hint">Введите свой комментарий</string>
-    <string name="count">++</string>
     <string name="delete_last">Удалить последний</string>
     <string name="done">Готово</string>
     <string name="yik_number">Номер УИК</string>
     <string name="status_2">Основной день выборов</string>
     <string name="info">Инфо</string>
     <string name="no">Нет</string>
-    <string name="yes">да</string>
+    <string name="yes">Да</string>
     <string name="graphs">График</string>
     <string name="list">Список</string>
     <string name="export_all_data">Экспорт всех данных</string>
@@ -34,4 +32,21 @@
     <string name="down_arrow_left">down_arrow_left</string>
     <string name="down_arrow_left_1">down_arrow_left_1</string>
     <string name="details" translatable="false">Детали</string>
+    <string name="count">Добавить</string>
+    <string name="cancel">Отменить</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="this_day">Сегодня</string>
+    <string name="time">Время</string>
+    <string name="position">Номер</string>
+    <string name="use_dark_mode">Использовать темную тему</string>
+    <string name="normal">Стандартная</string>
+    <string name="high">Высокая</string>
+    <string name="low">Низкая</string>
+    <string name="none">Нет</string>
+    <string name="maximum">Максимальная</string>
+    <string name="language">Язык</string>
+    <string name="vibration">Вибрация</string>
+    <string name="english">Английский</string>
+    <string name="russian">Русский</string>
+    <string name="belarusian">Белорусский</string>
 </resources>
