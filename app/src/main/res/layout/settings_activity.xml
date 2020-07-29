@@ -127,7 +127,7 @@
                         android:buttonTint="@color/white"
                         android:gravity="start"
                         android:layoutDirection="rtl"
-                        android:text="@string/belarusian"
+                        android:text="@string/belorussian"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="24sp" />

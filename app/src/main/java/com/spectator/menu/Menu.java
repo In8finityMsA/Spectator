@@ -84,7 +84,7 @@ public class Menu extends BaseActivity {
         super.onResume();
         Log.e("Menu", "onResume");
         //TODO: make it on date change action
-        String str = "Сегодня:  " + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
+        String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
         todayDate.setText(str);
         electionsDay.setText(getElectionStage());
 
@@ -152,25 +152,25 @@ public class Menu extends BaseActivity {
         return (int) (dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private static String getElectionStage() {
+    private String getElectionStage() {
         String currentDate = DateFormatter.formatDate(System.currentTimeMillis());
         //Log.i("currentDate", currentDate);
 
         switch (currentDate) {
             case "04.08.2020":
-                return "Первый день досрочного голосования";
+                return getString(R.string.first_day);
             case "05.08.2020" :
-                return "Второй день досрочного голосования";
+                return getString(R.string.second_day);
             case "06.08.2020" :
-                return "Третий день досрочного голосования";
+                return getString(R.string.third_day);
             case "07.08.2020" :
-                return "Четвертый день досрочного голосования";
+                return getString(R.string.fourth_day);
             case "08.08.2020" :
-                return "Пятый день досрочного голосования";
+                return getString(R.string.fifth_day);
             case "09.08.2020" :
-                return "Основной день голосования";
+                return getString(R.string.primary_day);
             default:
-                return "Голосование проходит с 4 по 9 августа";
+                return getString(R.string.election_days);
         }
     }
 

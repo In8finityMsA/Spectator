@@ -12,8 +12,8 @@
     <string name="grand_total">Всего на участке</string>
     <string name="date">Сегодня 4 Августа</string>
     <string name="status">Первый день досрочных выборов</string>
-    <string name="add_new_day">+ Добавить новый день</string>
-    <string name="mark_last">Оставить Комментарий</string>
+    <string name="add_new_day">+ Начать новый день</string>
+    <string name="mark_last">Оставить комментарий</string>
     <string name="comment_hint">Введите свой комментарий</string>
     <string name="delete_last">Удалить последний</string>
     <string name="done">Готово</string>
@@ -29,10 +29,6 @@
     <string name="export_all_data">Экспорт всех данных</string>
     <string name="export_this_graph">Экспорт этого графика</string>
     <string name="voted_today">Голосов за сегодня</string>
-    <string name="down_arrow_right">down_arrow_right</string>
-    <string name="down_arrow_right_1">down_arrow_right_1</string>
-    <string name="down_arrow_left">down_arrow_left</string>
-    <string name="down_arrow_left_1">down_arrow_left_1</string>
     <string name="details" translatable="false">Детали</string>
     <string name="count">Добавить</string>
     <string name="cancel">Отменить</string>
@@ -50,5 +46,15 @@
     <string name="vibration">Вибрация</string>
     <string name="english">Английский</string>
     <string name="russian">Русский</string>
-    <string name="belarusian">Белорусский</string>
+    <string name="belorussian">Белорусский</string>
+    <string name="end_voting">День завершен</string>
+    <string name="first_day">Первый день досрочного голосования</string>
+    <string name="second_day">Второй день досрочного голосования</string>
+    <string name="third_day">Третий день досрочного голосования</string>
+    <string name="fourth_day">Четвертый день досрочного голосования</string>
+    <string name="fifth_day">Пятый день досрочного голосования</string>
+    <string name="primary_day">Основной день голосования</string>
+    <string name="election_days">Голосование проходит с 4 по 9 августа</string>
+    <string name="today">"Сегодня: "</string>
+    <string name="about_us_text">Мы создаем приложение для помощи наблюдателям на белорусских выборах. Наша цель - создать надежное и простое в использовании приложение, которое будет эффективно подсчитывать избирателей, пришедших на выборы.</string>
 </resources>

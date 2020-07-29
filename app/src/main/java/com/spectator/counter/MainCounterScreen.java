@@ -358,7 +358,7 @@ public class MainCounterScreen extends BaseActivity {
         //TODO: make it date change indifferent
         if (!date.equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
             voteButton.setClickable(false);
-            voteButton.setText("Voting ended");
+            voteButton.setText(R.string.end_voting);
             deleteLastButton.setClickable(false);
             markLastButton.setClickable(false);
             hourly = 0;

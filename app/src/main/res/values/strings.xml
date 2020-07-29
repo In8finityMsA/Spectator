@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Spectator</string>
-    <string name="general_comments">Write anything</string>
+    <string name="general_comments" translatable="false">Write anything</string>
     <string name="title_activity_graphs">Graphs</string>
     <string name="title_activity_details">Details</string>
     <string name="spectator">Spectator</string>
@@ -40,10 +40,10 @@
     <string name="export_this_graph">Export this graph</string>
     <string name="voted_today">Voted Today</string>
     <string name="num" translatable="false">0</string>
-    <string name="down_arrow_right">down_arrow_right</string>
-    <string name="down_arrow_right_1">down_arrow_right_1</string>
-    <string name="down_arrow_left">down_arrow_left</string>
-    <string name="down_arrow_left_1">down_arrow_left_1</string>
+    <string name="down_arrow_right" translatable="false">down_arrow_right</string>
+    <string name="down_arrow_right_1" translatable="false">down_arrow_right_1</string>
+    <string name="down_arrow_left" translatable="false">down_arrow_left</string>
+    <string name="down_arrow_left_1" translatable="false">down_arrow_left_1</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="spacer" translatable="false">spacer</string>
@@ -61,5 +61,15 @@
     <string name="vibration">Vibration</string>
     <string name="english">English</string>
     <string name="russian">Russian</string>
-    <string name="belarusian">Belarusian</string>
+    <string name="belorussian">Belorussian</string>
+    <string name="end_voting">Voting has ended</string>
+    <string name="today">"Today is: "</string>
+    <string name="first_day">First day of preterm elections</string>
+    <string name="second_day">"Second day of preterm "</string>
+    <string name="third_day">"Third day of preterm "</string>
+    <string name="fourth_day">"Fourth day of preterm "</string>
+    <string name="fifth_day">"Fifth day of preterm "</string>
+    <string name="primary_day">Primary elections day</string>
+    <string name="election_days">Elections are held from 4 to 9 of August</string>
+    <string name="about_us_text">We are creating an app to help spectators on the Belarussian elections. Our aim is to create reliable and easy-to-use app that will effectively count voters who came to the elections.</string>
 </resources>
