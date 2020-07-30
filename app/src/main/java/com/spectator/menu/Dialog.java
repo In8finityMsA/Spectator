@@ -55,7 +55,7 @@ public class Dialog extends BaseActivity {
         checkPresence = (CheckBox) findViewById(R.id.count_people);
         checkBands = (CheckBox) findViewById(R.id.count_bands);
 
-        final String date = DateFormatter.formatDate(System.currentTimeMillis(), "dd.MM.yy");
+        final String date = DateFormatter.formatDate(System.currentTimeMillis(), "dd.MM.yyyy");
         editName.setText(date);
         PreferencesIO preferencesIO = new PreferencesIO(this);
         editYikNumber.setText(preferencesIO.getString(PreferencesIO.YIK_NUMBER, ""));
@@ -92,6 +92,7 @@ public class Dialog extends BaseActivity {
                     //Passing date, total votes and daysJsonIO to Voting Activity
                     final Bundle bundle = new Bundle();
                     bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
+                    //bundle.putSerializable("day", newDay);
                     bundle.putString("date", newDay.getFormattedDate());
                     bundle.putInt("total", totally);
                     intent.putExtras(bundle);

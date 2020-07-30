@@ -5,10 +5,11 @@ import com.spectator.utils.DateFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Locale;
 
-public class Day implements JsonObjectConvertable {
+public class Day implements JsonObjectConvertable, Serializable {
 
     private String formattedDate;
     private int count;
@@ -25,6 +26,7 @@ public class Day implements JsonObjectConvertable {
     public static final Class[] constructorArgs1 = new Class[] {String.class, int.class};
     public static final String[] jsonKeys2 = new String[] {dateKey, countKey, bandsKey, modeKey};
     public static final Class[] constructorArgs2 = new Class[] {String.class, int.class, int.class, MODE.class};
+    public static final Object[] defValues = new Object[] {"01.01.1970", 0, 0, MODE.PRESENCE};
 
     public Day(String formattedDate, int count) {
         this.formattedDate = formattedDate;
@@ -38,7 +40,7 @@ public class Day implements JsonObjectConvertable {
     }
 
     public Day(long timestamp, int count) {
-        this(DateFormatter.formatDate(timestamp, "dd.MM.yy"), count);
+        this(DateFormatter.formatDate(timestamp, "dd.MM.yyyy"), count);
     }
 
     public int getCount() {
@@ -61,13 +63,23 @@ public class Day implements JsonObjectConvertable {
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {
+            if (mode == MODE.PRESENCE || mode == MODE.PRESENCE_BANDS)
             object.put(countKey, count);
+            if (mode == MODE.BANDS || mode == MODE.PRESENCE_BANDS) {
+                object.put(bandsKey, bands);
+            }
             object.put(dateKey, formattedDate);
             object.put(modeKey, mode);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return object;
+    }
+
+    @Override
+    public String toString() {
+        String str  = "Count: " + getCount() + "\nBands: " + getBands() + "\nDate: " + getFormattedDate() + "\nMode: " + getMode();
+        return str;
     }
 
     public enum MODE {

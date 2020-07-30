@@ -77,6 +77,8 @@ public class MainCounterScreen extends BaseActivity {
             Log.i("MainExtras", "not null");
             date = extras.getString("date");
             totally = extras.getInt("total");
+            //Day day = (Day) extras.getSerializable("day");
+            //Log.i("MainDay", day.toString());
             votersJsonPath = date + ".json";
             hourlyJsonPath = date + ".hourly.json";
             daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
