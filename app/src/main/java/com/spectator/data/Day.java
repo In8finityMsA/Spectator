@@ -14,7 +14,7 @@ public class Day implements JsonObjectConvertable, Serializable {
     private String formattedDate;
     private int count;
     private int bands;
-    private MODE mode;
+    private MODE mode = MODE.PRESENCE;
 
     public static final String DAYS_PATH = "days.json";
     public static final String ARRAY_KEY = "days";
@@ -31,11 +31,23 @@ public class Day implements JsonObjectConvertable, Serializable {
     public Day(String formattedDate, int count) {
         this.formattedDate = formattedDate;
         this.count = count;
-        this.mode = MODE.PRESENCE;
+    }
+
+    public Day(String formattedDate, int count, MODE mode) {
+        this(formattedDate, count);
+        this.bands = 0;
+        this.mode = mode;
+    }
+
+    public Day(String formattedDate, MODE mode, int bands) {
+        this.formattedDate = formattedDate;
+        this.bands = bands;
+        this.mode = mode;
     }
 
     public Day(String formattedDate, int count, int bands, MODE mode) {
         this(formattedDate, count);
+        this.bands = bands;
         this.mode = mode;
     }
 
