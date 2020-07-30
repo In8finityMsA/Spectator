@@ -167,7 +167,7 @@ public class JsonIO {
                 while (position >= 0) {
                     randomAccessFile.seek(position);
                     readChar = (char) randomAccessFile.read();
-                    Log.i("Write to the end", "position: " + position + ", char: " + readChar);
+                    //Log.i("Write to the end", "position: " + position + ", char: " + readChar);
                     if (readChar == '}' && wasFileCloseBracket) {
                         writePosition = position + 1;
                         stringBuilder.append(",");
@@ -190,7 +190,7 @@ public class JsonIO {
                     }
                 }
 
-                Log.i("Write to the end", "length: " + randomAccessFile.length() + ", writePosition: " + writePosition);
+                //Log.i("Write to the end", "length: " + randomAccessFile.length() + ", writePosition: " + writePosition);
                 if (writePosition >= 0) {
                     stringBuilder.append("\n");
                     stringBuilder.append(object.toString(1));

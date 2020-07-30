@@ -13,9 +13,9 @@
     <string name="date">Today is August 4</string>
     <string name="status">First day of preterm election</string>
     <string name="add_new_day">+ Add new day</string>
-    <string name="mark_last">Leave comment</string>
+    <string name="mark_last">Leave\ncomment</string>
     <string name="count">Count</string>
-    <string name="delete_last">Delete Last</string>
+    <string name="delete_last">Delete\nLast</string>
     <string name="done">Done</string>
     <string name="yik_placeholder">PEC number</string>
     <string name="yik_hint">Enter your PEC number</string>

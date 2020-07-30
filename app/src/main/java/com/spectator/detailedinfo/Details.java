@@ -21,7 +21,7 @@ public class Details extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new GraphsFragment(), new ListFragment()}, new String[] {"Graph", "List"}, extras);
+        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {new GraphsFragment(), new ListFragment()}, new String[] {getString(R.string.graphs), getString(R.string.list)}, extras);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(universalPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);

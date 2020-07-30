@@ -14,8 +14,8 @@
     <string name="status">Первый день досрочных выборов</string>
     <string name="add_new_day">+ Начать новый день</string>
     <string name="mark_last">Оставить комментарий</string>
-    <string name="comment_hint">Введите свой комментарий</string>
-    <string name="delete_last">Удалить последний</string>
+    <string name="comment_hint">Введите\nваш комментарий</string>
+    <string name="delete_last">Удалить\nпоследний</string>
     <string name="done">Готово</string>
     <string name="yik_placeholder">Номер УИК</string>
     <string name="yik_hint">Введите номер своего УИКа</string>

@@ -1,6 +1,5 @@
 package com.spectator.menu;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.spectator.BaseActivity;
 import com.spectator.data.Day;
 import com.spectator.utils.DateFormatter;
@@ -23,8 +20,10 @@ import com.spectator.utils.JsonIO;
 import com.spectator.counter.MainCounterScreen;
 import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
+import com.spectator.utils.PreferencesIO;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Menu extends BaseActivity {
 
@@ -33,6 +32,7 @@ public class Menu extends BaseActivity {
     private TextView electionsDay;
     private int totally;
     private JsonIO daysJsonIO;
+    private PreferencesIO preferencesIO;
     private ArrayList<Day> days;
     private LinearLayout scrollList;
     private LayoutInflater inflater;
@@ -44,6 +44,7 @@ public class Menu extends BaseActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        preferencesIO = new PreferencesIO(this);
         daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
 
         scrollList = findViewById(R.id.scroll_layout);
@@ -55,16 +56,16 @@ public class Menu extends BaseActivity {
         addNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
+                Intent intent = new Intent(getApplicationContext(), Dialog.class);
 
                 //Creating new Day record and writing it to the file
-                Day newDay = new Day(System.currentTimeMillis(), 0);
-                daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
+                //Day newDay = new Day(System.currentTimeMillis(), 0);
+                //daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
 
                 //Passing date, total votes and daysJsonIO to Voting Activity
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                bundle.putString("date", newDay.getFormattedDate());
+                //bundle.putString("date", newDay.getFormattedDate());
                 bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -84,13 +85,20 @@ public class Menu extends BaseActivity {
         super.onResume();
         Log.e("Menu", "onResume");
         //TODO: make it on date change action
-        String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM");
+        Locale locale;
+        switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
+            case 0: locale = new Locale("en"); break;
+            case 1: locale = new Locale("ru"); break;
+            case 2: locale = new Locale("be"); break;
+            default: locale = new Locale("ru");
+        }
+        String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM", locale);
         todayDate.setText(str);
         electionsDay.setText(getElectionStage());
 
         //TODO: maybe rework this, too dumb deleting everything
         //Parsing json file and building interface
-        days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs, Day.jsonKeys);
+        days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs1, Day.jsonKeys1);
         //Counting total amount of votes
         totally = 0;
         for (Day day: days) {

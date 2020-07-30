@@ -19,18 +19,28 @@ public class BaseActivity extends AppCompatActivity {
     private PreferencesIO preferencesIO;
     private SharedPreferences.OnSharedPreferenceChangeListener nightListener;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         preferencesIO = new PreferencesIO(this);
+
+        /*boolean isNightMode = preferencesIO.getBoolean(PreferencesIO.IS_NIGHT_MODE, true);
+        setNightTheme(isNightMode);*/
+
         int localeIndex = preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1);
         setLocale(localeIndex);
 
     }
 
-    private void setLocale(int localeIndex) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected void setLocale(int localeIndex) {
         Locale locale;
         //Log.e("setLocale", String.valueOf(localeIndex));
         switch (localeIndex) {
@@ -51,7 +61,7 @@ public class BaseActivity extends AppCompatActivity {
         config.locale = locale;
         this.getResources().updateConfiguration(config,
                 this.getResources().getDisplayMetrics());
-        Log.e("setLocale", getLocale().toString());
+        Log.e(getLocalClassName(), getLocale().toString());
     }
 
     private Locale getLocale() {

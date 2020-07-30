@@ -15,9 +15,9 @@
     <string name="status">First day of preterm election</string>
     <string name="add_new_day">+ Add new day</string>
     <string name="separator" translatable="false">separator</string>
-    <string name="mark_last">Mark last</string>
+    <string name="mark_last">Leave\ncomment</string>
     <string name="count">Count</string>
-    <string name="delete_last">Delete Last</string>
+    <string name="delete_last">Delete\nlast</string>
     <string name="done">Done</string>
     <string name="yik_placeholder">PEC number</string>
     <string name="yik_hint">Enter your PEC number</string>

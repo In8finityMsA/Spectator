@@ -194,7 +194,7 @@ public class MainCounterScreen extends BaseActivity {
 
                 //Updating list with voters separated on hour basis (for graphs)
                 String hourString = Hour.extractHourFromTime(newVoter.getFormattedTime());
-                Log.i("HourlyFinal", hourString);
+                //Log.i("HourlyFinal", hourString);
                 try {
                     int index = hourlyJsonIO.getIndexOfObject(Hour.hourKey, hourString, Hour.ARRAY_KEY);
                     JSONObject object = hourlyJsonIO.searchObjectAtIndex(index, Hour.ARRAY_KEY);

@@ -9,13 +9,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:baselineAligned="false"
         android:clickable="true"
+        android:divider="@drawable/line"
         android:focusable="true"
         android:orientation="horizontal"
-        android:divider="@drawable/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,7 +34,7 @@
                 android:gravity="center"
                 android:text="@string/hourly_amount"
                 android:textColor="@color/white"
-                android:textSize="45sp"
+                android:textSize="42sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -65,7 +64,7 @@
                 android:gravity="center"
                 android:text="@string/total_amount"
                 android:textColor="@color/white"
-                android:textSize="45sp"
+                android:textSize="42sp"
                 android:textStyle="bold" />
 
             <TextView

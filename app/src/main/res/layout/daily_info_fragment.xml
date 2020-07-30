@@ -9,14 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:baselineAligned="false">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/left_arrows"
@@ -59,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/num"
                 android:textColor="@color/white"
-                android:textSize="45sp"
+                android:textSize="42sp"
                 android:textStyle="bold" />
 
             <TextView

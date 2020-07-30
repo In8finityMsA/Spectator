@@ -1,6 +1,10 @@
 package com.spectator.menu;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -10,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager.widget.ViewPager;
 
 import com.spectator.BaseActivity;
@@ -35,10 +40,28 @@ public class Settings extends BaseActivity {
 
         LoadPreferences();
 
+        final Context context = this;
         themeSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 preferencesIO.putBoolean(PreferencesIO.IS_NIGHT_MODE, b);
+                Log.e("Night", String.valueOf(b));
+                if (b) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                recreate();
+                /*if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    Log.e("Android 5.1", "restart");
+                        /*Intent mStartActivity = new Intent(getApplicationContext(), Start.class);
+                        int mPendingIntentId = 123456;
+                        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                    System.exit(0);
+                }*/
             }
         });
 
@@ -51,7 +74,6 @@ public class Settings extends BaseActivity {
                 int checkedIndex = langRadioGroup.indexOfChild(checkedRadioButton);
 
                 preferencesIO.putInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, checkedIndex);
-                preferencesIO.putBoolean(PreferencesIO.IS_RECREATE_START, true);
                 recreate();
             }
         });

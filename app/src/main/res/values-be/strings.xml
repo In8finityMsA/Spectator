@@ -8,20 +8,19 @@
     <string name="settings">Налады</string>
     <string name="about_us">Пра нас</string>
     <string name="last_hour">За апошнюю гадзіну</string>
-    <string name="grand_total">Усяго на УВК</string>
+    <string name="grand_total">Усяго на гэтым УВК</string>
     <string name="date">Сягодня 4 жніўня</string>
     <string name="general_comments" translatable="false">Ваш каментарый</string>
     <string name="status">Першы дзень датэрміновых выбараў</string>
     <string name="add_new_day">+ Пачаць новы дзень</string>
-    <string name="mark_last">Напісаць каментарый</string>
+    <string name="mark_last">Напісаць\nкаментарый</string>
     <string name="count">Дадаць</string>
-    <string name="delete_last">Выдаліць апошні</string>
+    <string name="delete_last">Выдаліць\nапошні</string>
     <string name="done">Гатова</string>
     <string name="status_2">Асноўны дзень выбараў</string>
     <string name="comment_hint">Пакіньце ваш каментарый</string>
     <string name="info">Інфа</string>
-    <string name="no">Так</string>
-    <string name="yes">Не</string>
+    <string name="yes">Так</string>
     <string name="details">Дэталі</string>
     <string name="graphs">Графікі</string>
     <string name="list">Спіс</string>
@@ -57,4 +56,5 @@
     <string name="primary_day">Асноўны дзень галасавання</string>
     <string name="election_days">Выбары праходзяць з 4 па 9 жніўня</string>
     <string name="about_us_text">Мы ствараем мабільны дадатак для дапамогі назіральнікам на беларускіх выбарах. Наша мэта - стварыць надзейны і просты ў выкарыстанні дадатак, які будзе эфектыўна падлічваць выбаршчыкаў.</string>
+    <string name="no">Не</string>
 </resources>

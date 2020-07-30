@@ -138,9 +138,7 @@
     <com.spectator.counter.VerticalViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="90dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +152,7 @@
         android:id="@+id/header_divider2"
         android:layout_width="0dp"
         android:layout_height="4dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -167,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +206,7 @@
             <LinearLayout
                 android:id="@+id/mark_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/ripple"
                 android:gravity="center"
@@ -226,12 +225,14 @@
 
                 <TextView
                     android:id="@+id/mark_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/mark_last"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <ImageView
@@ -264,12 +265,14 @@
 
                 <TextView
                     android:id="@+id/delete_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/delete_last"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </LinearLayout>

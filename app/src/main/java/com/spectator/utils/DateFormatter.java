@@ -30,8 +30,16 @@ public class DateFormatter {
         return new SimpleDateFormat(pattern, RUSSIAN_LOCALE).format(timestamp);
     }
 
+    public static String formatDate(long timestamp, String pattern, Locale locale) {
+        return new SimpleDateFormat(pattern, locale).format(timestamp);
+    }
+
     public static String formatTime(long timestamp, String pattern) {
         return new SimpleDateFormat(pattern, RUSSIAN_LOCALE).format(timestamp);
+    }
+
+    public static String formatTime(long timestamp, String pattern, Locale locale) {
+        return new SimpleDateFormat(pattern, locale).format(timestamp);
     }
 
 }

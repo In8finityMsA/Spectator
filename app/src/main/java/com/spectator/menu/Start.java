@@ -3,7 +3,9 @@ package com.spectator.menu;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,22 +22,23 @@ public class Start extends BaseActivity {
     private TextView start;
     private TextView settings;
     private TextView aboutUs;
-    private Locale locale;
+    private TextView appName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("Start", "onCreate");
         setContentView(R.layout.start);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         start = (TextView) findViewById(R.id.start);
         settings = (TextView) findViewById(R.id.settings);
         aboutUs = (TextView) findViewById(R.id.about_us);
+        appName = (TextView) findViewById(R.id.app_name);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Menu.class);
-                startActivity(intent);
+                Intent intentStart = new Intent(getApplicationContext(), Menu.class);
+                startActivity(intentStart);
             }
 
         });
@@ -43,16 +46,16 @@ public class Start extends BaseActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Settings.class);
-                startActivity(intent);
+                Intent intentSettings = new Intent(getApplicationContext(), Settings.class);
+                startActivity(intentSettings);
             }
         });
 
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AboutUs.class);
-                startActivity(intent);
+                Intent intentAbout = new Intent(getApplicationContext(), AboutUs.class);
+                startActivity(intentAbout);
             }
         });
     }
@@ -60,10 +63,43 @@ public class Start extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        PreferencesIO preferencesIO = new PreferencesIO(this);
-        if (preferencesIO.getBoolean(PreferencesIO.IS_RECREATE_START, false)) {
-            preferencesIO.putBoolean(PreferencesIO.IS_RECREATE_START, false);
+        Log.e("Start", "onStart");
+        appName.setText(R.string.app_name);
+        start.setText(R.string.start_counting);
+        settings.setText(R.string.settings);
+        aboutUs.setText(R.string.about_us);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("Start", "onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("Start", "onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("Start", "onResume");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("Start", "onDestroy");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("Start", "onRestart");
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
             recreate();
-        }
     }
 }

@@ -29,8 +29,8 @@ public class Voter implements JsonObjectConvertable {
     //class for storing info (timestamp, number and comment) about a voter
     public Voter(long timestamp, int count) {
         this.timestamp = timestamp;
-        this.formattedDate = DateFormatter.formatDate(timestamp);
-        this.formattedTime = DateFormatter.formatTime(timestamp);
+        this.formattedDate = DateFormatter.formatDate(timestamp, "dd.MM.yy");
+        this.formattedTime = DateFormatter.formatTime(timestamp, "HH:mm:ss");
         this.count = count;
     }
 
