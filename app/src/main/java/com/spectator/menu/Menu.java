@@ -84,7 +84,7 @@ public class Menu extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Log.e("Menu", "onResume");
-        //TODO: make it on date change action
+
         Locale locale;
         switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
             case 0: locale = new Locale("en"); break;
@@ -93,12 +93,13 @@ public class Menu extends BaseActivity {
             default: locale = new Locale("ru");
         }
         String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM", locale);
+        //TODO: make it on date change action
         todayDate.setText(str);
         electionsDay.setText(getElectionStage());
 
         //TODO: maybe rework this, too dumb deleting everything
         //Parsing json file and building interface
-        days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs1, Day.jsonKeys1);
+        days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs2, Day.jsonKeys2, Day.defValues);
         //Counting total amount of votes
         totally = 0;
         for (Day day: days) {
@@ -112,7 +113,6 @@ public class Menu extends BaseActivity {
             Log.i("daysCount", String.valueOf(days.get(i).getCount()));
             scrollList.addView(makeNewRow(days.get(i)), i);
             Log.i("daysDate", days.get(i).getFormattedDate());
-            //Log.i("currentDate", DateFormatter.formatDate(System.currentTimeMillis()));
             //Hiding button addNew if current date is already exists
             if (days.get(i).getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
                 addNew.setVisibility(TextView.GONE);
@@ -146,7 +146,7 @@ public class Menu extends BaseActivity {
                 Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                bundle.putString("date", printDay.getFormattedDate());
+                bundle.putSerializable("day", printDay);
                 bundle.putInt("total", totally);
                 intent.putExtras(bundle);
                 startActivity(intent);

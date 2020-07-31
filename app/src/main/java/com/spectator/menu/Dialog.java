@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.spectator.BaseActivity;
 import com.spectator.counter.MainCounterScreen;
@@ -66,12 +65,12 @@ public class Dialog extends BaseActivity {
             public void onClick(View view) {
 
                 boolean canPass = true;
-                if (editName.getText().toString().equals("")) {
+                if (editName.getText().toString().trim().equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please enter a name", Toast.LENGTH_SHORT);
                     toast.show();
                     canPass = false;
                 }
-                else if (editYikNumber.getText().toString().equals("")) {
+                else if (editYikNumber.getText().toString().trim().equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please enter a PEC number", Toast.LENGTH_SHORT);
                     toast.show();
                     canPass = false;
@@ -82,18 +81,43 @@ public class Dialog extends BaseActivity {
                     canPass = false;
                 }
 
+                String[] files = fileList();
+                String str, suffix = ".voters";
+                if (checkPresence.isChecked() && checkBands.isChecked())
+                    suffix = ".voters";
+                else if (checkPresence.isChecked())
+                    suffix = ".voters";
+                else if (checkBands.isChecked())
+                    suffix = ".bands";
+                for (String file : files) {
+                    str = editName.getText().toString().trim() + suffix +  ".json";
+                    if (str.equals(file)) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Day with this name already exists", Toast.LENGTH_SHORT);
+                        toast.show();
+                        canPass = false;
+                        break;
+                    }
+                }
+
                 if (canPass) {
                     Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
 
                     //Creating new Day record and writing it to the file
-                    Day newDay = new Day(date, 0);
+                    int mode = Day.PRESENCE;
+                    if (checkPresence.isChecked() && checkBands.isChecked())
+                        mode = Day.PRESENCE_BANDS;
+                    else if (checkPresence.isChecked())
+                        mode = Day.PRESENCE;
+                    else if (checkBands.isChecked())
+                        mode = Day.BANDS;
+
+                    Day newDay = new Day(editName.getText().toString().trim(), editYikNumber.getText().toString().trim(), date, 0, 0, mode);
                     daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
 
                     //Passing date, total votes and daysJsonIO to Voting Activity
                     final Bundle bundle = new Bundle();
                     bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                    //bundle.putSerializable("day", newDay);
-                    bundle.putString("date", newDay.getFormattedDate());
+                    bundle.putSerializable("day", newDay);
                     bundle.putInt("total", totally);
                     intent.putExtras(bundle);
                     startActivity(intent);

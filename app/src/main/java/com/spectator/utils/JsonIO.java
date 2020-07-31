@@ -3,6 +3,7 @@ package com.spectator.utils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.spectator.data.JsonObjectConvertable;
 
@@ -322,7 +323,22 @@ public class JsonIO {
         }
     }
 
-    public ArrayList parseJsonArray(boolean isRereadJsonFile, ArrayList targetList, boolean isRewriteTargetList, String arrayKey, Class<?> className, Class<?>[] constructorArguments, String[] jsonKeys) {
+    public void deleteAt(int index, String arrayKey) {
+        if (jsonFile == null) {
+            read();
+        }
+        try {
+            JSONArray jsonArray = jsonFile.getJSONArray(arrayKey);
+            if (jsonArray.length() > 0) {
+                jsonArray.remove(index);
+            }
+            writeToFile(jsonFile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList parseJsonArray(boolean isRereadJsonFile, ArrayList targetList, boolean isRewriteTargetList, String arrayKey, Class<?> className, Class<?>[] constructorArguments, String[] jsonKeys, @Nullable Object[] defaultValues) {
         JSONObject jsonObject;
         if (isRereadJsonFile || jsonFile == null) {
             jsonObject = read();
@@ -334,24 +350,34 @@ public class JsonIO {
             targetList = new ArrayList<>();
         }
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray(arrayKey);
-            Constructor<?> constructor = className.getConstructor(constructorArguments);
-            Object[] args = new Object[constructorArguments.length];
+            if (jsonObject.has(arrayKey)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(arrayKey);
+                Constructor<?> constructor = className.getConstructor(constructorArguments);
+                Object[] args = new Object[constructorArguments.length];
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonStage = jsonArray.getJSONObject(i);
-                for (int j = 0; j < jsonKeys.length; j++) {
-                    args[j] = jsonStage.get(jsonKeys[j]);
-                }
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonStage = jsonArray.getJSONObject(i);
+                    for (int j = 0; j < jsonKeys.length; j++) {
+                        if (args.length > j) {
+                            if (jsonStage.has(jsonKeys[j])) {
+                                args[j] = jsonStage.get(jsonKeys[j]);
+                            } else {
+                                if (defaultValues != null && defaultValues.length > j)
+                                    args[j] = defaultValues[j];
+                                else throw new IllegalArgumentException();
+                            }
+                        }
+                    }
 
-                try {
-                    targetList.add(constructor.newInstance(args));
-                } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    try {
+                        targetList.add(constructor.newInstance(args));
+                    } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
-        } catch (NoSuchMethodException | JSONException e) {
+        } catch (IllegalArgumentException | NoSuchMethodException | JSONException e) {
             e.getMessage();
             e.printStackTrace();
         }

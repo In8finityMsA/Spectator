@@ -67,8 +67,8 @@ public class GraphsFragment extends Fragment {
         ArrayList<Hour> hours = new ArrayList<>();
         ArrayList<BarEntry> voters = new ArrayList<>();
 
-        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), date + ".hourly.json", Hour.ARRAY_KEY, false);
-        hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), date + ".voters" + ".hourly.json", Hour.ARRAY_KEY, false);
+        hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys, null);
 
         settingValues(hours, voters);
 

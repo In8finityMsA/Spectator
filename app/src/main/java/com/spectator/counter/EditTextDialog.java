@@ -1,5 +1,6 @@
 package com.spectator.counter;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -13,32 +14,20 @@ import androidx.annotation.Nullable;
 
 import com.spectator.BaseActivity;
 import com.spectator.R;
-import com.spectator.data.Comment;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.utils.PreferencesIO;
 
 public class EditTextDialog extends BaseActivity {
 
-    public static final String jsonIOExtras = "jsonIO";
-    public static final String jsonClassExtras = "Class to write in json";
-
-    public static final String preferencesIOExtras = "preferencesIO";
-    public static final String preferencesKeyExtras = "Key to write in preferences";
-
     public static final String textHintExtras = "Hint for edit text";
     public static final String textInputTypeExtras = "Input type of EditText";
     public static final String textMaxLengthExtras = "Max length of entered text";
-
-    private JsonIO jsonIO;
-    private PreferencesIO preferencesIO;
-    private String preferencesStringKey;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_text_dialog);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         String textHint = null;
         int inputType = 0;
@@ -50,13 +39,6 @@ public class EditTextDialog extends BaseActivity {
         }
         else {
             Log.i("EditTextDialogExtras", "not null");
-            if (extras.containsKey(jsonIOExtras)) {
-                jsonIO = (JsonIO) ((ObjectWrapperForBinder) extras.getBinder(jsonIOExtras)).getData();
-            }
-            if (extras.containsKey(preferencesIOExtras) && extras.containsKey(preferencesKeyExtras)) {
-                preferencesIO = (PreferencesIO) ((ObjectWrapperForBinder) extras.getBinder(preferencesIOExtras)).getData();
-                preferencesStringKey = extras.getString(preferencesKeyExtras, null);
-            }
             if (extras.containsKey(textHintExtras)) {
                 textHint = extras.getString(textHintExtras, null);
             }
@@ -71,6 +53,7 @@ public class EditTextDialog extends BaseActivity {
         Button confirmButton = (Button) findViewById(R.id.confirm);
         Button cancelButton = (Button) findViewById(R.id.cancel);
         final EditText editText = (EditText) findViewById(R.id.edit_comment);
+
         if (textHint != null) {
             editText.setHint(textHint);
         }
@@ -84,7 +67,11 @@ public class EditTextDialog extends BaseActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveData(editText.getText().toString().trim());
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("textResult", editText.getText().toString().trim());
+                setResult(RESULT_OK, resultIntent);
+                Toast toast = Toast.makeText(getApplicationContext(), "Data is saved", Toast.LENGTH_SHORT);
+                toast.show();
                 finish();
             }
         });
@@ -92,22 +79,9 @@ public class EditTextDialog extends BaseActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
-    }
-
-    private void saveData(String data) {
-        if (!data.equals("")) {
-            if (jsonIO != null) {
-                //TODO: Make it accept any class constructor
-                jsonIO.writeToEndOfFile(new Comment(System.currentTimeMillis(), data).toJSONObject());
-            }
-            if (preferencesIO != null && preferencesStringKey != null) {
-                preferencesIO.putString(preferencesStringKey, data);
-            }
-            Toast toast = Toast.makeText(getApplicationContext(),"Data is saved", Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
 }
