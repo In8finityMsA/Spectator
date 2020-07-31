@@ -20,14 +20,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/hourly"
+            android:id="@+id/rib_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/hourly_amount"
+                android:id="@+id/rib_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/hourly_label"
+                android:id="@+id/rib_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -50,14 +50,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/votes_last_hour"
+            android:id="@+id/total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/votes_last_hour_amount"
+                android:id="@+id/total_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
@@ -68,7 +68,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/votes_last_hour_label"
+                android:id="@+id/total_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
