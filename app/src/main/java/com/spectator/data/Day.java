@@ -70,7 +70,7 @@ public class Day implements JsonObjectConvertable, Serializable {
     }
 
     public Day(String name, String yik, long timestamp, int voters, int bands, @Mode int mode) {
-        this(name, yik,  DateFormatter.formatDate(timestamp, "dd.MM.yyyy"), mode);
+        this(name, yik,  DateFormatter.formatDateDefaultPattern(timestamp), mode);
         this.voters = voters;
         this.bands = bands;
     }

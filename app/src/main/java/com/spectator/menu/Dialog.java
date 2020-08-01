@@ -56,10 +56,8 @@ public class Dialog extends BaseActivity {
         checkPresence = (CheckBox) findViewById(R.id.count_people);
         checkBands = (CheckBox) findViewById(R.id.count_bands);
 
-        final String date = DateFormatter.formatDate(System.currentTimeMillis(), "dd.MM.yyyy");
+        final String date = DateFormatter.formatDateDefaultPattern(System.currentTimeMillis());
         editName.setText(date);
-        PreferencesIO preferencesIO = new PreferencesIO(this);
-        editYikNumber.setText(preferencesIO.getString(PreferencesIO.YIK_NUMBER, ""));
         checkPresence.setChecked(true);
 
         editName.addTextChangedListener(new TextWatcher() {

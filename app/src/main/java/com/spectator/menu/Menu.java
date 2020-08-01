@@ -117,7 +117,8 @@ public class Menu extends BaseActivity {
             scrollList.addView(makeNewRow(days.get(i)), i);
             Log.i("daysDate", days.get(i).getFormattedDate());
             //Hiding "add new" button if current date is already exists
-            if (days.get(i).getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
+            Log.i("currentDate", DateFormatter.formatDateDefaultPattern(System.currentTimeMillis()));
+            if (days.get(i).getFormattedDate().equals(DateFormatter.formatDateDefaultPattern(System.currentTimeMillis()))) {
                 addNew.setVisibility(TextView.GONE);
             }
         }
@@ -186,7 +187,7 @@ public class Menu extends BaseActivity {
     }
 
     private String getElectionStage() {
-        String currentDate = DateFormatter.formatDate(System.currentTimeMillis());
+        String currentDate = DateFormatter.formatDateDefaultPattern(System.currentTimeMillis());
 
         switch (currentDate) {
             case "04.08.2020":

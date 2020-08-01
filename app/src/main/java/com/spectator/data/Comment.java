@@ -21,7 +21,7 @@ public class Comment implements JsonObjectConvertable {
 
     public Comment(long timestamp, String text) {
         this.formattedTime = DateFormatter.formatTime(timestamp);
-        this.formattedDate = DateFormatter.formatDate(timestamp);
+        this.formattedDate = DateFormatter.formatDateDefaultPattern(timestamp);
         this.commentText = text;
     }
 

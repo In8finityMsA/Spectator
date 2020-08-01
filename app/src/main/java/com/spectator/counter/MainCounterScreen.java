@@ -508,7 +508,7 @@ public class MainCounterScreen extends BaseActivity {
         super.onResume();
         //Turns off buttons if current date doesn't equals session date and stops hourly check
         //TODO: make it date change indifferent
-        if (!day.getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
+        if (!day.getFormattedDate().equals(DateFormatter.formatDateDefaultPattern(System.currentTimeMillis()))) {
             voteButtonMain.setClickable(false);
             voteButtonMain.setText(R.string.end_voting);
             deleteLastButtonMain.setClickable(false);

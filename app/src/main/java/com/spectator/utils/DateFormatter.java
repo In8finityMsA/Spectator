@@ -9,6 +9,8 @@ public class DateFormatter {
     public static final Locale RUSSIAN_LOCALE = new Locale("ru","RU");
     public static final int DATE_STYLE = DateFormat.SHORT;
     public static final int TIME_STYLE = DateFormat.MEDIUM;
+    public static final String DATE_PATTERN = "dd.MM.yyyy";
+    public static final String TIME_PATTERN = "HH:mm:ss";
 
     public static String formatDate(long timestamp) {
         return DateFormat.getDateInstance(DATE_STYLE, RUSSIAN_LOCALE).format(timestamp);
@@ -28,6 +30,10 @@ public class DateFormatter {
 
     public static String formatDate(long timestamp, String pattern) {
         return new SimpleDateFormat(pattern, RUSSIAN_LOCALE).format(timestamp);
+    }
+
+    public static String formatDateDefaultPattern(long timestamp) {
+        return new SimpleDateFormat(DATE_PATTERN, RUSSIAN_LOCALE).format(timestamp);
     }
 
     public static String formatDate(long timestamp, String pattern, Locale locale) {
