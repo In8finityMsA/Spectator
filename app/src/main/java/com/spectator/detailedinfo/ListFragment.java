@@ -36,6 +36,13 @@ public class ListFragment extends Fragment {
     private LayoutInflater inflater;
     private Context context;
 
+    public ListFragment(ArrayList<Voter> records) {
+        if (records != null)
+            this.records = records;
+        else
+            Log.e("ListFragment", "records array is null");
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
@@ -56,7 +63,7 @@ public class ListFragment extends Fragment {
         else {
             Log.i("ListExtras", "not null");
             totally = extras.getInt("total");
-            records = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("array")).getData();
+            //records = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("array")).getData();
         }
 
         context = getContext();

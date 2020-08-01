@@ -47,8 +47,8 @@ public class Dialog extends BaseActivity {
             totally = extras.getInt("total");
         }
 
-        yesButton = (Button) findViewById(R.id.yes);
-        noButton = (Button) findViewById(R.id.no);
+        yesButton = (Button) findViewById(R.id.confirm);
+        //noButton = (Button) findViewById(R.id.no);
         editName = (EditText) findViewById(R.id.edit_name);
         editYikNumber = (EditText) findViewById(R.id.edit_yik_number);
         checkPresence = (CheckBox) findViewById(R.id.count_people);
@@ -126,11 +126,11 @@ public class Dialog extends BaseActivity {
             }
         });
 
-        noButton.setOnClickListener(new View.OnClickListener() {
+        /*noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        });
+        });*/
     }
 }

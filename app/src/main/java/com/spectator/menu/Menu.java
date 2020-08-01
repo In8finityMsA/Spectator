@@ -137,11 +137,32 @@ public class Menu extends BaseActivity {
         layoutParams.setMargins(convertDpToPixel(this,10), convertDpToPixel(this, 10), convertDpToPixel(this, 10), 0);
         linearLayout.setLayoutParams(layoutParams);
 
-        TextView newDateView = linearLayout.findViewById(R.id.day_name);
-        newDateView.setText(printDay.getName());
+        TextView newNameView = linearLayout.findViewById(R.id.day_name);
+        newNameView.setText(printDay.getName());
 
-        TextView newCountView = linearLayout.findViewById(R.id.day_numbers);
-        newCountView.setText(printDay.getStringNumbers());
+        TextView newDateView = linearLayout.findViewById(R.id.day_date);
+        newDateView.setText(printDay.getFormattedDate());
+
+        TextView newModeSingleView = linearLayout.findViewById(R.id.mode_single);
+        TextView newNumberSingleView = linearLayout.findViewById(R.id.number_single);
+        if (printDay.getMode() == Day.PRESENCE) {
+            newModeSingleView.setText("Voters");
+            newNumberSingleView.setText(String.valueOf(printDay.getVoters()));
+        }
+        else if (printDay.getMode() == Day.BANDS) {
+            newModeSingleView.setText("Bands");
+            newNumberSingleView.setText(String.valueOf(printDay.getBands()));
+        }
+        else if (printDay.getMode() == Day.PRESENCE_BANDS) {
+            newModeSingleView.setText("Voters");
+            newNumberSingleView.setText(String.valueOf(printDay.getVoters()));
+            TextView newModeDualView = linearLayout.findViewById(R.id.mode_dual);
+            TextView newNumberDualView = linearLayout.findViewById(R.id.number_dual);
+            newModeDualView.setText("Bands");
+            newNumberDualView.setText(String.valueOf(printDay.getBands()));
+            newModeDualView.setVisibility(View.VISIBLE);
+            newNumberDualView.setVisibility(View.VISIBLE);
+        }
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

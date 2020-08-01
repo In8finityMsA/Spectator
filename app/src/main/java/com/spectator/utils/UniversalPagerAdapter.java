@@ -14,11 +14,9 @@ public class UniversalPagerAdapter extends FragmentPagerAdapter {
     private final String[] TAB_TITLES;
     private final int length;
     private final Fragment[] PAGER_FRAGMENTS;
-    private final Context mContext;
 
     public UniversalPagerAdapter(Context context, FragmentManager fm, Fragment[] fragments, String[] pageTitles, @Nullable Bundle bundle) {
         super(fm);
-        mContext = context;
         length = fragments.length;
         TAB_TITLES = pageTitles;
         if (bundle != null) {

@@ -462,7 +462,12 @@ public class MainCounterScreen extends BaseActivity {
         Bundle bundle = new Bundle();
         if (day.getMode() == Day.PRESENCE)
             bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
-            //bundle.putBinder("")
+        else if (day.getMode() == Day.BANDS)
+            bundle.putBinder("bands", new ObjectWrapperForBinder(bands));
+        else if (day.getMode() == Day.PRESENCE_BANDS) {
+            bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+            bundle.putBinder("bands", new ObjectWrapperForBinder(bands));
+        }
         bundle.putInt("total", votersNumbers.totally);
         bundle.putSerializable("day", day);
         intent.putExtras(bundle);
