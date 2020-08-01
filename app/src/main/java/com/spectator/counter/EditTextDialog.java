@@ -70,7 +70,7 @@ public class EditTextDialog extends BaseActivity {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("textResult", editText.getText().toString().trim());
                 setResult(RESULT_OK, resultIntent);
-                Toast toast = Toast.makeText(getApplicationContext(), "Data is saved", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT);
                 toast.show();
                 finish();
             }

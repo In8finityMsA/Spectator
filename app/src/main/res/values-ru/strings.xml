@@ -13,7 +13,7 @@
     <string name="date">Сегодня 4 Августа</string>
     <string name="status">Первый день досрочных выборов</string>
     <string name="add_new_day">+ Начать новый день</string>
-    <string name="mark_last">Оставить комментарий</string>
+    <string name="mark_last">Оставить\nкомментарий</string>
     <string name="comment_hint">Введите\nваш комментарий</string>
     <string name="delete_last">Удалить\nпоследний</string>
     <string name="done">Готово</string>
@@ -62,4 +62,18 @@
     <string name="start_new_counter">Создать новый счётчик</string>
     <string name="enter_voting_name">Придумайте название счётчика</string>
     <string name="hint">"Вы можете считать и явку, и белые ленты на одном экране. Для этого поставьте галочки в обоих полях. "</string>
+    <string name="day_exists">День с этим именем уже существует</string>
+    <string name="choose_mode">Пожалуйста выберите режим</string>
+    <string name="enter_pec">Пожалуйста введите номер УИКа</string>
+    <string name="bands">Ленточки</string>
+    <string name="voters">Голоса</string>
+    <string name="enter_name">Пожалуйтса введите название</string>
+    <string name="bands_last_hour">Ленточек за последний час</string>
+    <string name="bands_today">Ленточек сегодня</string>
+    <string name="bands_total">Ленточек всего</string>
+    <string name="other">Другое</string>
+    <string name="export_via">Экспортировать с помощью...</string>
+    <string name="spectator_list">" список наблюдения"</string>
+    <string name="data_saved">Данные сохранены</string>
+    <string name="special_characters_denial">Специальные знаки не разрешены</string>
 </resources>

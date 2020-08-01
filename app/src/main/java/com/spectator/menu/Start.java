@@ -99,7 +99,7 @@ public class Start extends BaseActivity {
     protected void onRestart() {
         super.onRestart();
         Log.e("Start", "onRestart");
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
+        //Bodge, but otherwise sometimes doesn't change language; and on old version doesn't change night mode
             recreate();
     }
 }

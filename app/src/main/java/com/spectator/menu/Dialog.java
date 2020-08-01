@@ -2,6 +2,8 @@ package com.spectator.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,23 +62,40 @@ public class Dialog extends BaseActivity {
         editYikNumber.setText(preferencesIO.getString(PreferencesIO.YIK_NUMBER, ""));
         checkPresence.setChecked(true);
 
+        editName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                String str = s.toString();
+                if (str.contains("/") || str.contains("\\") || str.contains("&") || str.contains("#") || str.contains(":") || str.contains("|") || str.contains("<") || str.contains(">") || str.contains("*") || str.contains("\"") || str.contains("\'") || str.contains("?")) {
+                    s.clear();
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.special_characters_denial, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 boolean canPass = true;
                 if (editName.getText().toString().trim().equals("")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter a name", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.enter_name, Toast.LENGTH_SHORT);
                     toast.show();
                     canPass = false;
                 }
                 else if (editYikNumber.getText().toString().trim().equals("")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter a PEC number", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.enter_pec, Toast.LENGTH_SHORT);
                     toast.show();
                     canPass = false;
                 }
                 else if (!checkPresence.isChecked() && !checkBands.isChecked()) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please choose a mode", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.choose_mode, Toast.LENGTH_SHORT);
                     toast.show();
                     canPass = false;
                 }
@@ -92,7 +111,7 @@ public class Dialog extends BaseActivity {
                 for (String file : files) {
                     str = editName.getText().toString().trim() + suffix +  ".json";
                     if (str.equals(file)) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Day with this name already exists", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), R.string.day_exists, Toast.LENGTH_SHORT);
                         toast.show();
                         canPass = false;
                         break;

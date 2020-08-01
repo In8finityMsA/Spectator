@@ -154,10 +154,4 @@ public class Day implements JsonObjectConvertable, Serializable {
         }
         return null;
     }
-
-    @Override
-    public String toString() {
-        String str  = "Voters: " + getVoters() + "\nBands: " + getBands() + "\nDate: " + getFormattedDate() + "\nMode: " + getMode();
-        return str;
-    }
 }

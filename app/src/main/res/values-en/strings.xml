@@ -62,4 +62,18 @@
     <string name="hint">You can choose to count either of these or only one of these.</string>
     <string name="count_bands">Count white bands</string>
     <string name="count_votes">Count votes</string>
+    <string name="bands">Bands</string>
+    <string name="voters">Voters</string>
+    <string name="day_exists">Day with this name already exists</string>
+    <string name="choose_mode">Please choose a mode</string>
+    <string name="enter_pec">Please enter a PEC number</string>
+    <string name="enter_name">Please enter a name</string>
+    <string name="bands_last_hour">Bands last hour</string>
+    <string name="bands_today">Bands today</string>
+    <string name="bands_total">Bands total</string>
+    <string name="other">Other</string>
+    <string name="export_via">Export via</string>
+    <string name="spectator_list">" spectator list"</string>
+    <string name="data_saved">Data is saved</string>
+    <string name="special_characters_denial">Special characters are not allowed here</string>
 </resources>

@@ -27,9 +27,7 @@ public class DailyInfoFragment extends Fragment {
     private static final String IS_FIRST_TIME = "Is first time";
     private int mode;
     private TextView thisDay;
-    private TextView thisDayLabel;
     private TextView thisDay2;
-    private TextView thisDayLabel2;
     private VerticalViewPager viewPager;
     private boolean isFirstTime;
     private SharedPreferences sp;
@@ -63,7 +61,7 @@ public class DailyInfoFragment extends Fragment {
                 view = inflater.inflate(R.layout.daily_info_fragment, container, false);
 
                 thisDay = view.findViewById(R.id.daily_amount);
-                thisDayLabel = view.findViewById(R.id.daily_label);
+                TextView thisDayLabel = view.findViewById(R.id.daily_label);
 
                 thisDayLabel.setText(labels[0]);
                 thisDay.setText(String.valueOf(extras.getInt("daily")));

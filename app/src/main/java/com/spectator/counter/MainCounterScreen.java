@@ -66,6 +66,7 @@ public class MainCounterScreen extends BaseActivity {
     private ArrayList<Voter> bands;
     private Handler hourlyCheckHandler;
     private boolean isHourlyCheckRunning;
+    private boolean isBandsAndVotersConnected;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -113,6 +114,7 @@ public class MainCounterScreen extends BaseActivity {
         }
 
         preferencesIO = new PreferencesIO(this);
+        isBandsAndVotersConnected = preferencesIO.getBoolean(PreferencesIO.IS_BANDS_AND_VOTERS_CONNECTED, true);
 
         voteButtonMain = (TextView) findViewById(R.id.count);
         deleteLastButtonMain = (LinearLayout) findViewById(R.id.delete_button);
@@ -197,10 +199,10 @@ public class MainCounterScreen extends BaseActivity {
             public void onClick(View view) {
 
                 if (day.getMode() == Day.PRESENCE || day.getMode() == Day.PRESENCE_BANDS) {
-                    onDeleteRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
+                    onDeleteLastRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
                 }
                 else if (day.getMode() == Day.BANDS) {
-                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+                    onDeleteLastRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
                 }
             }
         });
@@ -212,13 +214,21 @@ public class MainCounterScreen extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+                    if (isBandsAndVotersConnected) {
+                        onAddRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
+                    }
                 }
             });
 
             deleteLastButtonSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+                    if (voters.size() > 0 && bands.size() > 0 && isBandsAndVotersConnected) {
+                        Voter bandToBeDeleted = bands.get(bands.size() - 1);
+                        onDeleteConnectedRecord(bandToBeDeleted, voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
+                    }
+                    onDeleteLastRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+
                 }
             });
         }
@@ -290,10 +300,9 @@ public class MainCounterScreen extends BaseActivity {
             fragmentBundle.putInt("hourly", votersNumbers.hourly);
         }
         else if (day.getMode() == Day.BANDS) {
-            fragmentBundle.putStringArray("labels", new String[] {"Ribbons today", "Ribbons last hour", "Ribbons total"});
+            fragmentBundle.putStringArray("labels", new String[] {getString(R.string.bands_today), getString(R.string.bands_last_hour), getString(R.string.bands_total)});
             fragmentBundle.putInt("totally", bandsNumbers.totally);
             fragmentBundle.putInt("daily", bandsNumbers.daily);
-            //checking last hour votes. It's not really good because on startup it is performed twice (see onResume). But it's needed for fragments initialization
             checkVotesHourly(bands, bandsNumbers);
             fragmentBundle.putInt("hourly", bandsNumbers.hourly);
         }
@@ -310,49 +319,64 @@ public class MainCounterScreen extends BaseActivity {
         }
         fragmentBundle.putInt("mode", day.getMode());
 
-        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {dailyInfoFragment, additionalInfoFragment}, new String[] {"Daily", "Other"}, fragmentBundle);
+        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {dailyInfoFragment, additionalInfoFragment}, new String[] {getString(R.string.this_day), getString(R.string.other)}, fragmentBundle);
         viewPager.setAdapter(universalPagerAdapter);
     }
 
-    private void onDeleteRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
+    private void onDeleteConnectedRecord(Voter connectedVoter, ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
+        try {
+            int index = recordsJsonIO.getIndexOfObject(Voter.timeKey, connectedVoter.getFormattedTime(), Voter.ARRAY_KEY);
+            records.remove(index);
+            recordsJsonIO.deleteAt(index, Voter.ARRAY_KEY);
+            delete(connectedVoter.getFormattedTime(), records, recordsJsonIO, hourlyRecordsJsonIO, numbers, position);
+        } catch (JsonIO.ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onDeleteLastRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
         if (records.size() > 0) {
             recordsJsonIO.deleteLast(Voter.ARRAY_KEY);
             Voter deletedVoter = records.remove(records.size() - 1);
 
-            //Update number of votes in TextViews
-            if (numbers.hourly > 0) {
-                additionalInfoFragment.setHourly(--numbers.hourly, position);
+            delete(deletedVoter.getFormattedTime(), records, recordsJsonIO, hourlyRecordsJsonIO, numbers, position);
+        }
+    }
+
+    private void delete(String formattedTime, ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
+
+        //Update number of votes in TextViews
+        if (numbers.hourly > 0) {
+            additionalInfoFragment.setHourly(--numbers.hourly, position);
+        }
+        dailyInfoFragment.setDaily(--numbers.daily, position);
+        additionalInfoFragment.setTotally(--numbers.totally);
+
+        //Updating this day voters number in file
+        try {
+            day = day.getDayWithChanged(numbers.daily, position);
+            daysJsonIO.replaceObject(day.toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
+        } catch (JsonIO.ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //Updating list with voters separated on hour basis (for graphs)
+        String hourString = Hour.extractHourFromTime(formattedTime);
+        Log.i("HourlyFinal", hourString);
+        try {
+
+            int index = hourlyRecordsJsonIO.getIndexOfObject(Hour.hourKey, hourString, Hour.ARRAY_KEY);
+            JSONObject object = hourlyRecordsJsonIO.searchObjectAtIndex(index, Hour.ARRAY_KEY);
+            if (object.getInt(Hour.countKey) - 1 > 0) {
+                object.put(Hour.countKey, object.getInt(Hour.countKey) - 1);
+                hourlyRecordsJsonIO.replaceObjectAtIndex(object, index, Hour.ARRAY_KEY);
             }
-            dailyInfoFragment.setDaily(--numbers.daily, position);
-            additionalInfoFragment.setTotally(--numbers.totally);
-
-            //Updating this day voters number in file
-            try {
-                day = day.getDayWithChanged(numbers.daily, position);
-                daysJsonIO.replaceObject(day.toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
-            } catch (JsonIO.ObjectNotFoundException e) {
-                e.printStackTrace();
+            else  {
+                hourlyRecordsJsonIO.deleteAt(index, Hour.ARRAY_KEY);
             }
 
-            //Updating list with voters separated on hour basis (for graphs)
-            String hourString = Hour.extractHourFromTime(deletedVoter.getFormattedTime());
-            Log.i("HourlyFinal", hourString);
-            try {
-
-                int index = hourlyRecordsJsonIO.getIndexOfObject(Hour.hourKey, hourString, Hour.ARRAY_KEY);
-                JSONObject object = hourlyRecordsJsonIO.searchObjectAtIndex(index, Hour.ARRAY_KEY);
-                if (object.getInt(Hour.countKey) > 0) {
-                    object.put(Hour.countKey, object.getInt(Hour.countKey) - 1);
-                    hourlyRecordsJsonIO.replaceObjectAtIndex(object, index, Hour.ARRAY_KEY);
-                }
-                else  {
-                    hourlyRecordsJsonIO.deleteAt(index, Hour.ARRAY_KEY);
-                }
-
-            } catch (JSONException | JsonIO.ObjectNotFoundException e) {
-                e.printStackTrace();
-            }
-
+        } catch (JSONException | JsonIO.ObjectNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -460,15 +484,20 @@ public class MainCounterScreen extends BaseActivity {
     private void onInfoClick() {
         Intent intent = new Intent(getApplicationContext(), Details.class);
         Bundle bundle = new Bundle();
-        if (day.getMode() == Day.PRESENCE)
+        if (day.getMode() == Day.PRESENCE) {
             bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
-        else if (day.getMode() == Day.BANDS)
+            bundle.putInt("totalVoters", votersNumbers.totally);
+        }
+        else if (day.getMode() == Day.BANDS) {
             bundle.putBinder("bands", new ObjectWrapperForBinder(bands));
+            bundle.putInt("totalBands", bandsNumbers.totally);
+        }
         else if (day.getMode() == Day.PRESENCE_BANDS) {
             bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
             bundle.putBinder("bands", new ObjectWrapperForBinder(bands));
+            bundle.putInt("totalVoters", votersNumbers.totally);
+            bundle.putInt("totalBands", bandsNumbers.totally);
         }
-        bundle.putInt("total", votersNumbers.totally);
         bundle.putSerializable("day", day);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -531,7 +560,7 @@ public class MainCounterScreen extends BaseActivity {
         for (int i = records.size() - 1; i >= 0; i--) {
             long currentTime = System.currentTimeMillis();
             long difference =  currentTime - records.get(i).getTimestamp();
-            if (difference < HOUR) {
+            if (difference > 0 && difference < HOUR) {
                 numbers.hourly++;
             }
             else {

@@ -20,11 +20,8 @@ public class AdditionalInfoFragment extends Fragment {
 
     private int mode;
     private TextView grandTotal;
-    private TextView grandTotalLabel;
     private TextView lastHour;
-    private TextView lastHourLabel;
     private TextView lastHour2;
-    private TextView lastHourLabel2;
     private VerticalViewPager viewPager;
 
     @Nullable
@@ -51,13 +48,14 @@ public class AdditionalInfoFragment extends Fragment {
 
                 grandTotal = view.findViewById(R.id.total_amount);
                 lastHour = view.findViewById(R.id.hourly_amount);
-                grandTotalLabel = view.findViewById(R.id.total_label);
-                lastHourLabel = view.findViewById(R.id.hourly_label);
+                TextView grandTotalLabel = view.findViewById(R.id.total_label);
+                TextView lastHourLabel = view.findViewById(R.id.hourly_label);
 
                 lastHourLabel.setText(labels[1]);
                 grandTotalLabel.setText(labels[2]);
                 grandTotal.setText(String.valueOf(extras.getInt("totally")));
                 lastHour.setText(String.valueOf(extras.getInt("hourly")));
+
             } else if (mode == Day.PRESENCE_BANDS) {
                 //Labels and totally will be null
                 view = inflater.inflate(R.layout.joint_additional_info_fragment, container, false);

@@ -32,6 +32,11 @@ import java.util.ArrayList;
 public class GraphsFragment extends Fragment {
 
     Day day;
+    String pathPrefix;
+
+    public GraphsFragment(String pathPrefix) {
+        this.pathPrefix = pathPrefix;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,16 +49,15 @@ public class GraphsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String hourlyJsonPath;
 
         Bundle extras = getArguments();
         if (extras == null) {
             Log.e("GraphsExtras", "null");
-            hourlyJsonPath = "";
         }
         else {
             Log.i("GraphsExtras", "not null");
-            day = (Day) extras.getSerializable("day");
+            if (extras.containsKey("day"))
+                day = (Day) extras.getSerializable("day");
         }
 
         TextView exportData = (TextView) view.findViewById(R.id.export_data);
@@ -68,10 +72,8 @@ public class GraphsFragment extends Fragment {
         ArrayList<Hour> hours = new ArrayList<>();
         ArrayList<BarEntry> voters = new ArrayList<>();
 
-        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), day.getName() + ".voters" + ".hourly.json", Hour.ARRAY_KEY, false);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), pathPrefix + ".hourly.json", Hour.ARRAY_KEY, false);
         hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys, null);
-
-        settingValues(hours, voters);
 
         BarChart barChart = (BarChart) view.findViewById(R.id.chart);
 
@@ -110,31 +112,33 @@ public class GraphsFragment extends Fragment {
         yAxisRight.setGranularity(1f);
         yAxisRight.setEnabled(false);
 
-        BarDataSet bardataset = new BarDataSet(voters, null);
+        settingValues(hours, voters);
+        BarDataSet bardataset = new BarDataSet(voters, "voters");
+        //Setting color of bars
+        bardataset.setColors(getResources().getColor(R.color.colorAccentDark));
+        BarData data = new BarData(bardataset);
         //Animation (bars rising on start) duration
         barChart.animateY(2000);
-        BarData data = new BarData(bardataset);
         //Turning on values above bars and setting value formatter
         data.setDrawValues(true);
         data.setValueTextColor(getResources().getColor(R.color.white));
         data.setValueTextSize(18);
         data.setValueFormatter(new CustomValueFormatter());
-        //Setting color of bars
-        bardataset.setColors(getResources().getColor(R.color.colorAccentDark));
+
         barChart.setData(data);
 
     }
 
     private void exportData() {
-        File file = new File(getContext().getFilesDir(), day.getName() + ".voters" + ".json");
+        File file = new File(getContext().getFilesDir(), pathPrefix + ".json");
         Uri uri = FileProvider.getUriForFile(getContext(), "com.spectator.fileProvider", file);
 
         Intent exportingIntent = new Intent(android.content.Intent.ACTION_SEND);
         exportingIntent.setType("application/json");
         exportingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, day.getFormattedDate() + " day voters list");
+        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, day.getName() + "(" + day.getFormattedDate() + ")" + getString(R.string.spectator_list));
         exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(exportingIntent, "Export via"));
+        startActivity(Intent.createChooser(exportingIntent, getString(R.string.export_via)));
     }
 
     private void settingValues(ArrayList<Hour> hours, ArrayList<BarEntry> voters) {

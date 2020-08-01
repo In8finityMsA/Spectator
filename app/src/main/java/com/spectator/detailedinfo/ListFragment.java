@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment {
 
-    private int totally;
+    private int totally = 0;
     private int daily = 0;
     private int hourly = 0;
     private TextView total;
@@ -33,38 +33,19 @@ public class ListFragment extends Fragment {
     private ScrollView scrollView;
     private LinearLayout scrollList;
     private boolean isPrevWhite = false;
-    private LayoutInflater inflater;
+    private LayoutInflater rowInflater;
     private Context context;
 
-    public ListFragment(ArrayList<Voter> records) {
+    public ListFragment(ArrayList<Voter> records, int totally) {
+        this.totally = totally;
         if (records != null)
             this.records = records;
         else
             Log.e("ListFragment", "records array is null");
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Bundle extras = getArguments();
-        if (extras == null) {
-            Log.e("ListExtras", "null");
-            totally = 0;
-
-        }
-        else {
-            Log.i("ListExtras", "not null");
-            totally = extras.getInt("total");
-            //records = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("array")).getData();
-        }
 
         context = getContext();
         total = (TextView) view.findViewById(R.id.total);
@@ -74,9 +55,10 @@ public class ListFragment extends Fragment {
         scrollView = (ScrollView) view.findViewById(R.id.votes);
         scrollList = (LinearLayout) view.findViewById(R.id.scroll_list);
 
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        rowInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Initializing interface from voters array
+        daily = 0;
         for (int j = 0; j < records.size(); j++) {
             LinearLayout newRow = makeNewRow(records.get(j));
             scrollList.addView(newRow);
@@ -84,7 +66,13 @@ public class ListFragment extends Fragment {
         }
         thisDay.setText(String.valueOf(daily));
         total.setText(String.valueOf(totally));
-        scrollView.fullScroll(View.FOCUS_DOWN);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -98,7 +86,7 @@ public class ListFragment extends Fragment {
 
     //Making new Linear layout for new vote
     private LinearLayout makeNewRow(Voter printVoter) {
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.rows, null);
+        LinearLayout linearLayout = (LinearLayout) rowInflater.inflate(R.layout.rows, null);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM;
@@ -130,7 +118,7 @@ public class ListFragment extends Fragment {
         for (int i = records.size() - 1; i >= 0; i--) {
             long currentTime = System.currentTimeMillis();
             long difference =  currentTime - records.get(i).getTimestamp();
-            if (difference < HOUR) {
+            if (difference > 0 && difference < HOUR) {
                 hourly++;
             }
             else {

@@ -62,4 +62,18 @@
     <string name="start_new_counter">Стварыць новы лічыльнік</string>
     <string name="enter_voting_name">Прыдумайце назву лічыльніка</string>
     <string name="hint">"Вы можаце лічыць і яўку, і белыя стужкі на адным экране. Для гэтага пастаўце галачкі ў абодвух палях. "</string>
+    <string name="day_exists">Дзень з гэтай назвай ўжо існуе</string>
+    <string name="choose_mode">Калі ласка, выберыце рэжым</string>
+    <string name="enter_pec">Калі ласка ўвядзіце нумар УВК</string>
+    <string name="bands">Стужкі</string>
+    <string name="voters">Галасы</string>
+    <string name="enter_name">Калі ласка ўвядзіце назву</string>
+    <string name="bands_last_hour">Стужак за апошнюю гадзіну</string>
+    <string name="bands_today">Стужак за сягодня</string>
+    <string name="bands_total">Стужак ўсяго</string>
+    <string name="other">Іншае</string>
+    <string name="export_via">Экспартаваць з дапамогай...</string>
+    <string name="spectator_list">"  спіс назірання"</string>
+    <string name="data_saved">Даныя захаваны</string>
+    <string name="special_characters_denial">Спецыяльныя знакі не дазволены</string>
 </resources>

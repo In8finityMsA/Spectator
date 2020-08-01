@@ -28,21 +28,26 @@ public class Details extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         Day day = (Day) extras.getSerializable("day");
 
-
         UniversalPagerAdapter universalPagerAdapter = null;
         if (day.getMode() == Day.PRESENCE) {
-            if (extras.containsKey("voters"))
-                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[]{new GraphsFragment(), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData())}, new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
+            if (extras.containsKey("voters") && extras.containsKey("totalVoters"))
+                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
+                        new Fragment[]{new GraphsFragment(day.getName() + ".voters"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData(), extras.getInt("totalVoters"))},
+                        new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
             else Log.e("Details", "No voters key in extras, Mode: " + day.getMode());
         }
         else if (day.getMode() == Day.BANDS) {
-            if (extras.containsKey("bands"))
-                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[]{new GraphsFragment(), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("bands")).getData())}, new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
+            if (extras.containsKey("bands") && extras.containsKey("totalBands"))
+                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
+                        new Fragment[]{new GraphsFragment(day.getName() + ".bands"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
+                        new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
             else Log.e("Details", "No bands key in extras, Mode: " + day.getMode());
         }
         else if (day.getMode() == Day.PRESENCE_BANDS) {
-            if (extras.containsKey("bands") && extras.containsKey("voters")) {
-                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[]{new GraphsFragment(), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("voters")).getData()), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("bands")).getData())}, new String[]{getString(R.string.graphs), getString(R.string.list), getString(R.string.list)}, extras);
+            if (extras.containsKey("bands") && extras.containsKey("totalBands") && extras.containsKey("voters") && extras.containsKey("totalVoters")) {
+                universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
+                        new Fragment[]{new GraphsFragment(day.getName() + ".voters"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("voters")).getData(), extras.getInt("totalVoters")), new GraphsFragment(day.getName() + ".bands"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
+                        new String[]{getString(R.string.graphs) + "\n" + getString(R.string.voters), getString(R.string.list) + "\n" + getString(R.string.voters), getString(R.string.graphs) + "\n" + getString(R.string.bands), getString(R.string.list) + "\n" + getString(R.string.bands)}, extras);
             }
             else Log.e("Details", "No voters and bands key in extras, Mode: " + day.getMode());
         }

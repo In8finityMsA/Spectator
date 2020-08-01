@@ -85,13 +85,13 @@ public class Menu extends BaseActivity {
         Log.e("Menu", "onResume");
 
         //Setting locale for current date text
-        Locale locale;
-        switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
+        Locale locale = getResources().getConfiguration().locale;
+        /*switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
             case 0: locale = new Locale("en"); break;
             case 1: locale = new Locale("ru"); break;
             case 2: locale = new Locale("be"); break;
             default: locale = new Locale("ru");
-        }
+        }*/
         String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM", locale);
         //TODO: make it on date change action
         //Setting current date and election status
@@ -146,19 +146,19 @@ public class Menu extends BaseActivity {
         TextView newModeSingleView = linearLayout.findViewById(R.id.mode_single);
         TextView newNumberSingleView = linearLayout.findViewById(R.id.number_single);
         if (printDay.getMode() == Day.PRESENCE) {
-            newModeSingleView.setText("Voters");
+            newModeSingleView.setText(getString(R.string.voters));
             newNumberSingleView.setText(String.valueOf(printDay.getVoters()));
         }
         else if (printDay.getMode() == Day.BANDS) {
-            newModeSingleView.setText("Bands");
+            newModeSingleView.setText(getString(R.string.bands));
             newNumberSingleView.setText(String.valueOf(printDay.getBands()));
         }
         else if (printDay.getMode() == Day.PRESENCE_BANDS) {
-            newModeSingleView.setText("Voters");
+            newModeSingleView.setText(getString(R.string.voters));
             newNumberSingleView.setText(String.valueOf(printDay.getVoters()));
             TextView newModeDualView = linearLayout.findViewById(R.id.mode_dual);
             TextView newNumberDualView = linearLayout.findViewById(R.id.number_dual);
-            newModeDualView.setText("Bands");
+            newModeDualView.setText(getString(R.string.bands));
             newNumberDualView.setText(String.valueOf(printDay.getBands()));
             newModeDualView.setVisibility(View.VISIBLE);
             newNumberDualView.setVisibility(View.VISIBLE);
