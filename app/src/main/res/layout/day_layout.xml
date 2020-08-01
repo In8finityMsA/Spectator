@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/day"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,8 +14,10 @@
 
     <LinearLayout
         android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="24dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingTop="10dp"
@@ -24,10 +27,6 @@
             android:id="@+id/day_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:minHeight="50dp"
             android:text="@string/date2"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -35,20 +34,25 @@
 
         <TextView
             android:id="@+id/day_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_weight="1"
-            android:gravity="center"
             android:text="TextView"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/line" />
+
     <LinearLayout
         android:id="@+id/mode"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
@@ -57,29 +61,38 @@
             android:id="@+id/mode_single"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center|top"
             android:gravity="center"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/mode_dual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center"
             android:gravity="center"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:visibility="gone" />
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/line" />
+
     <LinearLayout
         android:id="@+id/numbers"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
@@ -87,24 +100,22 @@
         <TextView
             android:id="@+id/number_single"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:gravity="center_vertical|end"
-            android:minHeight="50dp"
-            android:paddingEnd="5dp"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
             android:text="@string/number_of_votes"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/number_dual"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:gravity="center_vertical|end"
-            android:minHeight="50dp"
-            android:paddingEnd="5dp"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
             android:text="@string/number_of_votes"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:textStyle="bold"
             android:visibility="gone" />
 
     </LinearLayout>

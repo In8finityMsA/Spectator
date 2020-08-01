@@ -13,18 +13,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.spectator.BaseActivity;
-import com.spectator.counter.MainCounterScreen;
-import com.spectator.utils.DateFormatter;
-import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.R;
+import com.spectator.counter.MainCounterScreen;
 import com.spectator.data.Day;
+import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
+import com.spectator.utils.ObjectWrapperForBinder;
 import com.spectator.utils.PreferencesIO;
 
 public class Dialog extends BaseActivity {
 
     private Button noButton;
-    private Button yesButton;
+    private TextView yesButton;
     private EditText editName;
     private EditText editYikNumber;
     private CheckBox checkPresence;
@@ -47,7 +47,7 @@ public class Dialog extends BaseActivity {
             totally = extras.getInt("total");
         }
 
-        yesButton = (Button) findViewById(R.id.confirm);
+        yesButton = (TextView) findViewById(R.id.confirm);
         //noButton = (Button) findViewById(R.id.no);
         editName = (EditText) findViewById(R.id.edit_name);
         editYikNumber = (EditText) findViewById(R.id.edit_yik_number);

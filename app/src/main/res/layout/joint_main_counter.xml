@@ -139,8 +139,6 @@
         android:id="@+id/pager"
         android:layout_width="0dp"
         android:layout_height="90dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,11 +152,12 @@
         android:id="@+id/header_divider2"
         android:layout_width="0dp"
         android:layout_height="4dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pager2"
+        app:layout_constraintTop_toBottomOf="@+id/pager"
         app:srcCompat="@drawable/line" />
 
     <LinearLayout
