@@ -35,7 +35,6 @@
         <activity android:name=".counter.MainCounterScreen" android:screenOrientation="portrait" />
         <activity android:name=".detailedinfo.Details" android:screenOrientation="portrait" />
         <activity android:name=".menu.Menu" android:screenOrientation="portrait" />
-        <activity android:name=".counter.JointCounterScreen" android:screenOrientation="portrait" />
 
         <activity
             android:name=".menu.Dialog"

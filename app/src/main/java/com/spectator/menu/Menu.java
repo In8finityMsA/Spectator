@@ -30,7 +30,8 @@ public class Menu extends BaseActivity {
     private TextView addNew;
     private TextView todayDate;
     private TextView electionsDay;
-    private int totally;
+    private int totallyVoters;
+    private int totallyBands;
     private JsonIO daysJsonIO;
     private PreferencesIO preferencesIO;
     private ArrayList<Day> days;
@@ -59,14 +60,12 @@ public class Menu extends BaseActivity {
                 Intent intent = new Intent(getApplicationContext(), Dialog.class);
 
                 //Creating new Day record and writing it to the file
-                //Day newDay = new Day(System.currentTimeMillis(), 0);
-                //daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
 
                 //Passing date, total votes and daysJsonIO to Voting Activity
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                //bundle.putString("date", newDay.getFormattedDate());
-                bundle.putInt("total", totally);
+                bundle.putInt("totalVoters", totallyVoters);
+                bundle.putInt("totalBands", totallyBands);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -85,6 +84,7 @@ public class Menu extends BaseActivity {
         super.onResume();
         Log.e("Menu", "onResume");
 
+        //Setting locale for current date text
         Locale locale;
         switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
             case 0: locale = new Locale("en"); break;
@@ -94,26 +94,29 @@ public class Menu extends BaseActivity {
         }
         String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM", locale);
         //TODO: make it on date change action
+        //Setting current date and election status
         todayDate.setText(str);
         electionsDay.setText(getElectionStage());
 
         //TODO: maybe rework this, too dumb deleting everything
-        //Parsing json file and building interface
+        //Parsing json file and then building interface
         days = daysJsonIO.parseJsonArray(true, days, true, Day.ARRAY_KEY, Day.class, Day.constructorArgs2, Day.jsonKeys2, Day.defValues);
-        //Counting total amount of votes
-        totally = 0;
+        //Counting total amount of votes and ribbons
+        totallyVoters = 0;
+        totallyBands = 0;
         for (Day day: days) {
-            totally += day.getCount();
+            totallyVoters += day.getVoters();
+            totallyBands += day.getBands();
         }
+        //Removing all views (besides "add new" button)
         if (scrollList.getChildCount() > 1)
             scrollList.removeViews(0, scrollList.getChildCount() - 1);
 
         addNew.setVisibility(TextView.VISIBLE);
         for (int i = 0; i < days.size(); i++) {
-            Log.i("daysCount", String.valueOf(days.get(i).getCount()));
             scrollList.addView(makeNewRow(days.get(i)), i);
             Log.i("daysDate", days.get(i).getFormattedDate());
-            //Hiding button addNew if current date is already exists
+            //Hiding "add new" button if current date is already exists
             if (days.get(i).getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
                 addNew.setVisibility(TextView.GONE);
             }
@@ -134,11 +137,11 @@ public class Menu extends BaseActivity {
         layoutParams.setMargins(convertDpToPixel(this,10), convertDpToPixel(this, 10), convertDpToPixel(this, 10), 0);
         linearLayout.setLayoutParams(layoutParams);
 
-        TextView newDateView = linearLayout.findViewById(R.id.date);
-        newDateView.setText(printDay.getFormattedDate());
+        TextView newDateView = linearLayout.findViewById(R.id.day_name);
+        newDateView.setText(printDay.getName());
 
-        TextView newCountView = linearLayout.findViewById(R.id.day_votes);
-        newCountView.setText(String.valueOf(printDay.getCount()));
+        TextView newCountView = linearLayout.findViewById(R.id.day_numbers);
+        newCountView.setText(printDay.getStringNumbers());
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +150,8 @@ public class Menu extends BaseActivity {
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                 bundle.putSerializable("day", printDay);
-                bundle.putInt("total", totally);
+                bundle.putInt("totalVoters", totallyVoters);
+                bundle.putInt("totalBands", totallyBands);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -162,7 +166,6 @@ public class Menu extends BaseActivity {
 
     private String getElectionStage() {
         String currentDate = DateFormatter.formatDate(System.currentTimeMillis());
-        //Log.i("currentDate", currentDate);
 
         switch (currentDate) {
             case "04.08.2020":

@@ -29,7 +29,7 @@ public class ListFragment extends Fragment {
     private TextView total;
     private TextView lastHour;
     private TextView thisDay;
-    private ArrayList<Voter> voters;
+    private ArrayList<Voter> records;
     private ScrollView scrollView;
     private LinearLayout scrollList;
     private boolean isPrevWhite = false;
@@ -56,7 +56,7 @@ public class ListFragment extends Fragment {
         else {
             Log.i("ListExtras", "not null");
             totally = extras.getInt("total");
-            voters = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData();
+            records = (ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("array")).getData();
         }
 
         context = getContext();
@@ -70,8 +70,8 @@ public class ListFragment extends Fragment {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Initializing interface from voters array
-        for (int j = 0 ; j < voters.size(); j++) {
-            LinearLayout newRow = makeNewRow(voters.get(j));
+        for (int j = 0; j < records.size(); j++) {
+            LinearLayout newRow = makeNewRow(records.get(j));
             scrollList.addView(newRow);
             daily++;
         }
@@ -119,10 +119,10 @@ public class ListFragment extends Fragment {
     private void checkVotesHourly() {
         final long HOUR = 1000 * 60 * 60;
         hourly = 0;
-        Log.e("check", String.valueOf(voters.size()));
-        for (int i = voters.size() - 1; i >= 0; i--) {
+        Log.e("check", String.valueOf(records.size()));
+        for (int i = records.size() - 1; i >= 0; i--) {
             long currentTime = System.currentTimeMillis();
-            long difference =  currentTime - voters.get(i).getTimestamp();
+            long difference =  currentTime - records.get(i).getTimestamp();
             if (difference < HOUR) {
                 hourly++;
             }

@@ -41,10 +41,12 @@ public class MainCounterScreen extends BaseActivity {
     private static final int EDIT_YIK_REQUEST = 11;
     private static final int EDIT_COMMENT_REQUEST = 12;
 
-    private TextView voteButton;
     private PreferencesIO preferencesIO;
-    private LinearLayout deleteLastButton;
-    private LinearLayout markLastButton;
+    private TextView voteButtonMain;
+    private TextView voteButtonSecond;
+    private LinearLayout deleteLastButtonMain;
+    private LinearLayout deleteLastButtonSecond;
+    private LinearLayout commentButton;
     private TextView yikNumber;
     private int totallyVoters = 0;
     private int totallyBands = 0;
@@ -76,19 +78,23 @@ public class MainCounterScreen extends BaseActivity {
             Log.e("MainExtras", "null");
             day = new Day((String) Day.defValues[0], (String) Day.defValues[1], (String) Day.defValues[2], (int) Day.defValues[3], (int) Day.defValues[4], (int) Day.defValues[5]);
             totallyVoters = 0;
+            totallyBands = 0;
             daysJsonIO = new JsonIO(this.getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
         }
         else {
             Log.i("MainExtras", "not null");
-            totallyVoters = extras.getInt("total");
+            totallyVoters = extras.getInt("totalVoters");
+            totallyBands = extras.getInt("totalBands");
             day = (Day) extras.getSerializable("day");
             daysJsonIO = (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
         }
 
+        //Must not trigger
         if (day == null)
             day = new Day((String) Day.defValues[0], (String) Day.defValues[1], (String) Day.defValues[2], (int) Day.defValues[3], (int) Day.defValues[4], (int) Day.defValues[5]);
         Log.i("MainDay", day.toString());
 
+        //Init voters and bands variables, setting view
         if (day.getMode() == Day.PRESENCE) {
             setContentView(R.layout.main_counter2);
             initVoters();
@@ -98,16 +104,20 @@ public class MainCounterScreen extends BaseActivity {
             initBands();
         }
         else if (day.getMode() == Day.PRESENCE_BANDS) {
-            setContentView(R.layout.main_counter2);
+            setContentView(R.layout.joint_main_counter);
             initVoters();
             initBands();
+
+            voteButtonSecond = (TextView) findViewById(R.id.count_ribbons);
+            deleteLastButtonSecond = (LinearLayout) findViewById(R.id.delete_ribbon_button);
         }
 
         preferencesIO = new PreferencesIO(this);
 
-        voteButton = (TextView) findViewById(R.id.count);
-        deleteLastButton = (LinearLayout) findViewById(R.id.delete_button);
-        markLastButton = (LinearLayout) findViewById(R.id.mark_button);
+        voteButtonMain = (TextView) findViewById(R.id.count);
+        deleteLastButtonMain = (LinearLayout) findViewById(R.id.delete_button);
+        commentButton = (LinearLayout) findViewById(R.id.mark_button);
+
         LinearLayout info = (LinearLayout) findViewById(R.id.info_button);
         LinearLayout done = (LinearLayout) findViewById(R.id.finish_button);
         ImageView doneIcon = (ImageView) findViewById(R.id.finish_icon);
@@ -115,12 +125,14 @@ public class MainCounterScreen extends BaseActivity {
         ImageView infoIcon = (ImageView) findViewById(R.id.info_icon);
         TextView infoLabel = (TextView) findViewById(R.id.info_label);
 
+        //Yik number initialization
         yikNumber = (TextView) findViewById(R.id.precinct_id);
         if (day.getYik() != null)
             yikNumber.setText(String.format("%s%s", getString(R.string.yik_prefix), day.getYik()));
         else
             yikNumber.setText(R.string.yik_placeholder);
 
+        //Day's date initialization
         TextView electionStatus = (TextView) findViewById(R.id.election_status);
         if (day.getFormattedDate() != null)
             electionStatus.setText(day.getFormattedDate());
@@ -132,18 +144,7 @@ public class MainCounterScreen extends BaseActivity {
 
         //Creating fragments for voters numbers and view pager
         viewPager = findViewById(R.id.pager);
-        dailyInfoFragment = new DailyInfoFragment();
-        additionalInfoFragment = new AdditionalInfoFragment();
-
-        Bundle fragmentBundle = new Bundle();
-        fragmentBundle.putInt("totally", votersNumbers.totally);
-        fragmentBundle.putInt("daily", votersNumbers.daily);
-        //checking last hour votes. It's not really good because on startup it is performed twice (see onResume). But it's needed for fragments initialization
-        checkVotesHourly(voters, votersNumbers);
-        fragmentBundle.putInt("hourly", votersNumbers.hourly);
-
-        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {dailyInfoFragment, additionalInfoFragment}, new String[] {"Daily", "Other"}, fragmentBundle);
-        viewPager.setAdapter(universalPagerAdapter);
+        initPager();
 
         //Timer for checking votes those are one hour old
         hourlyCheckHandler = new Handler() {
@@ -154,16 +155,16 @@ public class MainCounterScreen extends BaseActivity {
                     if (day.getMode() == Day.PRESENCE_BANDS) {
                         checkVotesHourly(voters, votersNumbers);
                         checkVotesHourly(bands, bandsNumbers);
-                        additionalInfoFragment.setHourly(votersNumbers.hourly);
-                        additionalInfoFragment.setHourly(bandsNumbers.hourly);
+                        additionalInfoFragment.setHourly(votersNumbers.hourly, Day.PRESENCE);
+                        additionalInfoFragment.setHourly(bandsNumbers.hourly, Day.BANDS);
                     }
                     else if (day.getMode() == Day.PRESENCE) {
                         checkVotesHourly(voters, votersNumbers);
-                        additionalInfoFragment.setHourly(votersNumbers.hourly);
+                        additionalInfoFragment.setHourly(votersNumbers.hourly, Day.PRESENCE);
                     }
                     else if (day.getMode() == Day.BANDS) {
                         checkVotesHourly(bands, bandsNumbers);
-                        additionalInfoFragment.setHourly(bandsNumbers.hourly);
+                        additionalInfoFragment.setHourly(bandsNumbers.hourly, Day.BANDS);
                     }
 
                     hourlyCheckHandler.sendEmptyMessageDelayed(0, 60000);
@@ -171,48 +172,59 @@ public class MainCounterScreen extends BaseActivity {
             }
         };
 
-        //Vote button function
-        voteButton.setOnClickListener(new View.OnClickListener() {
+        //Setting onClick for main add button (for ribbons if count only ribbons; for voters if count only voters or both)
+        voteButtonMain.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
                 doVibration();
 
-                if (day.getMode() == Day.PRESENCE_BANDS) {
-                    onAddRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers);
-                    onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers);
-                }
-                else if (day.getMode() == Day.PRESENCE) {
-                    onAddRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers);
+                if (day.getMode() == Day.PRESENCE || day.getMode() == Day.PRESENCE_BANDS) {
+                    onAddRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
                 }
                 else if (day.getMode() == Day.BANDS) {
-                    onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers);
+                    onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
                 }
 
             }
 
         });
 
-        //Delete last button function
-        deleteLastButton.setOnClickListener(new View.OnClickListener() {
+        //Setting onClick for main delete button (for ribbons if count only ribbons; for voters if count only voters or both)
+        deleteLastButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (day.getMode() == Day.PRESENCE_BANDS) {
-                    onDeleteRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers);
-                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers);
-                }
-                else if (day.getMode() == Day.PRESENCE) {
-                    onDeleteRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers);
+
+                if (day.getMode() == Day.PRESENCE || day.getMode() == Day.PRESENCE_BANDS) {
+                    onDeleteRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
                 }
                 else if (day.getMode() == Day.BANDS) {
-                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers);
+                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
                 }
             }
         });
 
-        //Mark last button function
-        markLastButton.setOnClickListener(new View.OnClickListener() {
+        //Setting onClick for secondary buttons (for ribbons) if count both
+        if (day.getMode() == Day.PRESENCE_BANDS) {
+
+            voteButtonSecond.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+                }
+            });
+
+            deleteLastButtonSecond.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onDeleteRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
+                }
+            });
+        }
+
+        //Write comment function (see OnActivityResult)
+        commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditTextDialog.class);
@@ -225,6 +237,7 @@ public class MainCounterScreen extends BaseActivity {
             }
         });
 
+        //Change yik number function (see OnActivityResult)
         yikNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,6 +251,7 @@ public class MainCounterScreen extends BaseActivity {
             }
         });
 
+        //On info click goes to Details (Graphs and list)
         View.OnClickListener infoListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -248,6 +262,7 @@ public class MainCounterScreen extends BaseActivity {
         infoIcon.setOnClickListener(infoListener);
         infoLabel.setOnClickListener(infoListener);
 
+        //On done click goes to menu
         View.OnClickListener doneListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -260,21 +275,61 @@ public class MainCounterScreen extends BaseActivity {
 
     }
 
-    private void onDeleteRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers) {
+    private void initPager() {
+        dailyInfoFragment = new DailyInfoFragment();
+        additionalInfoFragment = new AdditionalInfoFragment();
+
+        Bundle fragmentBundle = new Bundle();
+
+        if (day.getMode() == Day.PRESENCE) {
+            fragmentBundle.putStringArray("labels", new String[] {getString(R.string.voted_today), getString(R.string.last_hour), getString(R.string.grand_total)});
+            fragmentBundle.putInt("totally", votersNumbers.totally);
+            fragmentBundle.putInt("daily", votersNumbers.daily);
+            //checking last hour votes. It's not really good because on startup it is performed twice (see onResume). But it's needed for fragments initialization
+            checkVotesHourly(voters, votersNumbers);
+            fragmentBundle.putInt("hourly", votersNumbers.hourly);
+        }
+        else if (day.getMode() == Day.BANDS) {
+            fragmentBundle.putStringArray("labels", new String[] {"Ribbons today", "Ribbons last hour", "Ribbons total"});
+            fragmentBundle.putInt("totally", bandsNumbers.totally);
+            fragmentBundle.putInt("daily", bandsNumbers.daily);
+            //checking last hour votes. It's not really good because on startup it is performed twice (see onResume). But it's needed for fragments initialization
+            checkVotesHourly(bands, bandsNumbers);
+            fragmentBundle.putInt("hourly", bandsNumbers.hourly);
+        }
+        else if (day.getMode() == Day.PRESENCE_BANDS) {
+            //fragmentBundle.putInt("totally", votersNumbers.totally);
+            fragmentBundle.putInt("daily", votersNumbers.daily);
+            checkVotesHourly(voters, votersNumbers);
+            fragmentBundle.putInt("hourly", votersNumbers.hourly);
+
+            //fragmentBundle.putInt("totally2", bandsNumbers.totally);
+            fragmentBundle.putInt("daily2", bandsNumbers.daily);
+            checkVotesHourly(bands, bandsNumbers);
+            fragmentBundle.putInt("hourly2", bandsNumbers.hourly);
+        }
+        fragmentBundle.putInt("mode", day.getMode());
+
+        UniversalPagerAdapter universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(), new Fragment[] {dailyInfoFragment, additionalInfoFragment}, new String[] {"Daily", "Other"}, fragmentBundle);
+        viewPager.setAdapter(universalPagerAdapter);
+    }
+
+    private void onDeleteRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
         if (records.size() > 0) {
             recordsJsonIO.deleteLast(Voter.ARRAY_KEY);
             Voter deletedVoter = records.remove(records.size() - 1);
 
             //Update number of votes in TextViews
             if (numbers.hourly > 0) {
-                additionalInfoFragment.setHourly(--numbers.hourly);
+                additionalInfoFragment.setHourly(--numbers.hourly, position);
             }
-            dailyInfoFragment.setDaily(--numbers.daily);
+            dailyInfoFragment.setDaily(--numbers.daily, position);
             additionalInfoFragment.setTotally(--numbers.totally);
 
             //Updating this day voters number in file
             try {
-                daysJsonIO.replaceObject(day.getDayWithChanged(numbers.daily, numbers.daily).toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
+                day = day.getDayWithChanged(numbers.daily, position);
+                daysJsonIO.replaceObject(day.toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
             } catch (JsonIO.ObjectNotFoundException e) {
                 e.printStackTrace();
             }
@@ -301,7 +356,7 @@ public class MainCounterScreen extends BaseActivity {
         }
     }
 
-    private void onAddRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers) {
+    private void onAddRecord(ArrayList<Voter> records, JsonIO recordsJsonIO, JsonIO hourlyRecordsJsonIO, Numbers numbers, @Day.Position int position) {
         //Creating new voter
         Voter newVoter = new Voter(System.currentTimeMillis(), ++numbers.daily);
         //Adding it to the list
@@ -310,13 +365,14 @@ public class MainCounterScreen extends BaseActivity {
         recordsJsonIO.writeToEndOfFile(newVoter.toJSONObject());
 
         //Changing number of votes in TextViews
-        dailyInfoFragment.setDaily(numbers.daily);
+        dailyInfoFragment.setDaily(numbers.daily, position);
+        additionalInfoFragment.setHourly(++numbers.hourly, position);
         additionalInfoFragment.setTotally(++numbers.totally);
-        additionalInfoFragment.setHourly(++numbers.hourly);
 
         //Updating this day voters number in file
         try {
-            daysJsonIO.replaceObject(day.getDayWithChanged(numbers.daily, numbers.daily).toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
+            day = day.getDayWithChanged(numbers.daily, position);
+            daysJsonIO.replaceObject(day.getDayWithChanged(numbers.daily, position).toJSONObject(), Day.nameKey, day.getName(), Day.ARRAY_KEY);
         } catch (JsonIO.ObjectNotFoundException e) {
             e.printStackTrace();
         }
@@ -404,9 +460,11 @@ public class MainCounterScreen extends BaseActivity {
     private void onInfoClick() {
         Intent intent = new Intent(getApplicationContext(), Details.class);
         Bundle bundle = new Bundle();
-        bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+        if (day.getMode() == Day.PRESENCE)
+            bundle.putBinder("voters", new ObjectWrapperForBinder(voters));
+            //bundle.putBinder("")
         bundle.putInt("total", votersNumbers.totally);
-        bundle.putString("date", day.getFormattedDate());
+        bundle.putSerializable("day", day);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -417,21 +475,28 @@ public class MainCounterScreen extends BaseActivity {
         //Turns off buttons if current date doesn't equals session date and stops hourly check
         //TODO: make it date change indifferent
         if (!day.getFormattedDate().equals(DateFormatter.formatDate(System.currentTimeMillis()))) {
-            voteButton.setClickable(false);
-            voteButton.setText(R.string.end_voting);
-            deleteLastButton.setClickable(false);
-            markLastButton.setClickable(false);
+            voteButtonMain.setClickable(false);
+            voteButtonMain.setText(R.string.end_voting);
+            deleteLastButtonMain.setClickable(false);
+            commentButton.setClickable(false);
+
             if (day.getMode() == Day.PRESENCE_BANDS) {
                 votersNumbers.hourly = 0;
-                additionalInfoFragment.setHourly(votersNumbers.hourly);
+                additionalInfoFragment.setHourly(votersNumbers.hourly, Day.PRESENCE);
+                bandsNumbers.hourly = 0;
+                additionalInfoFragment.setHourly(bandsNumbers.hourly, Day.BANDS);
+
+                voteButtonSecond.setClickable(false);
+                voteButtonSecond.setText(R.string.end_voting);
+                deleteLastButtonSecond.setClickable(false);
             }
             else if (day.getMode() == Day.PRESENCE) {
                 votersNumbers.hourly = 0;
-                additionalInfoFragment.setHourly(votersNumbers.hourly);
+                additionalInfoFragment.setHourly(votersNumbers.hourly, Day.PRESENCE);
             }
             else if (day.getMode() == Day.BANDS) {
                 bandsNumbers.hourly = 0;
-                additionalInfoFragment.setHourly(bandsNumbers.hourly);
+                additionalInfoFragment.setHourly(bandsNumbers.hourly, Day.BANDS);
             }
             isHourlyCheckRunning = false;
             hourlyCheckHandler.removeMessages(0);

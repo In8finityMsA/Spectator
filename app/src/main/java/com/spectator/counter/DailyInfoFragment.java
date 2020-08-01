@@ -18,13 +18,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
+import com.spectator.data.Day;
 
 
 public class DailyInfoFragment extends Fragment {
 
     private static final String MY_SETTINGS = "Settings";
     private static final String IS_FIRST_TIME = "Is first time";
+    private int mode;
     private TextView thisDay;
+    private TextView thisDayLabel;
+    private TextView thisDay2;
+    private TextView thisDayLabel2;
     private VerticalViewPager viewPager;
     private boolean isFirstTime;
     private SharedPreferences sp;
@@ -38,7 +43,6 @@ public class DailyInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_info_fragment, container, false);
-        thisDay = view.findViewById(R.id.daily_amount);
         viewPager = (VerticalViewPager) ((MainCounterScreen)this.getActivity()).getPager();
 
         Bundle extras = getArguments();
@@ -47,7 +51,32 @@ public class DailyInfoFragment extends Fragment {
         }
         else {
             Log.i("DailyInfoExtras", "not null");
-            thisDay.setText(String.valueOf(extras.getInt("daily")));
+
+            if (extras.containsKey("mode"))
+                mode = extras.getInt("mode");
+            else {
+                Log.e("DailyInfoExtras", "No mode key");
+            }
+            String[] labels = extras.getStringArray("labels");
+
+            if (mode == Day.BANDS || mode == Day.PRESENCE) {
+                view = inflater.inflate(R.layout.daily_info_fragment, container, false);
+
+                thisDay = view.findViewById(R.id.daily_amount);
+                thisDayLabel = view.findViewById(R.id.daily_label);
+
+                thisDayLabel.setText(labels[0]);
+                thisDay.setText(String.valueOf(extras.getInt("daily")));
+            } else if (mode == Day.PRESENCE_BANDS) {
+                //Labels will be null
+                view = inflater.inflate(R.layout.joint_daily_info_fragment, container, false);
+
+                thisDay = view.findViewById(R.id.votes_counter_amount);
+                thisDay2 = view.findViewById(R.id.ribbons_counter);
+
+                thisDay.setText(String.valueOf(extras.getInt("daily")));
+                thisDay2.setText(String.valueOf(extras.getInt("daily2")));
+            }
         }
 
         return view;
@@ -132,9 +161,19 @@ public class DailyInfoFragment extends Fragment {
         }
     }
 
-    void setDaily(int daily) {
-        if (thisDay != null)
-            this.thisDay.setText(String.valueOf(daily));
+    void setDaily(int daily, @Day.Position int position) {
+        if (mode != Day.PRESENCE_BANDS) {
+            if (thisDay != null)
+                this.thisDay.setText(String.valueOf(daily));
+        }
+        else {
+            if (thisDay != null && thisDay2 != null) {
+                if (position == 0)
+                    this.thisDay.setText(String.valueOf(daily));
+                else if (position == 1)
+                    this.thisDay2.setText(String.valueOf(daily));
+            }
+        }
     }
 
 }

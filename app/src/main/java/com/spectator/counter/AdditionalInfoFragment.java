@@ -12,21 +12,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
+import com.spectator.data.Day;
 
 import java.util.Objects;
 
 public class AdditionalInfoFragment extends Fragment {
 
+    private int mode;
     private TextView grandTotal;
+    private TextView grandTotalLabel;
     private TextView lastHour;
+    private TextView lastHourLabel;
+    private TextView lastHour2;
+    private TextView lastHourLabel2;
     private VerticalViewPager viewPager;
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.additional_info_fragment, container, false);
-
-        grandTotal = view.findViewById(R.id.total_amount);
-        lastHour = view.findViewById(R.id.hourly_amount);
+        View view = null;
         viewPager = (VerticalViewPager) ((MainCounterScreen) this.getActivity()).getPager();
 
         Bundle extras = getArguments();
@@ -35,20 +38,59 @@ public class AdditionalInfoFragment extends Fragment {
         }
         else {
             Log.i("DetailedInfoExtras", "not null");
-            grandTotal.setText(String.valueOf(extras.getInt("totally")));
-            lastHour.setText(String.valueOf(extras.getInt("hourly")));
+
+            if (extras.containsKey("mode"))
+                mode = extras.getInt("mode");
+            else {
+                Log.e("DetailedInfoExtras", "No mode key");
+            }
+            String[] labels = extras.getStringArray("labels");
+
+            if (mode == Day.BANDS || mode == Day.PRESENCE) {
+                view = inflater.inflate(R.layout.additional_info_fragment, container, false);
+
+                grandTotal = view.findViewById(R.id.total_amount);
+                lastHour = view.findViewById(R.id.hourly_amount);
+                grandTotalLabel = view.findViewById(R.id.total_label);
+                lastHourLabel = view.findViewById(R.id.hourly_label);
+
+                lastHourLabel.setText(labels[1]);
+                grandTotalLabel.setText(labels[2]);
+                grandTotal.setText(String.valueOf(extras.getInt("totally")));
+                lastHour.setText(String.valueOf(extras.getInt("hourly")));
+            } else if (mode == Day.PRESENCE_BANDS) {
+                //Labels and totally will be null
+                view = inflater.inflate(R.layout.joint_additional_info_fragment, container, false);
+
+                lastHour = view.findViewById(R.id.votes_last_hour_amount);
+                lastHour2 = view.findViewById(R.id.ribbons_last_hour_amount);
+
+                lastHour.setText(String.valueOf(extras.getInt("hourly")));
+                lastHour2.setText(String.valueOf(extras.getInt("hourly2")));
+            }
         }
 
         return view;
     }
 
     void setTotally(int totally) {
-        if (grandTotal != null)
-            this.grandTotal.setText(String.valueOf(totally));
+        if (mode != Day.PRESENCE_BANDS)
+            if (grandTotal != null)
+                this.grandTotal.setText(String.valueOf(totally));
     }
 
-    void setHourly(int hourly) {
-        if (lastHour != null)
-            this.lastHour.setText(String.valueOf(hourly));
+    void setHourly(int hourly, @Day.Position int position) {
+        if (mode != Day.PRESENCE_BANDS) {
+            if (lastHour != null)
+                this.lastHour.setText(String.valueOf(hourly));
+        }
+        else {
+            if (lastHour != null && lastHour2 != null) {
+                if (position == 0)
+                    this.lastHour.setText(String.valueOf(hourly));
+                else if (position == 1)
+                    this.lastHour2.setText(String.valueOf(hourly));
+            }
+        }
     }
 }

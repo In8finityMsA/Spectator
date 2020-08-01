@@ -20,14 +20,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/rib_total"
+            android:id="@+id/rib_last_hour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/rib_amount"
+                android:id="@+id/ribbons_last_hour_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/rib_label"
+                android:id="@+id/ribbons_last_hour_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -47,17 +47,18 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/total"
+            android:id="@+id/votes_last_hour"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/total_amount"
+                android:id="@+id/votes_last_hour_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
@@ -68,7 +69,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/total_label"
+                android:id="@+id/votes_last_hour_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

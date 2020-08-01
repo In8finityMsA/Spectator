@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.spectator.R;
+import com.spectator.data.Day;
 import com.spectator.data.Hour;
 import com.spectator.utils.JsonIO;
 
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 public class GraphsFragment extends Fragment {
 
-    String date;
+    Day day;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class GraphsFragment extends Fragment {
         }
         else {
             Log.i("GraphsExtras", "not null");
-            date = extras.getString("date");
+            day = (Day) extras.getSerializable("day");
         }
 
         TextView exportData = (TextView) view.findViewById(R.id.export_data);
@@ -67,7 +68,7 @@ public class GraphsFragment extends Fragment {
         ArrayList<Hour> hours = new ArrayList<>();
         ArrayList<BarEntry> voters = new ArrayList<>();
 
-        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), date + ".voters" + ".hourly.json", Hour.ARRAY_KEY, false);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), day.getName() + ".voters" + ".hourly.json", Hour.ARRAY_KEY, false);
         hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys, null);
 
         settingValues(hours, voters);
@@ -125,13 +126,13 @@ public class GraphsFragment extends Fragment {
     }
 
     private void exportData() {
-        File file = new File(getContext().getFilesDir(), date + ".json");
+        File file = new File(getContext().getFilesDir(), day.getName() + ".voters" + ".json");
         Uri uri = FileProvider.getUriForFile(getContext(), "com.spectator.fileProvider", file);
 
         Intent exportingIntent = new Intent(android.content.Intent.ACTION_SEND);
         exportingIntent.setType("application/json");
         exportingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, date + " day voters list");
+        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, day.getFormattedDate() + " day voters list");
         exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(exportingIntent, "Export via"));
     }
