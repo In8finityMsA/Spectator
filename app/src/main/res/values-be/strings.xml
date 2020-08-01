@@ -57,4 +57,9 @@
     <string name="election_days">Выбары праходзяць з 4 па 9 жніўня</string>
     <string name="about_us_text">Мы ствараем мабільны дадатак для дапамогі назіральнікам на беларускіх выбарах. Наша мэта - стварыць надзейны і просты ў выкарыстанні дадатак, які будзе эфектыўна падлічваць выбаршчыкаў.</string>
     <string name="no">Не</string>
+    <string name="count_bands">Лічыць белыя стужкі</string>
+    <string name="count_votes">Лічыць яўку</string>
+    <string name="start_new_counter">Стварыць новы лічыльнік</string>
+    <string name="enter_voting_name">Прыдумайце назву лічыльніка</string>
+    <string name="hint">"Вы можаце лічыць і яўку, і белыя стужкі на адным экране. Для гэтага пастаўце галачкі ў абодвух палях. "</string>
 </resources>

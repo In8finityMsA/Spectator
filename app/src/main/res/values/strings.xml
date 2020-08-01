@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Spectator</string>
-    <string name="general_comments" translatable="false">Write anything</string>
+    <string name="general_comments">Write anything</string>
     <string name="title_activity_graphs">Graphs</string>
     <string name="title_activity_details">Details</string>
     <string name="spectator">Spectator</string>
@@ -72,4 +72,9 @@
     <string name="primary_day">Primary elections day</string>
     <string name="election_days">Elections are held from 4 to 9 of August</string>
     <string name="about_us_text">We are creating an app to help spectators on the Belarussian elections. Our aim is to create reliable and easy-to-use app that will effectively count voters who came to the elections.</string>
+    <string name="start_new_counter">Start new counter</string>
+    <string name="enter_voting_name">Enter voting name</string>
+    <string name="hint">You can choose to count either of these or only one of these.</string>
+    <string name="count_bands">Count white bands</string>
+    <string name="count_votes">Count votes</string>
 </resources>
