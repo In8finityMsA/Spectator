@@ -332,7 +332,7 @@ public class JsonIO {
         }
         try {
             JSONArray jsonArray = jsonFile.getJSONArray(arrayKey);
-            if (jsonArray.length() > 0) {
+            if (jsonArray.length() > index) {
                 jsonArray.remove(index);
             }
             writeToFile(jsonFile);

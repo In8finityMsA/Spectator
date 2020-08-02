@@ -106,4 +106,9 @@
     <string name="if_you_have_spotted_a_bug_or_you_want_to_propose_new_idea_please_contact_us_at_wintry3_gmail_com">If you have spotted a bug or you want to propose new idea, please contact us at wintry3@gmail.com</string>
     <string name="show_comments">Show comments</string>
     <string name="swipe_up_to_see_more">Swipe up to see more</string>
+    <string name="voters_suffix" translatable="false">.voters</string>
+    <string name="json_postfix" translatable="false">.json</string>
+    <string name="hourly_suffix" translatable="false">.hourly</string>
+    <string name="bands_suffix" translatable="false">.bands</string>
+    <string name="field_is_empty">Data isn\'t saved, field is empty</string>
 </resources>

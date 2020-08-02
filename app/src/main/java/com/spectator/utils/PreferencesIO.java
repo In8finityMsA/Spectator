@@ -13,7 +13,6 @@ public class PreferencesIO {
     public static final String VIBE_RADIOBUTTON_INDEX = "Saved vibration button index";
     public static final String IS_NIGHT_MODE = "Night mode";
     public static final String IS_BANDS_AND_VOTERS_CONNECTED = "Is bands increase also increases voters";
-    public static final String YIK_NUMBER = "Number of yik";
     public final static String TEXT_RADIOBUTTON_INDEX = "Text size button index";
 
     private SharedPreferences sp;

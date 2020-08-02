@@ -28,38 +28,40 @@ public class Details extends BaseActivity {
         setContentView(R.layout.details_activity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        Day day = null;
+        Bundle fragmentExtras = new Bundle();
         Bundle extras = getIntent().getExtras();
-        Day day = (Day) extras.getSerializable("day");
-
-        TextView showComments = (TextView) findViewById(R.id.show_comments);
-        showComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ViewComments.class);
-                startActivity(intent);
-            }
-        });
+        if (extras == null) {
+            Log.e("DetailsExtras", "null");
+        }
+        else {
+            Log.i("DetailsExtras", "not null");
+            if (extras.containsKey("day")) {
+                day = (Day) extras.getSerializable("day");
+                fragmentExtras.putSerializable("day", day);
+            } else Log.e("DetailsExtras", "Day key not found");
+        }
 
         UniversalPagerAdapter universalPagerAdapter = null;
         if (day.getMode() == Day.PRESENCE) {
             if (extras.containsKey("voters") && extras.containsKey("totalVoters"))
                 universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
-                        new Fragment[]{new GraphsFragment(day.getName() + ".voters"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData(), extras.getInt("totalVoters"))},
-                        new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
+                        new Fragment[]{new GraphsFragment(day.getName() + getString(R.string.voters_suffix)), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("voters")).getData(), extras.getInt("totalVoters"))},
+                        new String[]{getString(R.string.graphs), getString(R.string.list)}, fragmentExtras);
             else Log.e("Details", "No voters key in extras, Mode: " + day.getMode());
         }
         else if (day.getMode() == Day.BANDS) {
             if (extras.containsKey("bands") && extras.containsKey("totalBands"))
                 universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
-                        new Fragment[]{new GraphsFragment(day.getName() + ".bands"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
-                        new String[]{getString(R.string.graphs), getString(R.string.list)}, extras);
+                        new Fragment[]{new GraphsFragment(day.getName() + getString(R.string.bands_suffix)), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder)extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
+                        new String[]{getString(R.string.graphs), getString(R.string.list)}, fragmentExtras);
             else Log.e("Details", "No bands key in extras, Mode: " + day.getMode());
         }
         else if (day.getMode() == Day.PRESENCE_BANDS) {
             if (extras.containsKey("bands") && extras.containsKey("totalBands") && extras.containsKey("voters") && extras.containsKey("totalVoters")) {
                 universalPagerAdapter = new UniversalPagerAdapter(this, getSupportFragmentManager(),
-                        new Fragment[]{new GraphsFragment(day.getName() + ".voters"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("voters")).getData(), extras.getInt("totalVoters")), new GraphsFragment(day.getName() + ".bands"), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
-                        new String[]{getString(R.string.graphs) + "\n" + getString(R.string.voters), getString(R.string.list) + "\n" + getString(R.string.voters), getString(R.string.graphs) + "\n" + getString(R.string.bands), getString(R.string.list) + "\n" + getString(R.string.bands)}, extras);
+                        new Fragment[]{new GraphsFragment(day.getName() + getString(R.string.voters_suffix)), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("voters")).getData(), extras.getInt("totalVoters")), new GraphsFragment(day.getName() + getString(R.string.bands_suffix)), new ListFragment((ArrayList<Voter>) ((ObjectWrapperForBinder) extras.getBinder("bands")).getData(), extras.getInt("totalBands"))},
+                        new String[]{getString(R.string.graphs) + "\n" + getString(R.string.voters), getString(R.string.list) + "\n" + getString(R.string.voters), getString(R.string.graphs) + "\n" + getString(R.string.bands), getString(R.string.list) + "\n" + getString(R.string.bands)}, fragmentExtras);
             }
             else Log.e("Details", "No voters and bands key in extras, Mode: " + day.getMode());
         }

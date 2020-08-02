@@ -84,6 +84,7 @@
     <string name="votes">Галасы</string>
     <string name="votes_last_hour">Галасы за апошнюю гадзіну</string>
     <string name="comments">Каментарый</string>
+    <string name="field_is_empty">Даныя не захаваны: поле пустое</string>
     <string name="edit">Рэдагаваць</string>
     <string name="delete">Выдаліць</string>
     <string name="menu_hint">" Націсніце і ўтрымлівайце, каб выдаліць лічыльнік"</string>

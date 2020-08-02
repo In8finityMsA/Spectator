@@ -20,24 +20,24 @@ public class DateFormatter {
         return DateFormat.getDateInstance(dateStyle, RUSSIAN_LOCALE).format(timestamp);
     }
 
-    public static String formatTime(long timestamp) {
-        return DateFormat.getTimeInstance(TIME_STYLE, RUSSIAN_LOCALE).format(timestamp);
-    }
-
-    public static String formatTime(long timestamp, int timeStyle) {
-        return DateFormat.getTimeInstance(timeStyle, RUSSIAN_LOCALE).format(timestamp);
-    }
-
     public static String formatDate(long timestamp, String pattern) {
         return new SimpleDateFormat(pattern, RUSSIAN_LOCALE).format(timestamp);
+    }
+
+    public static String formatDate(long timestamp, String pattern, Locale locale) {
+        return new SimpleDateFormat(pattern, locale).format(timestamp);
     }
 
     public static String formatDateDefaultPattern(long timestamp) {
         return new SimpleDateFormat(DATE_PATTERN, RUSSIAN_LOCALE).format(timestamp);
     }
 
-    public static String formatDate(long timestamp, String pattern, Locale locale) {
-        return new SimpleDateFormat(pattern, locale).format(timestamp);
+    public static String formatTime(long timestamp) {
+        return DateFormat.getTimeInstance(TIME_STYLE, RUSSIAN_LOCALE).format(timestamp);
+    }
+
+    public static String formatTime(long timestamp, int timeStyle) {
+        return DateFormat.getTimeInstance(timeStyle, RUSSIAN_LOCALE).format(timestamp);
     }
 
     public static String formatTime(long timestamp, String pattern) {

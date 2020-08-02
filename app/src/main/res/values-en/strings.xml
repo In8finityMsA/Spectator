@@ -84,6 +84,7 @@
     <string name="votes_last_hour">Votes last hour</string>
     <string name="bands_last_hour">Bands last hour</string>
     <string name="comments">Comments</string>
+    <string name="field_is_empty">Data isn\'t saved: field is empty</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="menu_hint">Long tap on day tile to delete it.</string>

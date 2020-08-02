@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class ViewComments extends BaseActivity {
 
     private static final int EDIT_EXISTING_COMMENT_REQUEST = 13;
-    private  static final int EDIT_COMMENT_REQUEST = 12;
+    private  static final int CREATE_COMMENT_REQUEST = 12;
 
     private LinearLayout commentList;
     private JsonIO commentsJsonIO;
@@ -63,6 +63,27 @@ public class ViewComments extends BaseActivity {
             commentList.addView(newRow);
         }
 
+        LinearLayout addComment = (LinearLayout) findViewById(R.id.leave_comment);
+        addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editTextIntent = new Intent(getApplicationContext(), EditTextDialog.class);
+                final Bundle bundle = new Bundle();
+                bundle.putString(EditTextDialog.textHintExtras, getString(R.string.comment_hint));
+                bundle.putInt(EditTextDialog.textInputTypeExtras, InputType.TYPE_CLASS_TEXT);
+                bundle.putInt(EditTextDialog.textMaxLengthExtras, 500);
+                editTextIntent.putExtras(bundle);
+                startActivityForResult(editTextIntent, CREATE_COMMENT_REQUEST);
+            }
+        });
+
+        TextView exportComments = (TextView) findViewById(R.id.export_comments);
+        exportComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exportData();
+            }
+        });
     }
 
     private ConstraintLayout makeNewRow(final Comment newComment) {
@@ -132,6 +153,8 @@ public class ViewComments extends BaseActivity {
                                     commentList.addView(makeNewRow(newComment), editingCommentIndex);
                                 } catch (JsonIO.ObjectNotFoundException e) {
                                     e.printStackTrace();
+                                } finally {
+                                    editingCommentIndex = -1;
                                 }
                             }
                         }
@@ -139,11 +162,14 @@ public class ViewComments extends BaseActivity {
                 }
                 break;
             }
-            case EDIT_COMMENT_REQUEST: {
+            case CREATE_COMMENT_REQUEST: {
                 if (resultCode == RESULT_OK) {
                     if (data.hasExtra("textResult")) {
                         if (!data.getStringExtra("textResult").equals("")) {
-                            commentsJsonIO.writeToEndOfFile(new Comment(System.currentTimeMillis(), data.getStringExtra("textResult")).toJSONObject());
+                            Comment newComment = new Comment(System.currentTimeMillis(), data.getStringExtra("textResult"));
+                            commentsJsonIO.writeToEndOfFile(newComment.toJSONObject());
+                            comments.add(newComment);
+                            commentList.addView(makeNewRow(newComment));
                         }
                     }
                 }
@@ -152,7 +178,7 @@ public class ViewComments extends BaseActivity {
     }
 
     private void exportData() {
-        File file = new File(this.getFilesDir(), Comment.COMMENTS_PATH);
+        File file = new File(this.getFilesDir(), commentsPath);
         Uri uri = FileProvider.getUriForFile(this, "com.spectator.fileProvider", file);
 
         Intent exportingIntent = new Intent(android.content.Intent.ACTION_SEND);

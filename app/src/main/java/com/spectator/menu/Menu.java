@@ -2,7 +2,6 @@ package com.spectator.menu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,8 +19,8 @@ import com.spectator.data.Day;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
-import com.spectator.utils.PreferencesIO;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -33,7 +32,6 @@ public class Menu extends BaseActivity {
     private int totallyVoters;
     private int totallyBands;
     private JsonIO daysJsonIO;
-    private PreferencesIO preferencesIO;
     private ArrayList<Day> days;
     private LinearLayout scrollList;
     private LayoutInflater inflater;
@@ -42,10 +40,8 @@ public class Menu extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        preferencesIO = new PreferencesIO(this);
         daysJsonIO = new JsonIO(getFilesDir(), Day.DAYS_PATH, Day.ARRAY_KEY, true);
 
         scrollList = findViewById(R.id.scroll_layout);
@@ -59,9 +55,7 @@ public class Menu extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Dialog.class);
 
-                //Creating new Day record and writing it to the file
-
-                //Passing date, total votes and daysJsonIO to Voting Activity
+                //Passing total votes and daysJsonIO to createCount Activity (Dialog.class)
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                 bundle.putInt("totalVoters", totallyVoters);
@@ -73,25 +67,11 @@ public class Menu extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e("Menu", "onStart");
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        Log.e("Menu", "onResume");
 
         //Setting locale for current date text
         Locale locale = getResources().getConfiguration().locale;
-        /*switch (preferencesIO.getInt(PreferencesIO.LANG_RADIOBUTTON_INDEX, 1)) {
-            case 0: locale = new Locale("en"); break;
-            case 1: locale = new Locale("ru"); break;
-            case 2: locale = new Locale("be"); break;
-            default: locale = new Locale("ru");
-        }*/
         String str = getString(R.string.today) + DateFormatter.formatDate(System.currentTimeMillis(), "d MMMM", locale);
         //TODO: make it on date change action
         //Setting current date and election status
@@ -124,7 +104,7 @@ public class Menu extends BaseActivity {
     }
 
     private LinearLayout makeNewRow(final Day printDay) {
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.day_layout, null);
+        final LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.day_layout, null);
 
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM;
@@ -158,8 +138,8 @@ public class Menu extends BaseActivity {
             newNumberDualView.setVisibility(View.VISIBLE);
         }
 
-        final LinearLayout day = (LinearLayout) linearLayout.findViewById(R.id.day);
-        day.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout dayLayout = (LinearLayout) linearLayout.findViewById(R.id.day);
+        dayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
@@ -175,19 +155,52 @@ public class Menu extends BaseActivity {
 
         final LinearLayout editor = (LinearLayout) linearLayout.findViewById(R.id.day_editor);
         editor.setVisibility(View.GONE);
-        day.setOnLongClickListener(new View.OnLongClickListener() {
+        dayLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if(editor.getVisibility() == view.GONE) {
+                if (editor.getVisibility() == View.GONE) {
                     editor.setVisibility(View.VISIBLE);
-                }else{
+                }
+                else {
                     editor.setVisibility(View.GONE);
                 }
                 return true;
             }
         });
 
-
+        final LinearLayout deleteDay = (LinearLayout) linearLayout.findViewById(R.id.day_delete_button);
+        deleteDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = scrollList.indexOfChild(linearLayout);
+                Day dayToBeDeleted = days.get(index);
+                if (dayToBeDeleted.getMode() == Day.PRESENCE) {
+                    File fileRecords = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.voters_suffix) + getString(R.string.json_postfix));
+                    fileRecords.delete();
+                    File fileHourly = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.voters_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix));
+                    fileHourly.delete();
+                }
+                else if (dayToBeDeleted.getMode() == Day.BANDS) {
+                    File fileRecords = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.bands_suffix) + getString(R.string.json_postfix));
+                    fileRecords.delete();
+                    File fileHourly = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.bands_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix));
+                    fileHourly.delete();
+                }
+                else if (dayToBeDeleted.getMode() == Day.PRESENCE_BANDS) {
+                    File fileRecords = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.voters_suffix) + getString(R.string.json_postfix));
+                    fileRecords.delete();
+                    File fileHourly = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.voters_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix));
+                    fileHourly.delete();
+                    File fileRecords2 = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.bands_suffix) + getString(R.string.json_postfix));
+                    fileRecords2.delete();
+                    File fileHourly2 = new File(getFilesDir(), dayToBeDeleted.getName() + getString(R.string.bands_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix));
+                    fileHourly2.delete();
+                }
+                scrollList.removeViewAt(index);
+                days.remove(index);
+                daysJsonIO.deleteAt(index, Day.ARRAY_KEY);
+            }
+        });
 
         return linearLayout;
     }

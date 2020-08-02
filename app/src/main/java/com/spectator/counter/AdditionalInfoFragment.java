@@ -41,9 +41,9 @@ public class AdditionalInfoFragment extends Fragment {
             else {
                 Log.e("DetailedInfoExtras", "No mode key");
             }
-            String[] labels = extras.getStringArray("labels");
 
             if (mode == Day.BANDS || mode == Day.PRESENCE) {
+                String[] labels = extras.getStringArray("labels");
                 view = inflater.inflate(R.layout.additional_info_fragment, container, false);
 
                 grandTotal = view.findViewById(R.id.total_amount);

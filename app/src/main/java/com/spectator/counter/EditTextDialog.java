@@ -1,7 +1,6 @@
 package com.spectator.counter;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -14,9 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.spectator.BaseActivity;
 import com.spectator.R;
-import com.spectator.utils.JsonIO;
-import com.spectator.utils.ObjectWrapperForBinder;
-import com.spectator.utils.PreferencesIO;
 
 public class EditTextDialog extends BaseActivity {
 
@@ -82,9 +78,15 @@ public class EditTextDialog extends BaseActivity {
                 if (textDefaultBodge != null) {
                     resultIntent.putExtra("textDefault", textDefaultBodge);
                 }
+                if (editText.getText().toString().trim().equals("")) {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.field_is_empty, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 setResult(RESULT_OK, resultIntent);
-                Toast toast = Toast.makeText(getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT);
-                toast.show();
                 finish();
             }
         });

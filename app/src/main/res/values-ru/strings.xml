@@ -91,4 +91,5 @@
     <string name="if_you_have_spotted_a_bug_or_you_want_to_propose_new_idea_please_contact_us_at_wintry3_gmail_com">" Если вы обнаружили ошибку или хотите предложить новую идею, пожалуйста, свяжитесь с нами по адресу wintry3@gmail.com"</string>
     <string name="show_comments">Показать комментарии</string>
     <string name="swipe_up_to_see_more">Проведите вверх, чтобы увидеть больше информации</string>
+    <string name="field_is_empty">Данные не сохранены: поле пустое</string>
 </resources>

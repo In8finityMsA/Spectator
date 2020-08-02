@@ -20,7 +20,7 @@ public class UniversalPagerAdapter extends FragmentPagerAdapter {
         length = fragments.length;
         TAB_TITLES = pageTitles;
         if (bundle != null) {
-            for(Fragment fragment:fragments) {
+            for(Fragment fragment: fragments) {
                 fragment.setArguments(bundle);
             }
         }

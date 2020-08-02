@@ -15,18 +15,17 @@ import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
 import com.spectator.data.Day;
+import com.spectator.utils.PreferencesIO;
 
 
 public class DailyInfoFragment extends Fragment {
 
-    private static final String MY_SETTINGS = "Settings";
-    private static final String IS_FIRST_TIME = "Is first time";
     private int mode;
     private TextView thisDay;
     private TextView thisDay2;
     private VerticalViewPager viewPager;
     private boolean isFirstTime;
-    private SharedPreferences sp;
+    private PreferencesIO preferencesIO;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,9 +50,9 @@ public class DailyInfoFragment extends Fragment {
             else {
                 Log.e("DailyInfoExtras", "No mode key");
             }
-            String[] labels = extras.getStringArray("labels");
 
             if (mode == Day.BANDS || mode == Day.PRESENCE) {
+                String[] labels = extras.getStringArray("labels");
                 view = inflater.inflate(R.layout.daily_info_fragment, container, false);
 
                 thisDay = view.findViewById(R.id.daily_amount);
@@ -80,36 +79,38 @@ public class DailyInfoFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sp = view.getContext().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
-        isFirstTime = sp.getBoolean(IS_FIRST_TIME, true);
-        if (isFirstTime) {
+        preferencesIO = new PreferencesIO(view.getContext());
+        isFirstTime = preferencesIO.getBoolean(PreferencesIO.IS_FIRST_TIME, true);
+        final TextView swipeHint = view.findViewById(R.id.swipe_hint);
 
+        if (isFirstTime) {
+            swipeHint.setVisibility(View.VISIBLE);
+
+            viewPager.addOnPageChangeListener(new VerticalViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (isFirstTime) {
+                        preferencesIO.putBoolean(PreferencesIO.IS_FIRST_TIME, false);
+                        swipeHint.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+        else {
+            swipeHint.setVisibility(View.GONE);
         }
 
-        viewPager.addOnPageChangeListener(new VerticalViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (isFirstTime) {
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean(IS_FIRST_TIME, false);
-                    editor.apply();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
-
-
-
 
     void setDaily(int daily, @Day.Position int position) {
         if (mode != Day.PRESENCE_BANDS) {

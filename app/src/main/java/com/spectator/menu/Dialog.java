@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,11 +20,9 @@ import com.spectator.data.Day;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
-import com.spectator.utils.PreferencesIO;
 
 public class Dialog extends BaseActivity {
 
-    private Button noButton;
     private TextView yesButton;
     private EditText editName;
     private EditText editYikNumber;
@@ -50,7 +47,6 @@ public class Dialog extends BaseActivity {
         }
 
         yesButton = (TextView) findViewById(R.id.confirm);
-        //noButton = (Button) findViewById(R.id.no);
         editName = (EditText) findViewById(R.id.edit_name);
         editYikNumber = (EditText) findViewById(R.id.edit_yik_number);
         checkPresence = (CheckBox) findViewById(R.id.count_people);
@@ -58,6 +54,7 @@ public class Dialog extends BaseActivity {
 
         final String date = DateFormatter.formatDateDefaultPattern(System.currentTimeMillis());
 
+        //TODO: Now if special character appears deletes everything in editText.Make it delete only the special character
         editName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 String str = s.toString();
@@ -96,17 +93,17 @@ public class Dialog extends BaseActivity {
                     canPass = false;
                 }
 
-                String[] files = fileList();
-                String str, suffix = ".voters";
+                String[] fileNames = fileList();
+                String str, suffix = getString(R.string.voters_suffix);
                 if (checkPresence.isChecked() && checkBands.isChecked())
-                    suffix = ".voters";
+                    suffix = getString(R.string.voters_suffix);
                 else if (checkPresence.isChecked())
-                    suffix = ".voters";
+                    suffix = getString(R.string.voters_suffix);
                 else if (checkBands.isChecked())
-                    suffix = ".bands";
-                for (String file : files) {
-                    str = editName.getText().toString().trim() + suffix +  ".json";
-                    if (str.equals(file)) {
+                    suffix = getString(R.string.bands_suffix);
+                for (String fileName : fileNames) {
+                    str = editName.getText().toString().trim() + suffix +  getString(R.string.json_postfix);
+                    if (str.equals(fileName)) {
                         Toast toast = Toast.makeText(getApplicationContext(), R.string.day_exists, Toast.LENGTH_SHORT);
                         toast.show();
                         canPass = false;
@@ -140,12 +137,5 @@ public class Dialog extends BaseActivity {
                 }
             }
         });
-
-        /*noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });*/
     }
 }

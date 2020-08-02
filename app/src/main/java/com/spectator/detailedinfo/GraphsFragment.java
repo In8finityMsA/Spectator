@@ -61,7 +61,6 @@ public class GraphsFragment extends Fragment {
         }
 
         TextView exportData = (TextView) view.findViewById(R.id.export_data);
-
         exportData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,10 +68,19 @@ public class GraphsFragment extends Fragment {
             }
         });
 
+        TextView showComments = (TextView) view.findViewById(R.id.show_comments);
+        showComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext().getApplicationContext(), ViewComments.class);
+                startActivity(intent);
+            }
+        });
+
         ArrayList<Hour> hours = new ArrayList<>();
         ArrayList<BarEntry> voters = new ArrayList<>();
 
-        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), pathPrefix + ".hourly.json", Hour.ARRAY_KEY, false);
+        JsonIO hourlyJsonIO = new JsonIO(getContext().getFilesDir(), pathPrefix + getString(R.string.hourly_suffix) + getString(R.string.json_postfix), Hour.ARRAY_KEY, false);
         hours = hourlyJsonIO.parseJsonArray(true, hours, true, Hour.ARRAY_KEY, Hour.class, Hour.constructorArgs, Hour.jsonKeys, null);
 
         BarChart barChart = (BarChart) view.findViewById(R.id.chart);
@@ -130,13 +138,13 @@ public class GraphsFragment extends Fragment {
     }
 
     private void exportData() {
-        File file = new File(getContext().getFilesDir(), pathPrefix + ".json");
+        File file = new File(getContext().getFilesDir(), pathPrefix + getString(R.string.json_postfix));
         Uri uri = FileProvider.getUriForFile(getContext(), "com.spectator.fileProvider", file);
 
         Intent exportingIntent = new Intent(android.content.Intent.ACTION_SEND);
         exportingIntent.setType("application/json");
         exportingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, day.getName() + "(" + day.getFormattedDate() + ")" + getString(R.string.spectator_list));
+        exportingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, day.getName() + "(" + day.getFormattedDate() + ") " + getString(R.string.spectator_list));
         exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(exportingIntent, getString(R.string.export_via)));
     }

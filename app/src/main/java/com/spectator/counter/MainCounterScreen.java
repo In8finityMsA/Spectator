@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class MainCounterScreen extends BaseActivity {
 
     private static final int EDIT_YIK_REQUEST = 11;
-    private static final int EDIT_COMMENT_REQUEST = 12;
+    private static final int CREATE_COMMENT_REQUEST = 12;
 
     private PreferencesIO preferencesIO;
     private TextView voteButtonMain;
@@ -247,7 +247,7 @@ public class MainCounterScreen extends BaseActivity {
                 bundle.putInt(EditTextDialog.textInputTypeExtras, InputType.TYPE_CLASS_TEXT);
                 bundle.putInt(EditTextDialog.textMaxLengthExtras, 500);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, EDIT_COMMENT_REQUEST);
+                startActivityForResult(intent, CREATE_COMMENT_REQUEST);
             }
         });
 
@@ -421,8 +421,8 @@ public class MainCounterScreen extends BaseActivity {
     }
 
     private void initVoters() {
-        String votersJsonPath = day.getName() + ".voters" + ".json";
-        String hourlyVotersJsonPath = day.getName() + ".voters" + ".hourly.json";
+        String votersJsonPath = day.getName() + getString(R.string.voters_suffix) + getString(R.string.json_postfix);
+        String hourlyVotersJsonPath = day.getName() + getString(R.string.voters_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix);
         //Reading from file on startup, init daily votes number
         votersJsonIO = new JsonIO(this.getFilesDir(), votersJsonPath, Voter.ARRAY_KEY, true);
         voters = votersJsonIO.parseJsonArray(false, new ArrayList<Voter>(), true, Voter.ARRAY_KEY, Voter.class, Voter.constructorArgs, Voter.jsonKeys, null);
@@ -435,8 +435,8 @@ public class MainCounterScreen extends BaseActivity {
     }
 
     private void initBands() {
-        String bandsJsonPath = day.getName() + ".bands" + ".json";
-        String hourlyBandsJsonPath = day.getName() + ".bands" + ".hourly.json";
+        String bandsJsonPath = day.getName() + getString(R.string.bands_suffix) + getString(R.string.json_postfix);
+        String hourlyBandsJsonPath = day.getName() + getString(R.string.bands_suffix) + getString(R.string.hourly_suffix) + getString(R.string.json_postfix);
         //Reading from file on startup, init daily votes number
         bandsJsonIO = new JsonIO(this.getFilesDir(), bandsJsonPath, Voter.ARRAY_KEY, true);
         bands = bandsJsonIO.parseJsonArray(false, new ArrayList<Voter>(), true, Voter.ARRAY_KEY, Voter.class, Voter.constructorArgs, Voter.jsonKeys, null);
@@ -469,7 +469,7 @@ public class MainCounterScreen extends BaseActivity {
                 }
                 break;
             }
-            case EDIT_COMMENT_REQUEST: {
+            case CREATE_COMMENT_REQUEST: {
                 if (resultCode == RESULT_OK) {
                     if (data.hasExtra("textResult")) {
                         if (!data.getStringExtra("textResult").equals("")) {
