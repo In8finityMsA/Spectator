@@ -84,4 +84,11 @@
     <string name="votes_last_hour">Votes last hour</string>
     <string name="bands_last_hour">Bands last hour</string>
     <string name="comments">Comments</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="menu_hint">Long tap on day tile to delete it.</string>
+    <string name="copyright_2020_npavel_sudnik_nrichard_ragusski_nv1_0">v1.0\nCopyright © 2020 Pavel Sudnik, Richard Ragusski.</string>
+    <string name="if_you_have_spotted_a_bug_or_you_want_to_propose_new_idea_please_contact_us_at_wintry3_gmail_com">If you have spotted a bug or you want to propose new idea, please contact us at wintry3@gmail.com</string>
+    <string name="show_comments">Show comments</string>
+    <string name="swipe_up_to_see_more">Swipe up to see more</string>
 </resources>

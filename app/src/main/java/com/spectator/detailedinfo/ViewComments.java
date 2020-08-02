@@ -1,4 +1,4 @@
-/*package com.spectator.detailedinfo;
+package com.spectator.detailedinfo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +20,10 @@ import com.spectator.BaseActivity;
 import com.spectator.R;
 import com.spectator.counter.EditTextDialog;
 import com.spectator.data.Comment;
-import com.spectator.data.Day;
-import com.spectator.data.Voter;
 import com.spectator.utils.JsonIO;
-import com.spectator.utils.ObjectWrapperForBinder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class ViewComments extends BaseActivity {
 
@@ -167,4 +162,4 @@ public class ViewComments extends BaseActivity {
         exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(exportingIntent, getString(R.string.export_via)));
     }
-}*/
+}

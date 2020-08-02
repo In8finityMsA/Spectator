@@ -7,10 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,7 +83,7 @@ public class DailyInfoFragment extends Fragment {
         sp = view.getContext().getSharedPreferences(MY_SETTINGS, Context.MODE_PRIVATE);
         isFirstTime = sp.getBoolean(IS_FIRST_TIME, true);
         if (isFirstTime) {
-            toggleArrowsAnimation(view, true);
+
         }
 
         viewPager.addOnPageChangeListener(new VerticalViewPager.OnPageChangeListener() {
@@ -102,7 +98,6 @@ public class DailyInfoFragment extends Fragment {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean(IS_FIRST_TIME, false);
                     editor.apply();
-                    toggleArrowsAnimation(view, false);
                 }
             }
 
@@ -113,51 +108,8 @@ public class DailyInfoFragment extends Fragment {
         });
     }
 
-    private void toggleArrowsAnimation(View view, boolean isEnable) {
-        ImageView imageViewLeft, imageViewRight, imageViewLeft1, imageViewRight1;
-        imageViewLeft = (ImageView) view.findViewById(R.id.down_arrow_left);
-        imageViewRight = (ImageView) view.findViewById(R.id.down_arrow_right);
-        imageViewLeft1 = (ImageView) view.findViewById(R.id.down_arrow_left_1);
-        imageViewRight1 = (ImageView) view.findViewById(R.id.down_arrow_right_1);
 
-        if (isEnable) {
-            //TODO: create animations array
-            final Animation animation = new AlphaAnimation(0, 1);
-            animation.setDuration(500);
-            animation.setInterpolator(new LinearInterpolator());
-            animation.setRepeatCount(Animation.INFINITE);
-            animation.setRepeatMode(Animation.REVERSE);
 
-            imageViewLeft.setVisibility(View.VISIBLE);
-            imageViewRight.setVisibility(View.VISIBLE);
-            imageViewLeft.startAnimation(animation);
-            imageViewRight.startAnimation(animation);
-
-            final Animation animation1 = new AlphaAnimation(0, 1);
-            animation1.setStartOffset(500);
-            animation1.setDuration(500);
-            animation1.setInterpolator(new LinearInterpolator());
-            animation1.setRepeatCount(Animation.INFINITE);
-            animation1.setRepeatMode(Animation.RESTART);
-
-            //animation1.setRepeatMode(Animation.REVERSE);
-            imageViewLeft1.setVisibility(View.VISIBLE);
-            imageViewRight1.setVisibility(View.VISIBLE);
-            imageViewLeft1.startAnimation(animation1);
-            imageViewRight1.startAnimation(animation1);
-        }
-        else {
-            imageViewLeft.clearAnimation();
-            imageViewRight.clearAnimation();
-            imageViewLeft.setVisibility(View.GONE);
-            imageViewRight.setVisibility(View.GONE);
-
-            imageViewLeft1.clearAnimation();
-            imageViewRight1.clearAnimation();
-            imageViewLeft1.setVisibility(View.GONE);
-            imageViewRight1.setVisibility(View.GONE);
-        }
-    }
 
     void setDaily(int daily, @Day.Position int position) {
         if (mode != Day.PRESENCE_BANDS) {

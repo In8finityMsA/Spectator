@@ -5,97 +5,44 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/daily_info"
-        android:layout_width="match_parent"
+        android:id="@+id/daily_count"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:baselineAligned="false"
+        android:layout_weight="2"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/left_arrows"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <ImageView
-                android:id="@+id/down_arrow_left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/down_arrow_left"
-                android:visibility="gone"
-                app:srcCompat="@drawable/down_arrow" />
-
-            <ImageView
-                android:id="@+id/down_arrow_left_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/down_arrow_left_1"
-                android:visibility="gone"
-                app:srcCompat="@drawable/down_arrow" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/daily_count"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/daily_amount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
+            android:text="@string/num"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/daily_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="@string/voted_today"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/daily_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/num"
-                android:textColor="@color/white"
-                android:textSize="42sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/daily_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/voted_today"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/right_arrows"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <ImageView
-                android:id="@+id/down_arrow_right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/down_arrow_right"
-                android:visibility="gone"
-                app:srcCompat="@drawable/down_arrow" />
-
-            <ImageView
-                android:id="@+id/down_arrow_right_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/down_arrow_right_1"
-                android:visibility="gone"
-                app:srcCompat="@drawable/down_arrow" />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/swipe_up_to_see_more"
+            android:textColor="@color/hintWhite" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
