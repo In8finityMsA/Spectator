@@ -46,7 +46,7 @@
     <string name="this_day">This day</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-    <string name="details" translatable="false">Details</string>
+    <string name="details">Details</string>
     <string name="end_voting">Voting has ended</string>
     <string name="today">"Today is: "</string>
     <string name="first_day">First day of preterm elections</string>

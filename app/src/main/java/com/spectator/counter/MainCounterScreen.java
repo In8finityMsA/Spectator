@@ -512,7 +512,6 @@ public class MainCounterScreen extends BaseActivity {
             voteButtonMain.setClickable(false);
             voteButtonMain.setText(R.string.end_voting);
             deleteLastButtonMain.setClickable(false);
-            commentButton.setClickable(false);
 
             if (day.getMode() == Day.PRESENCE_BANDS) {
                 votersNumbers.hourly = 0;

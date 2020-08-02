@@ -29,7 +29,7 @@
     <string name="export_all_data">Экспорт всех данных</string>
     <string name="export_this_graph">Экспорт этого графика</string>
     <string name="voted_today">Голосов за сегодня</string>
-    <string name="details" translatable="false">Детали</string>
+    <string name="details">Детали</string>
     <string name="count">Добавить</string>
     <string name="cancel">Отменить</string>
     <string name="confirm">Подтвердить</string>

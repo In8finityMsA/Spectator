@@ -57,8 +57,6 @@ public class Dialog extends BaseActivity {
         checkBands = (CheckBox) findViewById(R.id.count_bands);
 
         final String date = DateFormatter.formatDateDefaultPattern(System.currentTimeMillis());
-        editName.setText(date);
-        checkPresence.setChecked(true);
 
         editName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {

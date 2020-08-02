@@ -112,15 +112,8 @@ public class Menu extends BaseActivity {
         if (scrollList.getChildCount() > 1)
             scrollList.removeViews(0, scrollList.getChildCount() - 1);
 
-        addNew.setVisibility(TextView.VISIBLE);
         for (int i = 0; i < days.size(); i++) {
             scrollList.addView(makeNewRow(days.get(i)), i);
-            Log.i("daysDate", days.get(i).getFormattedDate());
-            //Hiding "add new" button if current date is already exists
-            Log.i("currentDate", DateFormatter.formatDateDefaultPattern(System.currentTimeMillis()));
-            if (days.get(i).getFormattedDate().equals(DateFormatter.formatDateDefaultPattern(System.currentTimeMillis()))) {
-                addNew.setVisibility(TextView.GONE);
-            }
         }
     }
 
