@@ -14,6 +14,7 @@
         android:clickable="true"
         android:divider="@drawable/line"
         android:focusable="true"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Ribbons"
+                android:text="@string/bands"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -73,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:gravity="center"
-                android:text="Votes"
+                android:text="@string/votes"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

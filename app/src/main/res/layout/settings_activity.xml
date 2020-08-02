@@ -58,8 +58,13 @@
                 android:layout_margin="10dp"
                 android:text="@string/use_dark_mode"
                 android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white"
+                android:textColorLink="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:thumbTint="@color/white"
+                android:thumbTintMode="multiply"
                 tools:checked="true" />
 
             <ImageView

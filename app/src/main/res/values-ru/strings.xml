@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Наблюдатель</string>
-    <string name="general_comments">Ваш комментарий</string>
     <string name="title_activity_details">Анализ</string>
     <string name="title_activity_graphs">График</string>
     <string name="spectator">Наблюдатель</string>
@@ -63,17 +62,24 @@
     <string name="enter_voting_name">Придумайте название счётчика</string>
     <string name="hint">"Вы можете считать и явку, и белые ленты на одном экране. Для этого поставьте галочки в обоих полях. "</string>
     <string name="day_exists">День с этим именем уже существует</string>
-    <string name="choose_mode">Пожалуйста выберите режим</string>
-    <string name="enter_pec">Пожалуйста введите номер УИКа</string>
+    <string name="choose_mode">Пожалуйста, выберите режим</string>
+    <string name="enter_pec">Пожалуйста, введите номер УИКа</string>
     <string name="bands">Ленточки</string>
     <string name="voters">Голоса</string>
-    <string name="enter_name">Пожалуйтса введите название</string>
-    <string name="bands_last_hour">Ленточек за последний час</string>
+    <string name="enter_name">Пожалуйста, введите название</string>
+    <string name="bands_last_hour">Ленточки за последний час</string>
     <string name="bands_today">Ленточек сегодня</string>
     <string name="bands_total">Ленточек всего</string>
     <string name="other">Другое</string>
     <string name="export_via">Экспортировать с помощью…</string>
-    <string name="spectator_list">" список наблюдения"</string>
+    <string name="spectator_list">список наблюдения</string>
     <string name="data_saved">Данные сохранены</string>
     <string name="special_characters_denial">Специальные знаки не разрешены</string>
+    <string name="count_bands_main">Добавить\nленту</string>
+    <string name="count_votes_main">Добавить\nголос</string>
+    <string name="delete_last_band">Удалить прошлую ленту</string>
+    <string name="delete_last_vote">Удалить прошлый голос</string>
+    <string name="leave_comment">Оставить комментарий</string>
+    <string name="votes">Голоса</string>
+    <string name="votes_last_hour">Голоса за последний час</string>
 </resources>

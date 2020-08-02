@@ -1,4 +1,4 @@
-package com.spectator.detailedinfo;
+/*package com.spectator.detailedinfo;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -20,4 +20,4 @@ public class ViewComments extends BaseActivity {
 
         commentList = (LinearLayout) findViewById(R.id.comment_list);
     }
-}
+}*/

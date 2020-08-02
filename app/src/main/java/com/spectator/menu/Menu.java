@@ -14,12 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.spectator.BaseActivity;
+import com.spectator.R;
+import com.spectator.counter.MainCounterScreen;
 import com.spectator.data.Day;
 import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
-import com.spectator.counter.MainCounterScreen;
 import com.spectator.utils.ObjectWrapperForBinder;
-import com.spectator.R;
 import com.spectator.utils.PreferencesIO;
 
 import java.util.ArrayList;
@@ -126,7 +126,7 @@ public class Menu extends BaseActivity {
     private LinearLayout makeNewRow(final Day printDay) {
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.day_layout, null);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.setMargins(convertDpToPixel(this,10), convertDpToPixel(this, 10), convertDpToPixel(this, 10), 0);
         linearLayout.setLayoutParams(layoutParams);
@@ -158,7 +158,8 @@ public class Menu extends BaseActivity {
             newNumberDualView.setVisibility(View.VISIBLE);
         }
 
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout day = (LinearLayout) linearLayout.findViewById(R.id.day);
+        day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainCounterScreen.class);
@@ -171,6 +172,22 @@ public class Menu extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        final LinearLayout editor = (LinearLayout) linearLayout.findViewById(R.id.day_editor);
+        editor.setVisibility(View.GONE);
+        day.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(editor.getVisibility() == view.GONE) {
+                    editor.setVisibility(View.VISIBLE);
+                }else{
+                    editor.setVisibility(View.GONE);
+                }
+                return true;
+            }
+        });
+
+
 
         return linearLayout;
     }
