@@ -1,4 +1,4 @@
-package com.spectator.detailedinfo;
+/*package com.spectator.detailedinfo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -167,4 +167,4 @@ public class ViewComments extends BaseActivity {
         exportingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(exportingIntent, getString(R.string.export_via)));
     }
-}
+}*/

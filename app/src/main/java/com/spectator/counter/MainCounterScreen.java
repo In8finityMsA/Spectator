@@ -198,6 +198,7 @@ public class MainCounterScreen extends BaseActivity {
             @Override
             public void onClick(View view) {
 
+                doDeleteVibration();
                 if (day.getMode() == Day.PRESENCE || day.getMode() == Day.PRESENCE_BANDS) {
                     onDeleteLastRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
                 }
@@ -213,6 +214,8 @@ public class MainCounterScreen extends BaseActivity {
             voteButtonSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    doVibration();
                     onAddRecord(bands, bandsJsonIO, hourlyBandsJsonIO, bandsNumbers, Day.BANDS);
                     if (isBandsAndVotersConnected) {
                         onAddRecord(voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
@@ -223,6 +226,7 @@ public class MainCounterScreen extends BaseActivity {
             deleteLastButtonSecond.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    doDeleteVibration();
                     if (voters.size() > 0 && bands.size() > 0 && isBandsAndVotersConnected) {
                         Voter bandToBeDeleted = bands.get(bands.size() - 1);
                         onDeleteConnectedRecord(bandToBeDeleted, voters, votersJsonIO, hourlyVotersJsonIO, votersNumbers, Day.PRESENCE);
@@ -590,6 +594,37 @@ public class MainCounterScreen extends BaseActivity {
                     break;
                 default:
                     vibe.vibrate(100);
+                    break;
+            }
+        }
+    }
+
+    private void doDeleteVibration(){
+        int vibeId = preferencesIO.getInt(PreferencesIO.VIBE_RADIOBUTTON_INDEX, 2);
+        long [] pattern0 = {0, 300, 150, 150};
+        long [] pattern1 = {0, 200, 100, 100};
+        long [] pattern2 = {0, 100, 75, 75};
+        long [] pattern3 = {0, 50, 50, 50};
+        //vibe.vibrate(pattern, -1);
+        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibe!= null){
+            switch (vibeId){
+                case 0:
+                    vibe.vibrate(pattern0, -1);
+                    break;
+                case 1:
+                    vibe.vibrate(pattern1, -1);
+                    break;
+                case 2:
+                    vibe.vibrate(pattern2, -1);
+                    break;
+                case 3:
+                    vibe.vibrate(pattern3, -1);
+                    break;
+                case 4:
+                    break;
+                default:
+                    vibe.vibrate(pattern2, -1);
                     break;
             }
         }

@@ -57,7 +57,7 @@
             android:paddingBottom="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/hintWhite"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edit_yik_number"
@@ -67,14 +67,14 @@
             android:background="@drawable/button_background3"
             android:gravity="center"
             android:hint="@string/yik_hint"
+            android:importantForAutofill="no"
             android:inputType="number"
             android:maxLength="4"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/hintWhite"
-            android:textSize="24sp"
-            android:importantForAutofill="no" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/linearLayout"

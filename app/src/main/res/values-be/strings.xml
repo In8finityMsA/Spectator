@@ -10,7 +10,7 @@
     <string name="last_hour">За апошнюю гадзіну</string>
     <string name="grand_total">Усяго на гэтым УВК</string>
     <string name="date">Сягодня 4 жніўня</string>
-    <string name="general_comments" translatable="false">Ваш каментарый</string>
+    <string name="general_comments">Ваш каментарый</string>
     <string name="status">Першы дзень датэрміновых выбараў</string>
     <string name="add_new_day">+ Пачаць новы дзень</string>
     <string name="mark_last">Напісаць\nкаментарый</string>
@@ -64,17 +64,24 @@
     <string name="hint">"Вы можаце лічыць і яўку, і белыя стужкі на адным экране. Для гэтага пастаўце галачкі ў абодвух палях. "</string>
     <string name="day_exists">Дзень з гэтай назвай ўжо існуе</string>
     <string name="choose_mode">Калі ласка, выберыце рэжым</string>
-    <string name="enter_pec">Калі ласка ўвядзіце нумар УВК</string>
+    <string name="enter_pec">Калі ласка, увядзіце нумар УВК</string>
     <string name="bands">Стужкі</string>
     <string name="voters">Галасы</string>
-    <string name="enter_name">Калі ласка ўвядзіце назву</string>
+    <string name="enter_name">Калі ласка, увядзіце назву</string>
     <string name="bands_last_hour">Стужак за апошнюю гадзіну</string>
     <string name="bands_today">Стужак за сягодня</string>
     <string name="bands_total">Стужак ўсяго</string>
     <string name="other">Іншае</string>
     <string name="export_via">Экспартаваць з дапамогай…</string>
-    <string name="spectator_list">"  спіс назірання"</string>
+    <string name="spectator_list">cпіс назірання</string>
     <string name="data_saved">Даныя захаваны</string>
     <string name="special_characters_denial">Спецыяльныя знакі не дазволены</string>
+    <string name="count_bands_main">Дадаць\nстужку</string>
+    <string name="count_votes_main">Дадаць\nголас</string>
+    <string name="delete_last_band">Выдаліць\nапошнюю стужку</string>
+    <string name="delete_last_vote">Выдаліць\nапошні голас</string>
+    <string name="leave_comment">" Пакінуць каментарый"</string>
+    <string name="votes">Галасы</string>
+    <string name="votes_last_hour">Галасы за апошнюю гадзіну</string>
     <string name="comments">Каментарый</string>
 </resources>

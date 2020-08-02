@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Ribbons last hour"
+                android:text="@string/bands_last_hour"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:gravity="center"
-                android:text="Votes last hour"
+                android:text="@string/votes_last_hour"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

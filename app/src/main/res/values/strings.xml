@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Spectator</string>
-    <string name="general_comments">Write anything</string>
+    <string name="general_comments" translatable="false">Write anything</string>
     <string name="title_activity_graphs">Graphs</string>
     <string name="title_activity_details">Details</string>
     <string name="spectator">Spectator</string>
@@ -83,7 +83,6 @@
     <string name="choose_mode">Please choose a mode</string>
     <string name="enter_pec">Please enter a PEC number</string>
     <string name="enter_name">Please enter a name</string>
-    <string name="bands_last_hour">Bands last hour</string>
     <string name="bands_today">Bands today</string>
     <string name="bands_total">Bands total</string>
     <string name="other">Other</string>
@@ -91,5 +90,13 @@
     <string name="spectator_list">" spectator list"</string>
     <string name="data_saved">Data is saved</string>
     <string name="special_characters_denial">Special characters are not allowed here</string>
+    <string name="count_bands_main">Count \nbands</string>
+    <string name="count_votes_main">Count\n votes</string>
+    <string name="delete_last_band">Delete\nlast band</string>
+    <string name="delete_last_vote">Delete\nlast vote</string>
+    <string name="leave_comment">Leave comment</string>
+    <string name="votes">Votes</string>
+    <string name="votes_last_hour">Votes last hour</string>
+    <string name="bands_last_hour">Bands last hour</string>
     <string name="comments">Comments</string>
 </resources>
