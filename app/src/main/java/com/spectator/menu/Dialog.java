@@ -21,6 +21,8 @@ import com.spectator.utils.DateFormatter;
 import com.spectator.utils.JsonIO;
 import com.spectator.utils.ObjectWrapperForBinder;
 
+import java.util.ArrayList;
+
 public class Dialog extends BaseActivity {
 
     private TextView yesButton;
@@ -29,7 +31,6 @@ public class Dialog extends BaseActivity {
     private CheckBox checkPresence;
     private CheckBox checkBands;
     private JsonIO daysJsonIO;
-    private int totally;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +44,6 @@ public class Dialog extends BaseActivity {
         else {
             Log.i("DialogExtras", "not null");
             daysJsonIO =  (JsonIO) ((ObjectWrapperForBinder)extras.getBinder("daysJsonIO")).getData();
-            totally = extras.getInt("total");
         }
 
         yesButton = (TextView) findViewById(R.id.confirm);
@@ -124,13 +124,25 @@ public class Dialog extends BaseActivity {
                         mode = Day.BANDS;
 
                     Day newDay = new Day(editName.getText().toString().trim(), editYikNumber.getText().toString().trim(), date, 0, 0, mode);
+
+                    ArrayList<Day> days = daysJsonIO.parseJsonArray(true, new ArrayList<Day>(), true, Day.ARRAY_KEY, Day.class, Day.constructorArgs2, Day.jsonKeys2, Day.defValues);
+                    int totallyVoters = 0;
+                    int totallyBands = 0;
+                    for (Day day: days) {
+                        if (newDay.getYik().equals(day.getYik())) {
+                            totallyVoters += day.getVoters();
+                            totallyBands += day.getBands();
+                        }
+                    }
+
                     daysJsonIO.writeToEndOfFile(newDay.toJSONObject());
 
                     //Passing date, total votes and daysJsonIO to Voting Activity
                     final Bundle bundle = new Bundle();
                     bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                     bundle.putSerializable("day", newDay);
-                    bundle.putInt("total", totally);
+                    bundle.putInt("totalVoters", totallyVoters);
+                    bundle.putInt("totalBands", totallyBands);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     finish();

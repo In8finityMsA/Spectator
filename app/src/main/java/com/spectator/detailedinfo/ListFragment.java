@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 
 import com.spectator.R;
 import com.spectator.data.Voter;
-import com.spectator.utils.ObjectWrapperForBinder;
 
 import java.util.ArrayList;
 

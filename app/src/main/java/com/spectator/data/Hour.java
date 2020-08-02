@@ -1,7 +1,5 @@
 package com.spectator.data;
 
-import android.util.Log;
-
 import com.spectator.utils.DateFormatter;
 
 import org.json.JSONException;

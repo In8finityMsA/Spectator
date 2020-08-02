@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.spectator.R;
 import com.spectator.data.Day;
 
-import java.util.Objects;
-
 public class AdditionalInfoFragment extends Fragment {
 
     private int mode;

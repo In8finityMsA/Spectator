@@ -48,14 +48,6 @@ public class Day implements JsonObjectConvertable, Serializable {
     public static final Class[] constructorArgs2 = new Class[] {String.class, String.class, String.class, int.class, int.class, int.class};
     public static final Object[] defValues = new Object[] {"Untitled", "0", "01.01.1970", 0, 0, PRESENCE};
 
-    /*public Day(String formattedDate, int count) {
-        this.name = formattedDate;
-        this.formattedDate = formattedDate;
-        this.count = count;
-        this.bands = 0;
-        this.mode = MODE.PRESENCE;
-    }*/
-
     private Day(String name, String yik, String formattedDate, @Mode int mode) {
         this.name = name;
         this.yik = yik;

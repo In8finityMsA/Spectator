@@ -55,11 +55,9 @@ public class Menu extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Dialog.class);
 
-                //Passing total votes and daysJsonIO to createCount Activity (Dialog.class)
+                //Passing daysJsonIO to createCount Activity (Dialog.class)
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
-                bundle.putInt("totalVoters", totallyVoters);
-                bundle.putInt("totalBands", totallyBands);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -146,6 +144,16 @@ public class Menu extends BaseActivity {
                 final Bundle bundle = new Bundle();
                 bundle.putBinder("daysJsonIO", new ObjectWrapperForBinder(daysJsonIO));
                 bundle.putSerializable("day", printDay);
+                int totallyVoters = 0;
+                int totallyBands = 0;
+                for (Day day: days) {
+                    if (!printDay.getName().equals(day.getName())) {
+                        if (printDay.getYik().equals(day.getYik())) {
+                            totallyVoters += day.getVoters();
+                            totallyBands += day.getBands();
+                        }
+                    }
+                }
                 bundle.putInt("totalVoters", totallyVoters);
                 bundle.putInt("totalBands", totallyBands);
                 intent.putExtras(bundle);
