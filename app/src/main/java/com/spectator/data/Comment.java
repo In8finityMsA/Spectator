@@ -20,7 +20,7 @@ public class Comment implements JsonObjectConvertable {
     private String commentText;
 
     public Comment(long timestamp, String text) {
-        this.formattedTime = DateFormatter.formatTime(timestamp);
+        this.formattedTime = DateFormatter.formatTimeDefaultPattern(timestamp);
         this.formattedDate = DateFormatter.formatDateDefaultPattern(timestamp);
         this.commentText = text;
     }
@@ -54,5 +54,9 @@ public class Comment implements JsonObjectConvertable {
 
     public String getCommentText() {
         return commentText;
+    }
+
+    public Comment getCommentWithChanged(String commentText) {
+        return new Comment(this.formattedTime, this.formattedDate, commentText);
     }
 }

@@ -76,4 +76,5 @@
     <string name="spectator_list">" список наблюдения"</string>
     <string name="data_saved">Данные сохранены</string>
     <string name="special_characters_denial">Специальные знаки не разрешены</string>
+    <string name="comments">Комментарии</string>
 </resources>

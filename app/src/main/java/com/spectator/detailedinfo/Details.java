@@ -1,8 +1,11 @@
 package com.spectator.detailedinfo;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -27,6 +30,15 @@ public class Details extends BaseActivity {
 
         Bundle extras = getIntent().getExtras();
         Day day = (Day) extras.getSerializable("day");
+
+        TextView showComments = (TextView) findViewById(R.id.show_comments);
+        showComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ViewComments.class);
+                startActivity(intent);
+            }
+        });
 
         UniversalPagerAdapter universalPagerAdapter = null;
         if (day.getMode() == Day.PRESENCE) {

@@ -76,4 +76,5 @@
     <string name="spectator_list">" spectator list"</string>
     <string name="data_saved">Data is saved</string>
     <string name="special_characters_denial">Special characters are not allowed here</string>
+    <string name="comments">Comments</string>
 </resources>

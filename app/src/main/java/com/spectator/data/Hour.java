@@ -58,7 +58,7 @@ public class Hour implements JsonObjectConvertable {
     }
 
     public static String extractHourFromTimestamp(long timestamp) {
-        String hourString = DateFormatter.formatTime(timestamp);
+        String hourString = DateFormatter.formatTimeDefaultPattern(timestamp);
         return extractHourFromTime(hourString);
     }
 

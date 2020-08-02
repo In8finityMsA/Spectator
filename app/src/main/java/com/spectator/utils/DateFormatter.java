@@ -48,4 +48,8 @@ public class DateFormatter {
         return new SimpleDateFormat(pattern, locale).format(timestamp);
     }
 
+    public static String formatTimeDefaultPattern(long timestamp) {
+        return new SimpleDateFormat(TIME_PATTERN, RUSSIAN_LOCALE).format(timestamp);
+    }
+
 }

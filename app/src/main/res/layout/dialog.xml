@@ -52,6 +52,7 @@
             android:hint="@string/enter_voting_name"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions|text"
+            android:maxLength="25"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textColor="@color/white"

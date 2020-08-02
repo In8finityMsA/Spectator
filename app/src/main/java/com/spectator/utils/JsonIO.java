@@ -68,6 +68,10 @@ public class JsonIO {
         isInit = true;
     }
 
+    public void update() {
+        init();
+    }
+
     private void checkFileExistence() {
         if (!file.exists()) {
             writeToFile(createJSONObject(mainArrayKey));
@@ -101,7 +105,6 @@ public class JsonIO {
     }
 
     //Adding a new object to JSON file
-    //JsonObject.accumulate ???
     private void addObjectToJSON(@NonNull JSONObject object, String arrayKey) {
         if (arrayKey == null)
             arrayKey = mainArrayKey;

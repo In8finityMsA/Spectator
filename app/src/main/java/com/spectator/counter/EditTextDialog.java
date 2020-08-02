@@ -23,6 +23,7 @@ public class EditTextDialog extends BaseActivity {
     public static final String textHintExtras = "Hint for edit text";
     public static final String textInputTypeExtras = "Input type of EditText";
     public static final String textMaxLengthExtras = "Max length of entered text";
+    public static final String textDefaultExtras = "Text to put in editText by default";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class EditTextDialog extends BaseActivity {
         setContentView(R.layout.edit_text_dialog);
 
         String textHint = null;
+        String textDefault = null;
         int inputType = 0;
         int maxLength = 0;
         Bundle extras = getIntent().getExtras();
@@ -41,6 +43,9 @@ public class EditTextDialog extends BaseActivity {
             Log.i("EditTextDialogExtras", "not null");
             if (extras.containsKey(textHintExtras)) {
                 textHint = extras.getString(textHintExtras, null);
+            }
+            if (extras.containsKey(textDefaultExtras)) {
+                textDefault = extras.getString(textDefaultExtras, null);
             }
             if (extras.containsKey(textInputTypeExtras)) {
                 inputType = extras.getInt(textInputTypeExtras, 0);
@@ -54,9 +59,14 @@ public class EditTextDialog extends BaseActivity {
         Button cancelButton = (Button) findViewById(R.id.cancel);
         final EditText editText = (EditText) findViewById(R.id.edit_comment);
 
+        final String textDefaultBodge;
         if (textHint != null) {
             editText.setHint(textHint);
         }
+        if (textDefault != null) {
+            editText.setText(textDefault);
+            textDefaultBodge = textDefault;
+        } else textDefaultBodge = null;
         if (inputType != 0) {
             editText.setInputType(inputType);
         }
@@ -69,6 +79,9 @@ public class EditTextDialog extends BaseActivity {
             public void onClick(View view) {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("textResult", editText.getText().toString().trim());
+                if (textDefaultBodge != null) {
+                    resultIntent.putExtra("textDefault", textDefaultBodge);
+                }
                 setResult(RESULT_OK, resultIntent);
                 Toast toast = Toast.makeText(getApplicationContext(), R.string.data_saved, Toast.LENGTH_SHORT);
                 toast.show();

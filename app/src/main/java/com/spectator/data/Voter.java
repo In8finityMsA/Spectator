@@ -24,7 +24,7 @@ public class Voter implements JsonObjectConvertable {
     public Voter(long timestamp, int count) {
         this.timestamp = timestamp;
         this.formattedDate = DateFormatter.formatDateDefaultPattern(timestamp);
-        this.formattedTime = DateFormatter.formatTime(timestamp, "HH:mm:ss");
+        this.formattedTime = DateFormatter.formatTimeDefaultPattern(timestamp);
         this.count = count;
     }
 
